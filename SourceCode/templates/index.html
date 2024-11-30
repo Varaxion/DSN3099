@@ -1,12 +1,75 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>EPICS</title>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="Disaster Management Hub" />
+    <meta name="keywords" content="Disaster Management, Rainfall Analysis" />
+
+    <title>Disaster Management</title>
+
+    <style>
+        body {
+            font-family: 'Roboto', sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f4;
+        }
+
+        .container {
+            width: 80%;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        h1 {
+            text-align: center;
+            color: #333;
+        }
+
+        .section {
+            background-color: #fff;
+            padding: 20px;
+            margin: 20px 0;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .section h2 {
+            font-size: 24px;
+            color: #555;
+        }
+
+        .link-button {
+            display: inline-block;
+            margin-top: 15px;
+            padding: 10px 20px;
+            background-color: #007bff;
+            color: #fff;
+            text-decoration: none;
+            border-radius: 5px;
+        }
+
+        .link-button:hover {
+            background-color: #0056b3;
+        }
+    </style>
 </head>
+
 <body>
-    <h1>Welcome to EPICS!</h1>
-    <p>Your Flask application is up and running.</p>
+
+    <div class="container">
+        <h1>Disaster Management</h1>
+
+        <!-- Rainfall Analysis Section -->
+        <div class="section">
+            <h2>Rainfall Analysis</h2>
+            <p>Click below to access the Rainfall Prediction and Analysis page.</p>
+            <a href="{{ url_for('rainfall') }}" class="link-button">Go to Rainfall Analysis</a>
+        </div>
+    </div>
+
 </body>
+
 </html>
