@@ -1,8 +1,15 @@
+import sys
+import os
+
+# Add the project directory to the Python path
+sys.path.append(os.path.abspath(os.path.dirname(__file__)))
+
+# Import the function from rainfall_analysis.py
+from rainfall_analysis import predict_rainfall
+
 from flask import Flask, render_template, request, redirect, url_for, flash
-import SourceCode.rainfall_analysis as rainfall_analysis
 
 app = Flask(__name__)
-
 app.secret_key = '5791628bb0b13ce0c676dfde280ba245'
 
 @app.route('/')
@@ -26,11 +33,14 @@ def rainfall_result():
         else:
             year = request.form['Year']
             region = request.form['SEL']
-            mae, score = rainfall_analysis.predict_rainfall(year, region)
+            mae, score = predict_rainfall(year, region)
             return render_template('rainfall_result.html', Mae=mae, Score=score)
     else:
         return redirect(url_for('rainfall_entry'))
 
+@app.route('/emergency_contacts')
+def emergency_contacts():
+    return render_template('emergency_contacts.html')
 
 if __name__ == '__main__':
     app.run(debug=True)
