@@ -19,23 +19,23 @@
                 "name": "City General Hospital",
                 "contact": "108",
                 "location": "City Center",
-                "logo": "static/images/HOSPITAL.jpg",
-                "link": "" // Add link if needed
+                "logo": "/static/emergency_contacts_images/HOSPITAL.jpg",
+                "link": ""
             },
             {
                 "type": "Fire Service",
                 "name": "Central Fire Department",
                 "contact": "102",
                 "location": "Down Town",
-                "logo": "static/images/FIRE.jpg",
-                "link": "" // Add link if needed
+                "logo": "/static/emergency_contacts_images/FIRE.jpg",
+                "link": ""
             },
             {
                 "type": "Relief Organization",
                 "name": "PMNRF",
                 "contact": "1800-180-1253",
                 "location": "Country-wide",
-                "logo": "static/images/RELIEF.jpg",
+                "logo": "/static/emergency_contacts_images/RELIEF.jpg",
                 "link": "https://pmnrf.gov.in/"
             },
             {
@@ -43,18 +43,17 @@
                 "name": "City Police Station",
                 "contact": "100",
                 "location": "City wide",
-                "logo": "static/images/POLICE.jpg",
-                "link": "" // Add link if needed
+                "logo": "/static/emergency_contacts_images/POLICE.jpg",
+                "link": ""
             }
         ];
 
-        // Populate the contact data into HTML
         const container = document.getElementById('contacts');
         data.forEach(contact => {
             container.innerHTML += `
                 <div class="card mb-3">
                     <div class="card-body d-flex align-items-center">
-                        <img src="${contact.logo}" alt="${contact.type} Logo" class="img-fluid" style="max-width: 80px; margin-right: 15px;">
+                        <img src="${contact.logo}" alt="${contact.type} Logo" class="img-fluid" style="max-width: 80px; height: 80px; margin-right: 15px;">
                         <div>
                             <h5 class="card-title">${contact.type}</h5>
                             <p class="card-text"><strong>Name:</strong> ${contact.name}</p>
