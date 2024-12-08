@@ -1,83 +1,190 @@
-<!doctype html>
-<html lang="en">
+<!DOCTYPE HTML>
 
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta name="description" content="Disaster Management Hub" />
-    <meta name="keywords" content="Disaster Management, Rainfall Analysis" />
+<html>
+    <head>
+        <title>Sahay - A Hub for Disaster Management & Response</title>
+        <meta charset="utf-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
+        <link rel="stylesheet" href="{{ url_for('static', filename='css/main.css') }}" />
+        <noscript><link rel="stylesheet" href="{{ url_for('static', filename='css/noscript.css') }}" /></noscript>
+        
+        <style>
+            /* Default style for h3 elements inside the features section */
+            .features h3 {
+                color: #ffffff; /* Default text color */
+                transition: color 0.3s ease; /* Smooth transition effect */
+            }
+        
+            /* Hover effect for h3 elements */
+            .features h3:hover {
+                color: #00fffb; /* Change to a new color on hover (blue example) */
+                cursor: pointer; /* Change cursor to pointer on hover */
+            }
+        </style>
+    
+    </head>
+    <body class="is-preload">
 
-    <title>Disaster Management</title>
+        <!-- Sidebar -->
+        <section id="sidebar">
+            <div class="inner">
+                <nav>
+                    <ul>
+                        <li><a href="#intro">Welcome</a></li>
+                        <li><a href="#one">About</a></li>
+                        <li><a href="#two">Features</a></li>
+                        <li><a href="#three">Contact</a></li>
+                    </ul>
+                </nav>
+            </div>
+        </section>
 
-    <style>
-        body {
-            font-family: 'Roboto', sans-serif;
-            margin: 0;
-            padding: 0;
-            background-color: #f4f4f4;
-        }
+        <!-- Wrapper -->
+        <div id="wrapper">
 
-        .container {
-            width: 80%;
-            margin: 0 auto;
-            padding: 20px;
-        }
+            <!-- Intro -->
+            <section id="intro" class="wrapper style1 fullscreen fade-up">
+                <div class="inner">
+                    <h1>Sahay</h1>
+                    <p>- A Hub for Disaster Management & Response</p>
+                    <ul class="actions">
+                        <li><a href="#one" class="button scrolly">Learn more</a></li>
+                    </ul>
+                </div>
+            </section>
 
-        h1 {
-            text-align: center;
-            color: #333;
-        }
+            <!-- One -->
+            <section id="one" class="wrapper style2 spotlights">
+                <section>
+                    <a href="#" class="image"><img src="{{ url_for('static', filename='images/sample_images/pic01.jpg') }}" alt="" data-position="center center" /></a>
+                    <div class="content">
+                        <div class="inner">
+                            <h2>About Sahay</h2>
+                            <p>Sahay is a comprehensive disaster management and response hub designed to equip individuals and communities with the resources and knowledge needed to navigate through emergencies effectively. With features like Dos and Don'ts, providing essential guidelines for various disaster scenarios, and a Rainfall Analysis page that offers insights into past rainfall trends, Sahay empowers users to stay prepared.
+                                The app also includes an Emergency Contacts page to ensure quick access to critical support during crises and a Blood Donation Information section to guide users on compatible blood types, aiding life-saving decisions. With more features in development, Sahay aims to be a one-stop solution for disaster preparedness and response, fostering resilience and safety for all.</p>
+                        </div>
+                    </div>
+                </section>
+            </section>
 
-        .section {
-            background-color: #fff;
-            padding: 20px;
-            margin: 20px 0;
-            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-        }
+            <!-- Two -->
+            <section id="two" class="wrapper style3 fade-up">
+                <div class="inner">
+                    <h2>Features</h2>
+                    <p>Explore Sahay's Features designed to enhance disaster preparedness and response. From emergency guidelines to rainfall analysis and blood donation compatibility, find all the tools you need in one place.</p>
+                    <div class="features">
+                        <section>
+                            <span class="icon solid major fa-code"></span>
+                            <a href=""><h3>Dos and Donts</h3></a>
+                            <p>Phasellus convallis elit id ullam corper amet et pulvinar. Duis aliquam turpis mauris, sed ultricies erat dapibus.</p>
+                        </section>
+                        <section>
+                            <span class="icon solid major fa-lock"></span>
+                            <a href=""><h3>Incident Reporting</h3></a>
+                            <p>Phasellus convallis elit id ullam corper amet et pulvinar. Duis aliquam turpis mauris, sed ultricies erat dapibus.</p>
+                        </section>
+                        <section>
+                            <span class="icon solid major fa-cog"></span>
+                            <a href="{{ url_for('emergency_contacts') }}"><h3>Emergency Contacts</h3></a>
+                            <p>Phasellus convallis elit id ullam corper amet et pulvinar. Duis aliquam turpis mauris, sed ultricies erat dapibus.</p>
+                        </section>
+                        <section>
+                            <span class="icon solid major fa-desktop"></span>
+                            <a href="{{ url_for('rainfall') }}"><h3>Rainfall Prediction</h3></a>
+                            <p>Phasellus convallis elit id ullam corper amet et pulvinar. Duis aliquam turpis mauris, sed ultricies erat dapibus.</p>
+                        </section>
+                        <section>
+                            <span class="icon solid major fa-link"></span>
+                            <a href=""><h3>Blood Donation</h3></a>
+                            <p>Phasellus convallis elit id ullam corper amet et pulvinar. Duis aliquam turpis mauris, sed ultricies erat dapibus.</p>
+                        </section>
+                        <section>
+                            <span class="icon major fa-gem"></span>
+                            <a href=""><h3>More</h3></a>
+                            <p>Phasellus convallis elit id ullam corper amet et pulvinar. Duis aliquam turpis mauris, sed ultricies erat dapibus.</p>
+                        </section>
+                    </div>
+                </div>
+            </section>
 
-        .section h2 {
-            font-size: 24px;
-            color: #555;
-        }
+            <!-- Three -->
+            <section id="three" class="wrapper style1 fade-up">
+                <div class="inner">
+                    <h2>Get in touch</h2>
+                    <p>Phasellus convallis elit id ullamcorper pulvinar. Duis aliquam turpis mauris, eu ultricies erat malesuada quis. Aliquam dapibus, lacus eget hendrerit bibendum, urna est aliquam sem, sit amet imperdiet est velit quis lorem.</p>
+                    <div class="split style1">
+                        <section>
+                            <form method="post" action="#">
+                                <div class="fields">
+                                    <div class="field half">
+                                        <label for="name">Name</label>
+                                        <input type="text" name="name" id="name" />
+                                    </div>
+                                    <div class="field half">
+                                        <label for="email">Email</label>
+                                        <input type="text" name="email" id="email" />
+                                    </div>
+                                    <div class="field">
+                                        <label for="message">Message</label>
+                                        <textarea name="message" id="message" rows="5"></textarea>
+                                    </div>
+                                </div>
+                                <ul class="actions">
+                                    <li><a href="" class="button submit">Send Message</a></li>
+                                </ul>
+                            </form>
+                        </section>
+                        <section>
+                            <ul class="contact">
+                                <li>
+                                    <h3>Address</h3>
+                                    <span>12345 Somewhere Road #654<br />
+                                    Nashville, TN 00000-0000<br />
+                                    USA</span>
+                                </li>
+                                <li>
+                                    <h3>Email</h3>
+                                    <a href="#">user@untitled.tld</a>
+                                </li>
+                                <li>
+                                    <h3>Phone</h3>
+                                    <span>(000) 000-0000</span>
+                                </li>
+                                <li>
+                                    <h3>Social</h3>
+                                    <ul class="icons">
+                                        <li><a href="#" class="icon brands fa-twitter"><span class="label">Twitter</span></a></li>
+                                        <li><a href="#" class="icon brands fa-facebook-f"><span class="label">Facebook</span></a></li>
+                                        <li><a href="#" class="icon brands fa-github"><span class="label">GitHub</span></a></li>
+                                        <li><a href="#" class="icon brands fa-instagram"><span class="label">Instagram</span></a></li>
+                                        <li><a href="#" class="icon brands fa-linkedin-in"><span class="label">LinkedIn</span></a></li>
+                                    </ul>
+                                </li>
+                            </ul>
+                        </section>
+                    </div>
+                </div>
+            </section>
 
-        .link-button {
-            display: inline-block;
-            margin-top: 15px;
-            padding: 10px 20px;
-            background-color: #007bff;
-            color: #fff;
-            text-decoration: none;
-            border-radius: 5px;
-        }
-
-        .link-button:hover {
-            background-color: #0056b3;
-        }
-    </style>
-</head>
-
-<body>
-
-    <div class="container">
-        <h1>Disaster Management</h1>
-
-        <!-- Rainfall Analysis Section -->
-        <div class="section">
-            <h2>Rainfall Analysis</h2>
-            <p>Click below to access the Rainfall Prediction and Analysis page.</p>
-            <a href="{{ url_for('rainfall') }}" class="link-button">Go to Rainfall Analysis</a>
         </div>
 
+        <!-- Footer -->
+        <footer id="footer" class="wrapper style1-alt">
+            <div class="inner">
+                <ul class="menu">
+                    <li>Made by EPICS348</li>
+                </ul>
+            </div>
+        </footer>
 
-        <!-- Testing - Emergency Contacts -->
-        <div class="section">
-            <h2>Emergency Contacts</h2>
-            <p>Click below to access the Emergency Contacts page.</p>
-            <a href="{{ url_for('emergency_contacts') }}" class="link-button">Go to Emergency Contacts</a>
-        </div>
-    </div>
+        <!-- Scripts -->
+        <script src="{{ url_for('static', filename='js/jquery.min.js') }}"></script>
+        <script src="{{ url_for('static', filename='js/jquery.scrollex.min.js') }}"></script>
+        <script src="{{ url_for('static', filename='js/jquery.scrolly.min.js') }}"></script>
+        <script src="{{ url_for('static', filename='js/browser.min.js') }}"></script>
+        <script src="{{ url_for('static', filename='js/breakpoints.min.js') }}"></script>
+        <script src="{{ url_for('static', filename='js/util.js') }}"></script>
+        <script src="{{ url_for('static', filename='js/main.js') }}"></script>
 
-</body>
-
+    </body>
 </html>

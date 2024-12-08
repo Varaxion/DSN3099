@@ -39,7 +39,7 @@ def predict_rainfall(year, region):
             h = rect.get_height()
             ax.text(rect.get_x()+rect.get_width()/2., 1.05*h, '%d'%int(h), ha='center', va='bottom')
 
-        plt.savefig(r'SourceCode\static\rainfall_image\rainfall.png')
+        plt.savefig(r'SourceCode\static\images\rainfall_image\rainfall.png')
 
     def data_generation(year, region):
         temp = data[['SUBDIVISION','JAN', 'FEB', 'MAR', 'APR', 'MAY', 'JUN', 'JUL',
