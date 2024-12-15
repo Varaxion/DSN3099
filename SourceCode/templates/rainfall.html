@@ -1,29 +1,58 @@
-<!doctype html>
-<html lang="en">
+<!DOCTYPE HTML>
+<html>
+	<head>
+		<title>Rainfall Prediction - Sahay</title>
+		<meta charset="utf-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
+		<link rel="stylesheet" href="/static/css/main.css" />
+		<noscript><link rel="stylesheet" href="/static/css/noscript.css" /></noscript>
+	</head>
+	<body class="is-preload">
 
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Rainfall Prediction</title>
-</head>
+		<!-- Header -->
+			<header id="header">
+				<a href="{{ url_for('rainfall') }}" class="title">Rainfall Prediction | Sahay </a>
+				<nav>
+					<ul>
+						<li><a href="/">Home</a></li>
+					</ul>
+				</nav>
+			</header>
 
-<body>
-    <header>
-        <h1>Rainfall Prediction</h1>
-    </header>
+		<!-- Wrapper -->
+			<div id="wrapper">
 
-    <main>
-        <section>
-            <p>
-                Understanding rainfall patterns is critical for disaster preparedness, agriculture planning, and water resource management. Analyzing rainfall trends enables communities and governments to take proactive measures to mitigate the risks posed by heavy rainfall and its impact on infrastructure and livelihoods.
-            </p>
-            <div>
-                <a href="{{ url_for('rainfall_entry') }}">
-                    <button>Go to Rainfall Analysis</button>
-                </a>
-            </div>
-        </section>
-    </main>
-</body>
+				<!-- Main -->
+					<section id="main" class="wrapper">
+						<div class="inner">
+							<h1 class="major">Rainfall Prediction</h1>
+							<span class="image fit"><img src="/static/images/sample_images/rainfall.jpg" alt="Rainfall" /></span>
+							<p>Understanding rainfall patterns is critical for disaster preparedness, agriculture planning, and water resource management. Analyzing rainfall trends enables communities and governments to take proactive measures to mitigate the risks posed by heavy rainfall and its impact on infrastructure and livelihoods.</p>
+							<div class="actions">
+								<a href="{{ url_for('rainfall_entry') }}" class="button primary">Go to Rainfall Analysis</a>
+							</div>
+						</div>
+					</section>
 
+			</div>
+
+		<!-- Footer -->
+			<footer id="footer" class="wrapper alt">
+				<div class="inner">
+					<ul class="menu">
+						<li>Made by EPICS348</li>
+					</ul>
+				</div>
+			</footer>
+
+		<!-- Scripts -->
+			<script src="/static/js/jquery.min.js"></script>
+			<script src="/static/js/jquery.scrollex.min.js"></script>
+			<script src="/static/js/jquery.scrolly.min.js"></script>
+			<script src="/static/js/browser.min.js"></script>
+			<script src="/static/js/breakpoints.min.js"></script>
+			<script src="/static/js/util.js"></script>
+			<script src="/static/js/main.js"></script>
+
+	</body>
 </html>
