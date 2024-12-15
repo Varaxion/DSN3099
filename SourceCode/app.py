@@ -40,5 +40,9 @@ def rainfall_entry():
 def emergency_contacts():
     return render_template('emergency_contacts.html')
 
+@app.route('/Blood')
+def Blood():
+    return render_template('Blood.html')
+
 if __name__ == '__main__':
     app.run(debug=True)
