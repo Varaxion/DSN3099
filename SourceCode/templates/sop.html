@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Disaster Relief Hub</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #4b0082; /* Dark purple background */
+            color: #ffffff; /* White text for contrast */
+        }
+        header {
+            background-color: #800080; /* Purple header */
+            color: white;
+            padding: 20px;
+            text-align: center;
+        }
+        .container {
+            padding: 20px;
+            background-color: #9370db; /* Medium purple container background */
+            margin: 20px;
+            border-radius: 10px;
+        }
+        .disaster-section {
+            margin-bottom: 30px;
+            background-color: #8a2be2; /* Blue-violet for sections */
+            padding: 15px;
+            border-radius: 10px;
+        }
+        .disaster-section h2 {
+            color: #e6e6fa; /* Light purple for headings */
+        }
+        .dos-donts {
+            display: flex;
+            justify-content: space-between;
+        }
+        .dos, .donts {
+            width: 48%;
+        }
+        .dos ul, .donts ul {
+            list-style-type: none;
+            padding: 0;
+        }
+        .dos li, .donts li {
+            background: #e6e6fa; /* Light purple for do's */
+            margin: 10px 0;
+            padding: 10px;
+            border-radius: 5px;
+            color: #4b0082; /* Dark purple text */
+        }
+        .donts li {
+            background: #d8bfd8; /* Thistle color for don'ts */
+        }
+        footer {
+            background-color: #4b0082; /* Dark purple footer */
+            color: white;
+            text-align: center;
+            padding: 10px;
+            position: fixed;
+            bottom: 0;
+            width: 100%;
+        }
+        img {
+            border-radius: 10px;
+        }
+        .dos h3::after {
+            content: " ✅"; /* Green tick emoji */
+            color: green;
+        }
+        .donts h3::after {
+            content: " ❌"; /* Red wrong emoji */
+            color: red;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Disaster Relief Hub</h1>
+        <p>Your guide to effective disaster management and response</p>
+    </header>
+
+    <div class="container">
+        <div class="disaster-section">
+            <h2>Earthquake</h2>
+            <div class="dos-donts">
+                <div class="dos">
+                    <h3>Do's</h3>
+                    <ul>
+                        <li>Drop, cover, and hold on during the shaking.</li>
+                        <li>Stay indoors until the shaking stops.</li>
+                        <li>Check for injuries and provide first aid if necessary.</li>
+                    </ul>
+                </div>
+                <div class="donts">
+                    <h3>Don'ts</h3>
+                    <ul>
+                        <li>Do not use elevators.</li>
+                        <li>Avoid standing near windows or heavy furniture.</li>
+                        <li>Do not re-enter damaged buildings.</li>
+                    </ul>
+                </div>
+            </div>
+            <img src="earthquake.jpg" alt="Earthquake" style="width:100%; max-width:600px; margin-top:20px;">
+        </div>
+
+        <div class="disaster-section">
+            <h2>Flood</h2>
+            <div class="dos-donts">
+                <div class="dos">
+                    <h3>Do's</h3>
+                    <ul>
+                        <li>Move to higher ground immediately.</li>
+                        <li>Follow evacuation orders from authorities.</li>
+                        <li>Turn off utilities at the main switches if instructed.</li>
+                    </ul>
+                </div>
+                <div class="donts">
+                    <h3>Don'ts</h3>
+                    <ul>
+                        <li>Do not walk through moving water.</li>
+                        <li>Avoid driving in flooded areas.</li>
+                        <li>Do not touch electrical equipment if wet.</li>
+                    </ul>
+                </div>
+            </div>
+            <img src="flood.jpg" alt="Flood" style="width:100%; max-width:600px; margin-top:20px;">
+        </div>
+
+        <div class="disaster-section">
+            <h2>Cyclone</h2>
+            <div class="dos-donts">
+                <div class="dos">
+                    <h3>Do's</h3>
+                    <ul>
+                        <li>Stay indoors and away from windows.</li>
+                        <li>Secure outdoor objects that could blow away.</li>
+                        <li>Listen to the radio for updates.</li>
+                    </ul>
+                </div>
+                <div class="donts">
+                    <h3>Don'ts</h3>
+                    <ul>
+                        <li>Do not go outside during the storm.</li>
+                        <li>Avoid using electrical appliances.</li>
+                        <li>Do not drive unless absolutely necessary.</li>
+                    </ul>
+                </div>
+            </div>
+            <img src="cyclone.jpg" alt="Cyclone" style="width:100%; max-width:600px; margin-top:20px;">
+        </div>
+
+        <div class="disaster-section">
+            <h2>Landslide</h2>
+            <div class="dos-donts">
+                <div class="dos">
+                    <h3>Do's</h3>
+                    <ul>
+                        <li>Move away from the path of the landslide.</li>
+                        <li>Listen for unusual sounds that might indicate moving debris.</li>
+                        <li>Stay alert if you are in areas prone to landslides.</li>
+                    </ul>
+                </div>
+                <div class="donts">
+                    <h3>Don'ts</h3>
+                    <ul>
+                        <li>Do not return to the area until it is declared safe.</li>
+                        <li>Avoid building near steep slopes or mountain edges.</li>
+                        <li>Do not ignore landslide warnings.</li>
+                    </ul>
+                </div>
+            </div>
+            <img src="landslide.jpg" alt="Landslide" style="width:100%; max-width:600px; margin-top:20px;">
+        </div>
+    </div>
+
+    <footer>
+        <p>&copy;  Disaster Relief Hub. All rights reserved.</p>
+    </footer>
+</body>
+</html>
