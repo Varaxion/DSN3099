@@ -1,0 +1,107 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    
+    <title>Rainfall Prediction</title>
+
+    <style>
+        body {
+            font-family: 'Roboto', sans-serif;
+            margin: 0;
+            padding: 0;
+        }
+
+        .table-bordered {
+            width: 80%;
+            border-collapse: collapse;
+        }
+
+        .table-bordered th, .table-bordered td {
+            border: 1px solid #ddd;
+            text-align: center;
+            padding: 8px;
+        }
+
+        .table-bordered th {
+            background-color: #e3ebf7;
+            font-size: 18px;
+        }
+
+        .page-location {
+            display: inline-block;
+            padding: 10px;
+        }
+
+        /* Add more styles as needed */
+    </style>
+</head>
+
+<body>
+
+    <!-- Back Button and Title -->
+    <header class="top-area">
+        <div class="welcome-area">
+            <div class="container">
+                <div class="row flex-v-center">
+                    <div class="col-md-12">
+                        <div class="welcome-text text-center">
+                            <h2>Rainfall Analysis</h2>
+                            <ul class="page-location">
+                                <li><a href="{{ url_for('rainfall_entry') }}">Back</a></li>
+                                <li>/</li>
+                                <li><a href="#">Rainfall Analysis</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Rainfall Analysis Results -->
+    <section class="about-area gray-bg section-padding">
+        <div class="container">
+            <div class="row">
+                <!-- Properties and Results Table -->
+                <div class="col-md-5">
+                    <div class="about-left-content-area">
+                        <table class="table table-bordered">
+                            <thead>
+                                <tr>
+                                    <th>Properties:</th>
+                                    <th>Result</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>Mean Absolute Error</td>
+                                    <td>{{ Mae }}</td>
+                                </tr>
+                                <tr>
+                                    <td>Accuracy Score</td>
+                                    <td>{{ Score }}</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <!-- Image -->
+                <div class="col-md-7">
+                    <div class="about-content-area">
+                        <div class="about-content">
+                            <img src="{{ url_for('static', filename='rainfall_image/rainfall.png') }}" alt="Rainfall Analysis Image">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+</body>
+
+</html>
