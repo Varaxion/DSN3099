@@ -45,5 +45,9 @@ def emergency_contacts():
 def Blood():
     return render_template('Blood.html')
 
+@app.route('/sop')
+def sop():
+    return render_template('sop.html')
+
 if __name__ == '__main__':
     app.run(debug=True)
