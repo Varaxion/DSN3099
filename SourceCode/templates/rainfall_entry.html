@@ -5,22 +5,24 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Rainfall Prediction</title>
+    <link rel="stylesheet" href="\static\css\rainfall_prediction.css">
 </head>
 
 <body>
 
-    <header id="home">
+    
+    <header id="header">
         <h1>Rainfall Prediction</h1>
     </header>
-
     <main>
         <section id="contact">
-            <h3>Rainfall Data Form</h3>
-            <form action="{{ url_for('rainfall_result')}}" method="post">
+            <!-- <h3>Rainfall Data Form</h3> -->
+            <!-- <form action="{{ url_for('rainfall_entry')}}" method="post"> -->
+            <form action="#" method="post">
                 <div>
                     <label for="inputRiver">Select Subdivisions:</label>
                     <select name="SEL" required>
-                        <option value="" disabled selected>Choose...</option>
+                        <option class="option1" disabled selected>Choose...</option>
                         <option value="Andaman & Nicobar Islands">Andaman & Nicobar Islands</option>
                         <option value="Arunachal Pradesh">Arunachal Pradesh</option>
                         <option value="Assam & Meghalaya">Assam & Meghalaya</option>
@@ -62,8 +64,7 @@
                 <div>
                     <label for="Year">Year:</label>
                     <select name="Year" required>
-                        <option selected>Choose...</option>
-                        <option value=1901>1901</option>
+                    <option class="option1" value=1901>1901</option>
                         <option value=1902>1902</option>
                         <option value=1903>1903</option>
                         <option value=1904>1904</option>
@@ -186,7 +187,7 @@
                     </select>
                 </div>
                 <div>
-                    <button type="submit">Submit</button>
+                    <button type="submit">Predict</button>
                 </div>
             </form>
         </section>
