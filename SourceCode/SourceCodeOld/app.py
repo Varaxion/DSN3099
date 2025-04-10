@@ -22,6 +22,7 @@ def rainfall():
 def rainfall_entry():
     return render_template('rainfall_entry.html')
 
+
 #@app.route('/rainfall_result', methods=['POST', 'GET'])
 #def rainfall_result():
 #    if request.method == 'POST':
