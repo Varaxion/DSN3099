@@ -3,10 +3,14 @@ import pandas as pd
 import matplotlib.pyplot as plt
 from sklearn.ensemble import RandomForestRegressor
 from sklearn.metrics import mean_absolute_error, explained_variance_score
-
+import os
 
 def predict_rainfall(year, region):
-    data = pd.read_csv(r"SourceCode\rainfall_data\Sub_Division_IMD_2021.csv")
+    #data = pd.read_csv(r"SourceCode\rainfall_data\Sub_Division_IMD_2021.csv")
+
+    base_dir = os.path.dirname(os.path.abspath(__file__))
+    csv_path = os.path.join(base_dir, "rainfall_data", "Sub_Division_IMD_2021.csv")
+    data = pd.read_csv(csv_path)
 
     if data.isna().sum().sum() > 0:
         # Remove rows containing NaN values
