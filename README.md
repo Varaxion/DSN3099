@@ -254,5 +254,5 @@ This repository originated as an academic project for **VIT Bhopal University** 
 <div align="center">
   <em>Sahay - Advancing disaster resilience through practical intelligence.</em>
   <br />
-  <strong>Re-engineered by [Kavya](https://github.com/varaxion)</strong>
+  <strong>Re-engineered by Kavya</strong>
 </div>
