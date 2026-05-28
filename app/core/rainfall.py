@@ -159,7 +159,7 @@ def cnn_predict_rainfall(year, region):
 # 2. Random Forest (Classic ML) Forecasting Engine
 # -----------------------------
 def rf_predict_rainfall(year, region):
-    data_path = os.path.join(BASE_DIR, 'data', 'Sub_Division_IMD_2021.csv')
+    data_path = os.path.join(BASE_DIR, 'data', 'imd_rainfall_2021.csv')
     data = pd.read_csv(data_path)
 
     if data.isna().sum().sum() > 0:
