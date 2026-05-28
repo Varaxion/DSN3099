@@ -177,3 +177,14 @@ This project began as a VIT Bhopal University academic submission (Project Exhib
 <div align="center">
 	<em>Sahay • Advancing Hydrological Safety through Intelligence.</em>
 </div>
+
+---
+
+## DSN3099 adaptation notes
+
+- This README is the DSN2099 blueprint adapted precisely for the DSN3099 repository (this project). All paths, commands, and examples reference DSN3099's layout: `run.py` at repo root, Flask app under `app/`, models in `app/trained/`, and data in `app/data/`.
+- Cleanup status: `epicsenv/` was untracked and added to `.gitignore`; `tools/` helper script(s) were removed per project hygiene.
+
+---
+
+If this exact format looks good, I will mark the blueprint task completed and continue by adding a `.env.example` and a short `CONTRIBUTING.md` template. If you want any small wording changes (team credits, wording, or removal/addition of screenshots), tell me which lines to change and I will update immediately.
