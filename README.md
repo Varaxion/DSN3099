@@ -17,31 +17,33 @@ Hydrological forecasting, rainfall analysis, blood bank search, emergency guidan
 <br />
 
 > [!NOTE]
-> This DSN3099 repository does not include a screenshot gallery. The documentation below follows the detailed structure of the reference README, but replaces screenshot sections with complete architecture, workflow, route, data, and file-inventory documentation.
+> **Sahay** was originally developed in 2025 as part of the academic curriculum for the **EPICS** course at **VIT Bhopal University**. It has now been completely overhauled into a fully modern, dynamic web application, upgrading its model speed, repository structure, and visual aesthetics to state-of-the-art glassmorphic standards.
 
 ---
 
-## Table of Contents
+## 📑 Table of Contents
 
-- [Overview](#overview)
-- [What Sahay Provides](#what-sahay-provides)
-- [Application Modules](#application-modules)
-- [Technology Stack](#technology-stack)
-- [Project Architecture](#project-architecture)
-- [Complete Repository Inventory](#complete-repository-inventory)
-- [Backend and ML Workflows](#backend-and-ml-workflows)
-- [Routes and Endpoints](#routes-and-endpoints)
-- [Data and Model Artifacts](#data-and-model-artifacts)
-- [Generated Runtime Outputs](#generated-runtime-outputs)
-- [Setup and Installation](#setup-and-installation)
-- [Running the App](#running-the-app)
-- [Known Assumptions and Limitations](#known-assumptions-and-limitations)
-- [Repo Hygiene and Maintenance](#repo-hygiene-and-maintenance)
-- [Academic Context](#academic-context)
+- [🌍 Overview](#overview)
+- [✨ What Sahay Provides](#what-sahay-provides)
+- [🧩 Application Modules](#application-modules)
+- [🛠️ Technology Stack](#technology-stack)
+- [📂 Project Architecture](#project-architecture)
+- [🗂️ Complete Repository Inventory](#complete-repository-inventory)
+- [⚙️ Backend and ML Workflows](#backend-and-ml-workflows)
+- [🧭 Routes and Endpoints](#routes-and-endpoints)
+- [🧠 Data and Model Artifacts](#data-and-model-artifacts)
+- [📈 Generated Runtime Outputs](#generated-runtime-outputs)
+- [🚀 Setup and Installation](#setup-and-installation)
+- [▶️ Running the App](#running-the-app)
+- [⚠️ Known Assumptions and Limitations](#known-assumptions-and-limitations)
+- [🧹 Repo Hygiene and Maintenance](#repo-hygiene-and-maintenance)
+- [🎓 Academic Context](#academic-context)
 
 ---
 
-## Overview
+<a id="overview"></a>
+
+## 🌍 Overview
 
 **Sahay** is a Flask-based disaster resilience portal built around two major ideas:
 
@@ -52,7 +54,9 @@ The active DSN3099 app is under `app/`. It uses a Flask app factory, a blueprint
 
 ---
 
-## What Sahay Provides
+<a id="what-sahay-provides"></a>
+
+## ✨ What Sahay Provides
 
 - **Flood prediction for five Indian rivers:** Cauvery, Godavari, Krishna, Mahanadi, and Son.
 - **Hydrological metrics:** discharge, flood runoff, daily runoff, weekly runoff, predicted water-level state, and historical actual state when available.
@@ -66,7 +70,9 @@ The active DSN3099 app is under `app/`. It uses a Flask app factory, a blueprint
 
 ---
 
-## Application Modules
+<a id="application-modules"></a>
+
+## 🧩 Application Modules
 
 ### 1. Flood Prediction
 
@@ -119,7 +125,9 @@ Main files:
 
 ---
 
-## Technology Stack
+<a id="technology-stack"></a>
+
+## 🛠️ Technology Stack
 
 | Layer | Technology | Purpose |
 | :--- | :--- | :--- |
@@ -136,7 +144,9 @@ Main files:
 
 ---
 
-## Project Architecture
+<a id="project-architecture"></a>
+
+## 📂 Project Architecture
 
 ```text
 DSN3099/
@@ -169,12 +179,14 @@ DSN3099/
 |-- .gitignore                       # Ignore rules for envs, caches, generated outputs
 |-- README.md                        # Project documentation
 |-- requirements.txt                 # Python dependencies
-`-- run.py                           # Local application entry point
+`-- run.py                           # Root Flask development entry point
 ```
 
 ---
 
-## Complete Repository Inventory
+<a id="complete-repository-inventory"></a>
+
+## 🗂️ Complete Repository Inventory
 
 ### Root Files
 
@@ -184,7 +196,7 @@ DSN3099/
 | `.env.example` | Template for local environment configuration. |
 | `README.md` | Main project guide and technical documentation. |
 | `requirements.txt` | Pinned Python dependency list for Flask, ML, plotting, and data libraries. |
-| `run.py` | Creates the Flask app with `create_app()` and runs the development server. |
+| `run.py` | Root development entry point. It imports `create_app()` from `app/__init__.py`, creates the Flask app instance, and runs it locally with `debug=True` when executed directly. |
 
 ### Active Python Application Files
 
@@ -267,7 +279,9 @@ DSN3099/
 
 ---
 
-## Backend and ML Workflows
+<a id="backend-and-ml-workflows"></a>
+
+## ⚙️ Backend and ML Workflows
 
 ### Flood Prediction Flow
 
@@ -340,7 +354,9 @@ app/static/js/bloodBanks.js renders result cards
 
 ---
 
-## Routes and Endpoints
+<a id="routes-and-endpoints"></a>
+
+## 🧭 Routes and Endpoints
 
 | Route | Method | Purpose |
 | :--- | :--- | :--- |
@@ -361,7 +377,9 @@ app/static/js/bloodBanks.js renders result cards
 
 ---
 
-## Data and Model Artifacts
+<a id="data-and-model-artifacts"></a>
+
+## 🧠 Data and Model Artifacts
 
 ### River Workbook Expectations
 
@@ -401,7 +419,9 @@ The active CSV currently has the column structure required by both the CNN and R
 
 ---
 
-## Generated Runtime Outputs
+<a id="generated-runtime-outputs"></a>
+
+## 📈 Generated Runtime Outputs
 
 The app writes a few files during normal operation:
 
@@ -416,7 +436,9 @@ Because `flood.png` and `rainfall.png` are overwritten per request, this app is 
 
 ---
 
-## Setup and Installation
+<a id="setup-and-installation"></a>
+
+## 🚀 Setup and Installation
 
 ### 1. Clone and Enter the Project
 
@@ -464,7 +486,9 @@ Edit `.env` and replace `SECRET_KEY` with a strong local secret.
 
 ---
 
-## Running the App
+<a id="running-the-app"></a>
+
+## ▶️ Running the App
 
 ### Recommended
 
@@ -494,7 +518,9 @@ flask run --debug
 
 ---
 
-## Known Assumptions and Limitations
+<a id="known-assumptions-and-limitations"></a>
+
+## ⚠️ Known Assumptions and Limitations
 
 ### Flood Model
 
@@ -525,7 +551,9 @@ flask run --debug
 
 ---
 
-## Repo Hygiene and Maintenance
+<a id="repo-hygiene-and-maintenance"></a>
+
+## 🧹 Repo Hygiene and Maintenance
 
 Recent structure improvements:
 
@@ -546,24 +574,29 @@ Recommended future cleanup:
 
 ---
 
-## Academic Context
+<a id="academic-context"></a>
 
-Sahay was developed as an academic disaster-management and hydrological-intelligence project for VIT Bhopal University.
+## 🎓 Academic Context
 
-The current DSN3099 version identifies the team as **EPICS348** in the app UI.
+Sahay was developed as an academic disaster-management and hydrological-intelligence project for the **EPICS** course at **VIT Bhopal University** in 2025.
 
-| Name | Registration No. |
-| :--- | :--- |
-| Chelsi Patel | `22BAI10005` |
-| Aditya Nayak | `22BAI10424` |
-| Rushabh Wagh | `22BCE10364` |
-| Kavya | `22BCE10385` |
-| Tejas Pathak | `22BCE10853` |
-| Simarpreet Singh | `22BCE10914` |
-| Sneha Mishra | `22BCE10932` |
-| Pooja | `22BCE10984` |
-| Ruturaj Bhoite | `22BHI10027` |
-| Archana Nair | `22BSA10238` |
+The current DSN3099 version identifies the team as **Team-EPICS348** in the app UI.
+
+| Name | Registration No. | GitHub |
+| :--- | :---: | :--- |
+| [Chelsi Patel](https://github.com/Chelsi08) | `22BAI10005` | [`@Chelsi08`](https://github.com/Chelsi08) |
+| [Aditya Nayak](https://github.com/adi152003) | `22BAI10424` | [`@adi152003`](https://github.com/adi152003) |
+| [Rushabh Wagh](https://github.com/wrexrus) | `22BCE10364` | [`@wrexrus`](https://github.com/wrexrus) |
+| [Kavya](https://github.com/varaxion) | `22BCE10385` | [`@varaxion`](https://github.com/varaxion) |
+| [Tejas Pathak](https://github.com/tejas-0-5) | `22BCE10853` | [`@tejas-0-5`](https://github.com/tejas-0-5) |
+| [Simarpreet Singh](https://github.com/Simarpreet-2607) | `22BCE10914` | [`@Simarpreet-2607`](https://github.com/Simarpreet-2607) |
+| [Sneha Mishra](https://github.com/MISHSNEHA) | `22BCE10932` | [`@MISHSNEHA`](https://github.com/MISHSNEHA) |
+| [Pooja](https://github.com/PrajapatPooja) | `22BCE10984` | [`@PrajapatPooja`](https://github.com/PrajapatPooja) |
+| [Ruturaj Bhoite](https://github.com/Ranazaur) | `22BHI10027` | [`@Ranazaur`](https://github.com/Ranazaur) |
+| [Archana Prasad Nair](https://github.com/Archana-P-Nair) | `22BSA10238` | [`@Archana-P-Nair`](https://github.com/Archana-P-Nair) |
+
+> [!NOTE]
+> **v1.0 Overhaul:** While the initial data gathering, research support, and legacy model iterations were developed collaboratively by **Team-EPICS348**, the complete system architectural overhaul, 1D-CNN model cache integration, dynamic dark-mode Matplotlib engine, responsive glassmorphic loaders, Flask app restructuring, repository documentation, and premium v1.0 CSS design system were engineered by [**Kavya**](https://github.com/varaxion).
 
 <br />
 
