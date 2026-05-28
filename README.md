@@ -602,4 +602,6 @@ The current DSN3099 version identifies the team as **Team-EPICS348** in the app 
 
 <div align="center">
   <em>Sahay - Advancing disaster resilience through practical intelligence.</em>
+  <br />
+  <strong>Re-engineered by <a href="https://github.com/varaxion">Kavya</a>.</strong>
 </div>
