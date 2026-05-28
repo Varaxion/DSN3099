@@ -23,14 +23,14 @@
 
 ## 📑 Table of Contents
 
-- [🌍 Overview](#overview)
-- [✨ Core Features](#core-features)
-- [🛠️ Technology Stack](#technology-stack)
-- [📂 Project Architecture](#project-architecture)
-- [⚙️ How the System Works](#how-the-system-works)
-- [🚀 Getting Started](#getting-started)
-- [⚠️ Model Assumptions & Limitations](#model-assumptions--limitations)
-- [🎓 Academic Origins & Contribution](#academic-origins--contribution)
+- 🌍 [Overview](#overview)
+- ✨ [Core Features](#core-features)
+- 🛠️ [Technology Stack](#technology-stack)
+- 📂 [Project Architecture](#project-architecture)
+- ⚙️ [How the System Works](#how-the-system-works)
+- 🚀 [Getting Started](#getting-started)
+- ⚠️ [Model Assumptions & Limitations](#model-assumptions--limitations)
+- 🎓 [Academic Origins & Contribution](#academic-origins--contribution)
 
 ---
 
@@ -254,5 +254,5 @@ This repository originated as an academic project for **VIT Bhopal University** 
 <div align="center">
   <em>Sahay - Advancing disaster resilience through practical intelligence.</em>
   <br />
-  <strong>Re-engineered by Kavya</strong>
+  <strong>Re-engineered by [Kavya](https://github.com/varaxion)</strong>
 </div>
