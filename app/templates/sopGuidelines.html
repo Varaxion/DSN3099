@@ -162,16 +162,45 @@
     }
     
     .checklist-card-dos .checklist-item::before {
-        content: '✓';
-        color: var(--success);
-        font-weight: 900;
+        content: '✔';
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        width: 28px;
+        height: 28px;
+        border-radius: 50%;
+        background: linear-gradient(135deg, #05ffc5, #0f9d58);
+        color: #062e1f;
+        font-weight: 800;
         flex-shrink: 0;
+        box-shadow: 0 6px 18px rgba(5, 255, 197, 0.12);
     }
     .checklist-card-donts .checklist-item::before {
-        content: '✕';
-        color: var(--danger);
-        font-weight: 900;
+        content: '✖';
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        width: 28px;
+        height: 28px;
+        border-radius: 50%;
+        background: linear-gradient(135deg, #ff9bb3, #ff2a6d);
+        color: #fff;
+        font-weight: 800;
         flex-shrink: 0;
+        box-shadow: 0 6px 18px rgba(255, 42, 109, 0.12);
+    }
+
+    .collapse-toggle {
+        background: transparent;
+        border: none;
+        color: var(--text-secondary);
+        font-size: 16px;
+        cursor: pointer;
+        padding: 0;
+        margin-right: 8px;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
     }
 </style>
 
@@ -225,12 +254,6 @@
         <button class="sop-tab-btn" data-tab="sopThunderstorm">
             ⚡ Thunderstorms &amp; Lightning
         </button>
-    </div>
-
-    <!-- Print / Export controls -->
-    <div style="display:flex;gap:12px;justify-content:center;margin-bottom:8px;">
-        <button id="printSOP" class="sop-tab-btn" aria-label="Print SOPs">🖨️ Print</button>
-        <button id="exportSOP" class="sop-tab-btn" aria-label="Export SOPs as text">📄 Export</button>
     </div>
 
     <!-- 1. Flood Section (Active by Default) -->
@@ -488,56 +511,30 @@
     });
 </script>
 <script>
-    // Collapse toggles for checklist cards
-    document.querySelectorAll('.collapse-toggle').forEach(btn => {
-        btn.addEventListener('click', (e) => {
-            const card = e.target.closest('.checklist-card');
-            const list = card.querySelector('.checklist-list');
-            const expanded = card.getAttribute('aria-expanded') === 'true';
-            card.setAttribute('aria-expanded', (!expanded).toString());
-            if (expanded) {
+    // Initialize collapse toggles for checklist cards and respect `aria-expanded`
+    document.querySelectorAll('.checklist-card').forEach(card => {
+        const list = card.querySelector('.checklist-list');
+        const btn = card.querySelector('.collapse-toggle');
+        if (!btn || !list) return;
+        const expanded = card.getAttribute('aria-expanded') === 'true';
+        if (expanded) {
+            list.style.display = 'flex';
+            btn.textContent = '▾';
+        } else {
+            list.style.display = 'none';
+            btn.textContent = '▸';
+        }
+        btn.addEventListener('click', () => {
+            const isExp = card.getAttribute('aria-expanded') === 'true';
+            card.setAttribute('aria-expanded', (!isExp).toString());
+            if (isExp) {
                 list.style.display = 'none';
-                e.target.textContent = '▸';
+                btn.textContent = '▸';
             } else {
                 list.style.display = 'flex';
-                e.target.textContent = '▾';
+                btn.textContent = '▾';
             }
         });
-    });
-
-    // Print SOPs (prints only the SOP layout)
-    document.getElementById('printSOP').addEventListener('click', () => {
-        const originalTitle = document.title;
-        document.title = 'Sahay - SOP Guides';
-        window.print();
-        document.title = originalTitle;
-    });
-
-    // Export SOPs as plain text (collect headings and checklist items)
-    document.getElementById('exportSOP').addEventListener('click', () => {
-        let out = '';
-        document.querySelectorAll('.disaster-section').forEach(sec => {
-            if (!sec.classList.contains('active')) return;
-            const h = sec.querySelector('.disaster-header h2').innerText.trim();
-            out += h + '\n' + '-'.repeat(h.length) + '\n';
-            sec.querySelectorAll('.checklist-card').forEach(card => {
-                const title = card.querySelector('h3').innerText.trim();
-                out += '\n' + title + '\n';
-                card.querySelectorAll('.checklist-item').forEach(li => {
-                    out += '• ' + li.innerText.trim() + '\n';
-                });
-            });
-            out += '\n\n';
-        });
-        const blob = new Blob([out], { type: 'text/plain;charset=utf-8' });
-        const url = URL.createObjectURL(blob);
-        const a = document.createElement('a');
-        a.href = url;
-        a.download = 'Sahay_SOPs.txt';
-        document.body.appendChild(a);
-        a.click();
-        a.remove();
-        URL.revokeObjectURL(url);
     });
 </script>
 {% endblock %}
