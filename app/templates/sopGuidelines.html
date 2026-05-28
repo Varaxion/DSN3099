@@ -156,10 +156,9 @@
         font-size: 14.5px;
         line-height: 1.6;
         color: var(--text-secondary);
-        display: block;
-        padding: 8px 0;
-        color: var(--text-secondary);
-        word-break: break-word;
+        display: flex;
+        gap: 12px;
+        align-items: flex-start;
     }
     
     .checklist-card-dos .checklist-item::before {
@@ -191,27 +190,20 @@
         box-shadow: 0 6px 18px rgba(255, 42, 109, 0.12);
     }
 
-    .collapse-toggle {
-        background: transparent;
-        border: none;
-        color: var(--text-secondary);
-        font-size: 16px;
-        cursor: pointer;
-        padding: 0;
-        margin-right: 8px;
-        display: inline-flex;
-        align-items: center;
-        justify-content: center;
-    }
-
-    /* Make the strong label a separate line for consistent rendering */
+    /* Make the strong label inline and reserve space for consistent alignment */
     .checklist-item strong {
-        display: block;
+        display: inline-block;
         font-weight: 800;
         color: white;
-        margin-bottom: 6px;
+        margin: 0;
         font-size: 15px;
         line-height: 1.2;
+        min-width: 160px;
+    }
+
+    .checklist-item .desc {
+        display: block;
+        color: var(--text-secondary);
     }
 
     /* Slight divider between checklist items for visual grouping */
@@ -286,26 +278,20 @@
             <h2>Flood Guidelines</h2>
         </div>
         <div class="dos-donts-grid">
-            <div class="checklist-card checklist-card-dos" aria-expanded="true">
-                <h3>
-                    <button class="collapse-toggle" aria-label="Toggle Do's for Floods">▾</button>
-                    Recommended Actions (Do's)
-                </h3>
+            <div class="checklist-card checklist-card-dos">
+                <h3>Recommended Actions (Do's)</h3>
                 <ul class="checklist-list">
-                    <li class="checklist-item"><strong>Higher Ground:</strong> Relocate to elevated surfaces or upper building levels.</li>
-                    <li class="checklist-item"><strong>Follow Evacuations:</strong> Obey immediate local responder evacuation instructions.</li>
-                    <li class="checklist-item"><strong>Turn Off Utilities:</strong> Disconnect main electrical switches and gas valves.</li>
+                    <li class="checklist-item"><strong>Higher Ground</strong><span class="desc">Relocate to elevated surfaces or upper building levels.</span></li>
+                    <li class="checklist-item"><strong>Follow Evacuations</strong><span class="desc">Obey immediate local responder evacuation instructions.</span></li>
+                    <li class="checklist-item"><strong>Turn Off Utilities</strong><span class="desc">Disconnect main electrical switches and gas valves.</span></li>
                 </ul>
             </div>
-            <div class="checklist-card checklist-card-donts" aria-expanded="true">
-                <h3>
-                    <button class="collapse-toggle" aria-label="Toggle Don'ts for Floods">▾</button>
-                    Actions to Avoid (Don'ts)
-                </h3>
+            <div class="checklist-card checklist-card-donts">
+                <h3>Actions to Avoid (Don'ts)</h3>
                 <ul class="checklist-list">
-                    <li class="checklist-item"><strong>Do Not Walk Through Water:</strong> Flowing water as shallow as 6 inches can knock you over.</li>
-                    <li class="checklist-item"><strong>Avoid Flooded Driving:</strong> Never drive in flooded areas. Turn around, don't drown!</li>
-                    <li class="checklist-item"><strong>Don't Touch Wet Electric:</strong> Avoid electrical equipment if standing in water.</li>
+                    <li class="checklist-item"><strong>Do Not Walk Through Water</strong><span class="desc">Flowing water as shallow as 6 inches can knock you over.</span></li>
+                    <li class="checklist-item"><strong>Avoid Flooded Driving</strong><span class="desc">Never drive in flooded areas. Turn around, don't drown!</span></li>
+                    <li class="checklist-item"><strong>Don't Touch Wet Electric</strong><span class="desc">Avoid electrical equipment if standing in water.</span></li>
                 </ul>
             </div>
         </div>
@@ -327,17 +313,17 @@
             <div class="checklist-card checklist-card-dos">
                 <h3>Recommended Actions (Do's)</h3>
                 <ul class="checklist-list">
-                    <li class="checklist-item"><strong>Drop, Cover, and Hold On:</strong> Take cover under heavy furniture immediately.</li>
-                    <li class="checklist-item"><strong>Stay Indoors:</strong> Remain inside until the ground stops shaking.</li>
-                    <li class="checklist-item"><strong>Provide First Aid:</strong> Check yourself and others for injuries and treat them.</li>
+                    <li class="checklist-item"><strong>Drop, Cover, and Hold On</strong><span class="desc">Take cover under heavy furniture immediately.</span></li>
+                    <li class="checklist-item"><strong>Stay Indoors</strong><span class="desc">Remain inside until the ground stops shaking.</span></li>
+                    <li class="checklist-item"><strong>Provide First Aid</strong><span class="desc">Check yourself and others for injuries and treat them.</span></li>
                 </ul>
             </div>
             <div class="checklist-card checklist-card-donts">
                 <h3>Actions to Avoid (Don'ts)</h3>
                 <ul class="checklist-list">
-                    <li class="checklist-item"><strong>Do Not Use Elevators:</strong> Power failure risks elevator trapping. Use stairwells.</li>
-                    <li class="checklist-item"><strong>Avoid Windows:</strong> Stay away from glass doors, mirrors, and window panels.</li>
-                    <li class="checklist-item"><strong>Do Not Re-enter Buildings:</strong> Stay outside and avoid damaged structures until checked.</li>
+                    <li class="checklist-item"><strong>Do Not Use Elevators</strong><span class="desc">Power failure risks elevator trapping. Use stairwells.</span></li>
+                    <li class="checklist-item"><strong>Avoid Windows</strong><span class="desc">Stay away from glass doors, mirrors, and window panels.</span></li>
+                    <li class="checklist-item"><strong>Do Not Re-enter Buildings</strong><span class="desc">Stay outside and avoid damaged structures until checked.</span></li>
                 </ul>
             </div>
         </div>
@@ -359,17 +345,17 @@
             <div class="checklist-card checklist-card-dos">
                 <h3>Recommended Actions (Do's)</h3>
                 <ul class="checklist-list">
-                    <li class="checklist-item"><strong>Stay Inside:</strong> Stay in safe rooms away from exterior walls and windows.</li>
-                    <li class="checklist-item"><strong>Secure Loose Objects:</strong> Anchor outdoor items to prevent flying debris.</li>
-                    <li class="checklist-item"><strong>Listen for Warnings:</strong> Monitor emergency radios or civic weather updates.</li>
+                    <li class="checklist-item"><strong>Stay Inside</strong><span class="desc">Stay in safe rooms away from exterior walls and windows.</span></li>
+                    <li class="checklist-item"><strong>Secure Loose Objects</strong><span class="desc">Anchor outdoor items to prevent flying debris.</span></li>
+                    <li class="checklist-item"><strong>Listen for Warnings</strong><span class="desc">Monitor emergency radios or civic weather updates.</span></li>
                 </ul>
             </div>
             <div class="checklist-card checklist-card-donts">
                 <h3>Actions to Avoid (Don'ts)</h3>
                 <ul class="checklist-list">
-                    <li class="checklist-item"><strong>Do Not Venture Out:</strong> Do not go outside during the calm eye of the storm.</li>
-                    <li class="checklist-item"><strong>Don't Use Core Lines:</strong> Avoid using non-essential electrical equipment.</li>
-                    <li class="checklist-item"><strong>Avoid Road Travel:</strong> Wind gusts can easily sweep vehicles off roads.</li>
+                    <li class="checklist-item"><strong>Do Not Venture Out</strong><span class="desc">Do not go outside during the calm eye of the storm.</span></li>
+                    <li class="checklist-item"><strong>Don't Use Core Lines</strong><span class="desc">Avoid using non-essential electrical equipment.</span></li>
+                    <li class="checklist-item"><strong>Avoid Road Travel</strong><span class="desc">Wind gusts can easily sweep vehicles off roads.</span></li>
                 </ul>
             </div>
         </div>
@@ -392,17 +378,17 @@
             <div class="checklist-card checklist-card-dos">
                 <h3>Recommended Actions (Do's)</h3>
                 <ul class="checklist-list">
-                    <li class="checklist-item"><strong>Evacuate Path:</strong> Relocate quickly away from sliding rock paths.</li>
-                    <li class="checklist-item"><strong>Listen for Rumbling:</strong> Stay alert for unusual sounds or ground crackling.</li>
-                    <li class="checklist-item"><strong>Obey Warning Signs:</strong> Follow road closures and localized landslide warnings.</li>
+                    <li class="checklist-item"><strong>Evacuate Path</strong><span class="desc">Relocate quickly away from sliding rock paths.</span></li>
+                    <li class="checklist-item"><strong>Listen for Rumbling</strong><span class="desc">Stay alert for unusual sounds or ground crackling.</span></li>
+                    <li class="checklist-item"><strong>Obey Warning Signs</strong><span class="desc">Follow road closures and localized landslide warnings.</span></li>
                 </ul>
             </div>
             <div class="checklist-card checklist-card-donts">
                 <h3>Actions to Avoid (Don'ts)</h3>
                 <ul class="checklist-list">
-                    <li class="checklist-item"><strong>Do Not Return Early:</strong> Stay away until geological surveys declare it safe.</li>
-                    <li class="checklist-item"><strong>Avoid Steep Slopes:</strong> Stay away from loose cliffs or newly eroded hillsides.</li>
-                    <li class="checklist-item"><strong>Do Not Ignore Ground Shift:</strong> Do not ignore shifting tiles or wall cracking.</li>
+                    <li class="checklist-item"><strong>Do Not Return Early</strong><span class="desc">Stay away until geological surveys declare it safe.</span></li>
+                    <li class="checklist-item"><strong>Avoid Steep Slopes</strong><span class="desc">Stay away from loose cliffs or newly eroded hillsides.</span></li>
+                    <li class="checklist-item"><strong>Do Not Ignore Ground Shift</strong><span class="desc">Do not ignore shifting tiles or wall cracking.</span></li>
                 </ul>
             </div>
         </div>
@@ -425,17 +411,17 @@
             <div class="checklist-card checklist-card-dos">
                 <h3>Recommended Actions (Do's)</h3>
                 <ul class="checklist-list">
-                    <li class="checklist-item"><strong>Move Inland Immediately:</strong> Relocate to elevated terrain or upper levels of reinforced concrete buildings upon hearing a warning.</li>
-                    <li class="checklist-item"><strong>Evacuate on Foot:</strong> Evacuate on foot if possible to prevent severe traffic congestion and gridlock on coastal escape routes.</li>
-                    <li class="checklist-item"><strong>Listen to Local Alerts:</strong> Monitor emergency broadcasts and immediately follow directives from coastal response forces.</li>
+                    <li class="checklist-item"><strong>Move Inland Immediately</strong><span class="desc">Relocate to elevated terrain or upper levels of reinforced concrete buildings upon hearing a warning.</span></li>
+                    <li class="checklist-item"><strong>Evacuate on Foot</strong><span class="desc">Evacuate on foot if possible to prevent severe traffic congestion and gridlock on coastal escape routes.</span></li>
+                    <li class="checklist-item"><strong>Listen to Local Alerts</strong><span class="desc">Monitor emergency broadcasts and immediately follow directives from coastal response forces.</span></li>
                 </ul>
             </div>
             <div class="checklist-card checklist-card-donts">
                 <h3>Actions to Avoid (Don'ts)</h3>
                 <ul class="checklist-list">
-                    <li class="checklist-item"><strong>Do Not Go to the Beach:</strong> Never go to the shore to watch a tsunami. If you can see it approaching, you are already too close to escape.</li>
-                    <li class="checklist-item"><strong>Do Not Return Early:</strong> Stay clear of impacted zones until state and local authorities issue a formal "All Clear" declaration.</li>
-                    <li class="checklist-item"><strong>Do Not Ignore Natural Warnings:</strong> Never ignore ocean drawback where wet sea floor is suddenly exposed; this is a critical immediate trigger to run.</li>
+                    <li class="checklist-item"><strong>Do Not Go to the Beach</strong><span class="desc">Never go to the shore to watch a tsunami. If you can see it approaching, you are already too close to escape.</span></li>
+                    <li class="checklist-item"><strong>Do Not Return Early</strong><span class="desc">Stay clear of impacted zones until state and local authorities issue a formal "All Clear" declaration.</span></li>
+                    <li class="checklist-item"><strong>Do Not Ignore Natural Warnings</strong><span class="desc">Never ignore ocean drawback where wet sea floor is suddenly exposed; this is a critical immediate trigger to run.</span></li>
                 </ul>
             </div>
         </div>
@@ -456,17 +442,17 @@
             <div class="checklist-card checklist-card-dos">
                 <h3>Recommended Actions (Do's)</h3>
                 <ul class="checklist-list">
-                    <li class="checklist-item"><strong>Evacuate Early:</strong> Evacuate immediately if ordered or if smoke/embers approach your residential area.</li>
-                    <li class="checklist-item"><strong>Seal House Openings:</strong> Shut all windows, exterior doors, and vents to stop highly volatile embers from igniting the interior.</li>
-                    <li class="checklist-item"><strong>Filter out Smoke:</strong> Wear N95 respirator masks or cover your face with a thick damp cloth to protect your lungs from toxic soot.</li>
+                    <li class="checklist-item"><strong>Evacuate Early</strong><span class="desc">Evacuate immediately if ordered or if smoke/embers approach your residential area.</span></li>
+                    <li class="checklist-item"><strong>Seal House Openings</strong><span class="desc">Shut all windows, exterior doors, and vents to stop highly volatile embers from igniting the interior.</span></li>
+                    <li class="checklist-item"><strong>Filter out Smoke</strong><span class="desc">Wear N95 respirator masks or cover your face with a thick damp cloth to protect your lungs from toxic soot.</span></li>
                 </ul>
             </div>
             <div class="checklist-card checklist-card-donts">
                 <h3>Actions to Avoid (Don'ts)</h3>
                 <ul class="checklist-list">
-                    <li class="checklist-item"><strong>Do Not Delay Evacuation:</strong> Do not wait until the last minute to evacuate; heavy smoke, blinding heat, and fire progress can block exit roads.</li>
-                    <li class="checklist-item"><strong>Do Not Block Access Roads:</strong> Keep driveways clear and never block access paths needed by heavy fire trucks and response vehicles.</li>
-                    <li class="checklist-item"><strong>Do Not Accumulate Fuel:</strong> Do not store firewood, brush piles, or gas canisters within 30 feet of your house walls.</li>
+                    <li class="checklist-item"><strong>Do Not Delay Evacuation</strong><span class="desc">Do not wait until the last minute to evacuate; heavy smoke, blinding heat, and fire progress can block exit roads.</span></li>
+                    <li class="checklist-item"><strong>Do Not Block Access Roads</strong><span class="desc">Keep driveways clear and never block access paths needed by heavy fire trucks and response vehicles.</span></li>
+                    <li class="checklist-item"><strong>Do Not Accumulate Fuel</strong><span class="desc">Do not store firewood, brush piles, or gas canisters within 30 feet of your house walls.</span></li>
                 </ul>
             </div>
         </div>
@@ -488,17 +474,17 @@
             <div class="checklist-card checklist-card-dos">
                 <h3>Recommended Actions (Do's)</h3>
                 <ul class="checklist-list">
-                    <li class="checklist-item"><strong>Seek Sturdy Indoor Shelter:</strong> Go immediately inside a substantial building or fully enclosed, metal-topped vehicle.</li>
-                    <li class="checklist-item"><strong>Unplug Electronics:</strong> Disconnect non-essential electrical equipment to prevent severe damage from power surges.</li>
-                    <li class="checklist-item"><strong>Avoid Corded Items:</strong> Keep away from landlines, running faucets, showers, and metal piping that conduct lightning.</li>
+                    <li class="checklist-item"><strong>Seek Sturdy Indoor Shelter</strong><span class="desc">Go immediately inside a substantial building or fully enclosed, metal-topped vehicle.</span></li>
+                    <li class="checklist-item"><strong>Unplug Electronics</strong><span class="desc">Disconnect non-essential electrical equipment to prevent severe damage from power surges.</span></li>
+                    <li class="checklist-item"><strong>Avoid Corded Items</strong><span class="desc">Keep away from landlines, running faucets, showers, and metal piping that conduct lightning.</span></li>
                 </ul>
             </div>
             <div class="checklist-card checklist-card-donts">
                 <h3>Actions to Avoid (Don'ts)</h3>
                 <ul class="checklist-list">
-                    <li class="checklist-item"><strong>Do Not Stand Under Trees:</strong> Never take shelter under isolated trees, high poles, open towers, or light picnic structures.</li>
-                    <li class="checklist-item"><strong>Avoid Water Bodies:</strong> Immediately exit and stay clear of swimming pools, lakes, rivers, wet beaches, and open fields.</li>
-                    <li class="checklist-item"><strong>Do Not Lay Flat:</strong> If caught in the open, crouch down low with your feet together and heels touching to minimize electric path.</li>
+                    <li class="checklist-item"><strong>Do Not Stand Under Trees</strong><span class="desc">Never take shelter under isolated trees, high poles, open towers, or light picnic structures.</span></li>
+                    <li class="checklist-item"><strong>Avoid Water Bodies</strong><span class="desc">Immediately exit and stay clear of swimming pools, lakes, rivers, wet beaches, and open fields.</span></li>
+                    <li class="checklist-item"><strong>Do Not Lay Flat</strong><span class="desc">If caught in the open, crouch down low with your feet together and heels touching to minimize electric path.</span></li>
                 </ul>
             </div>
         </div>
@@ -527,31 +513,5 @@
         });
     });
 </script>
-<script>
-    // Initialize collapse toggles for checklist cards and respect `aria-expanded`
-    document.querySelectorAll('.checklist-card').forEach(card => {
-        const list = card.querySelector('.checklist-list');
-        const btn = card.querySelector('.collapse-toggle');
-        if (!btn || !list) return;
-        const expanded = card.getAttribute('aria-expanded') === 'true';
-        if (expanded) {
-            list.style.display = 'flex';
-            btn.textContent = '▾';
-        } else {
-            list.style.display = 'none';
-            btn.textContent = '▸';
-        }
-        btn.addEventListener('click', () => {
-            const isExp = card.getAttribute('aria-expanded') === 'true';
-            card.setAttribute('aria-expanded', (!isExp).toString());
-            if (isExp) {
-                list.style.display = 'none';
-                btn.textContent = '▸';
-            } else {
-                list.style.display = 'flex';
-                btn.textContent = '▾';
-            }
-        });
-    });
-</script>
+ 
 {% endblock %}
