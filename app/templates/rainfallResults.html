@@ -1,0 +1,75 @@
+{% extends 'base.html' %}
+
+{% block title %}Rainfall Result - Sahay{% endblock %}
+{% block metaDescription %}Rainfall analysis results showing mean absolute error, explained variance score, and monthly prediction chart for the selected subdivision and year.{% endblock %}
+
+{% block extraHead %}
+<style>
+    .orb-1 {
+        background: radial-gradient(circle, #a855f7, transparent 70%) !important;
+        opacity: 0.25;
+    }
+    .orb-2 {
+        background: radial-gradient(circle, #ec4899, transparent 70%) !important;
+        opacity: 0.22;
+    }
+    .orb-3 {
+        background: radial-gradient(circle, #00e5ff, transparent 70%) !important;
+        opacity: 0.15;
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+
+<div class="page-header" id="rainfallResultHeader">
+    <nav class="breadcrumb" aria-label="Breadcrumb">
+        <a href="{{ url_for('main.index') }}">Sahay</a>
+        <span>/</span>
+        <a href="{{ url_for('main.rainfallAnalysis') }}">Rainfall Analysis</a>
+        <span>/</span>
+        <span>Result</span>
+    </nav>
+    <h1 class="page-title">Analysis Result</h1>
+    <p class="page-subtitle">{% if ModelType == 'CNN' %}1D-CNN (Deep Learning){% else %}Random Forest (Classic ML){% endif %} model predictions vs. ground truth monthly rainfall data.</p>
+</div>
+
+<div class="result-layout" id="rainfallResultLayout">
+
+    <!-- Chart -->
+    <div class="glass-card chart-card fade-in" id="rainfallChartCard">
+        <img src="{{ url_for('static', filename='img/rainfall.png') }}"
+             alt="Monthly rainfall ground truth vs prediction chart" loading="lazy">
+    </div>
+
+    <!-- Metrics Card -->
+    <div class="glass-card result-card fade-in fade-in-delay-1" id="rainfallResultCard">
+        <h2 class="form-title" style="margin-bottom: 24px;">Model Performance</h2>
+
+        <table class="result-table">
+            <tbody>
+                <tr>
+                    <td>Mean Absolute Error</td>
+                    <td><strong>{{ Mae }}</strong></td>
+                </tr>
+                <tr>
+                    <td>Explained Variance Score</td>
+                    <td><strong>{{ Score }}</strong></td>
+                </tr>
+            </tbody>
+        </table>
+
+        <div style="margin-top: 28px;">
+            <a href="{{ url_for('main.rainfallAnalysis') }}" class="btn btn-secondary" id="rainfallResultBackBtn">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                    <line x1="19" y1="12" x2="5" y2="12"></line>
+                    <polyline points="12 19 5 12 12 5"></polyline>
+                </svg>
+                Back
+            </a>
+        </div>
+    </div>
+
+</div>
+
+{% endblock %}

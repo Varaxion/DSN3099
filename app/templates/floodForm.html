@@ -1,0 +1,103 @@
+{% extends 'base.html' %}
+
+{% block title %}Flood Prediction - Sahay{% endblock %}
+{% block metaDescription %}Predict flood water levels for major Indian rivers using ML models. Select a river and date to get a water level classification with hydrological metrics.{% endblock %}
+
+{% block extraHead %}
+<style>
+    .orb-1 {
+        background: radial-gradient(circle, #00e5ff, transparent 70%) !important;
+        opacity: 0.25;
+    }
+    .orb-2 {
+        background: radial-gradient(circle, #008080, transparent 70%) !important;
+        opacity: 0.22;
+    }
+    .orb-3 {
+        background: radial-gradient(circle, #05ffc5, transparent 70%) !important;
+        opacity: 0.15;
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+
+<div class="page-header" id="floodHeader">
+    <nav class="breadcrumb" aria-label="Breadcrumb">
+        <a href="{{ url_for('main.index') }}">Sahay</a>
+        <span>/</span>
+        <span>Flood Prediction</span>
+    </nav>
+    <div style="margin: 0 auto 18px; display: inline-flex; align-items: center; justify-content: center; width: 64px; height: 64px; border-radius: var(--radius-md); background: linear-gradient(135deg, rgba(59,130,246,0.2), rgba(59,130,246,0.04)); border: 1px solid rgba(59,130,246,0.15); box-shadow: 0 8px 32px rgba(59, 130, 246, 0.15);">
+        <svg viewBox="0 0 24 24" fill="none" stroke="url(#blue-grad-page)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="width:36px; height:36px;">
+            <defs>
+                <linearGradient id="blue-grad-page" x1="0%" y1="0%" x2="100%" y2="100%">
+                    <stop offset="0%" stop-color="#3b82f6" />
+                    <stop offset="100%" stop-color="#06b6d4" />
+                </linearGradient>
+            </defs>
+            <path d="M2 6c.6.5 1.2 1 2.5 1C7 7 7 5 9.5 5c2.5 0 2.5 2 5 2 2.5 0 2.5-2 5-2 1.3 0 1.9.5 2.5 1" />
+            <path d="M2 12c.6.5 1.2 1 2.5 1 2.5 0 2.5-2 5-2 2.5 0 2.5 2 5 2 2.5 0 2.5-2 5-2 1.3 0 1.9.5 2.5 1" />
+            <path d="M2 18c.6.5 1.2 1 2.5 1 2.5 0 2.5-2 5-2 2.5 0 2.5 2 5 2 2.5 0 2.5-2 5-2 1.3 0 1.9.5 2.5 1" />
+        </svg>
+    </div>
+    <h1 class="page-title">Flood Prediction</h1>
+    <p class="page-subtitle">Select a river and date to predict water level classification.</p>
+</div>
+
+<div class="form-layout" id="floodLayout">
+
+    <!-- Prediction Form -->
+    <div class="glass-card form-card fade-in" id="floodFormCard">
+        <h2 class="form-title">Enter Parameters</h2>
+        <p class="form-subtitle">Historical dates (1998–2019) use actual recorded data; future dates use ARIMA forecasts.</p>
+
+        <form action="{{ url_for('main.floodResults') }}" method="post" id="floodForm">
+            <div class="form-group">
+                <label for="riverSelect">Select River</label>
+                <div class="select-wrapper">
+                    <select class="form-control" name="SEL" id="riverSelect" required>
+                        <option value="" disabled selected>Choose a river...</option>
+                        <option value="Cauvery">Cauvery</option>
+                        <option value="Godavari">Godavari</option>
+                        <option value="Krishna">Krishna</option>
+                        <option value="Mahanadi">Mahanadi</option>
+                        <option value="Son">Son</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label for="dateInput">Date</label>
+                <input class="form-control" type="date" name="DATE" id="dateInput"
+                       min="1998-01-01" max="2026-12-31" required>
+            </div>
+
+            <button type="submit" class="btn btn-primary" id="floodSubmitBtn"
+                    style="width:100%; justify-content:center; margin-top:8px;">
+                Predict Water Level
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                    <circle cx="11" cy="11" r="8"></circle>
+                    <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+                </svg>
+            </button>
+        </form>
+        <div id="loadingIndicator" style="display:none; text-align:center; margin-top:20px;">
+            <div class="spinner"></div>
+            <p style="color: var(--text-secondary); font-weight: 500; font-size: 14px; margin-top: 12px; letter-spacing: 0.5px;">
+                Calculating water level &amp; discharge trend... Please wait.
+            </p>
+        </div>
+    </div>
+</div>
+
+<script>
+document.getElementById('floodForm').addEventListener('submit', function() {
+    document.getElementById('floodSubmitBtn').style.display = 'none';
+    document.getElementById('loadingIndicator').style.display = 'block';
+});
+</script>
+
+</div>
+
+{% endblock %}

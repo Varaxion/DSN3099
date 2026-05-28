@@ -1,0 +1,373 @@
+{% extends 'base.html' %}
+
+{% block title %}About - Sahay{% endblock %}
+{% block metaDescription %}About Sahay - Disaster Resilience &amp; Emergency Assistance. Learn about the analytical ML models and Team - EPICS348 who built it for VIT Bhopal University.{% endblock %}
+
+{% block content %}
+
+<!-- Local style overrides for Team grid & unique background orbs -->
+<style>
+    .orb-1 {
+        background: radial-gradient(circle, #00e5ff, transparent 70%) !important;
+    }
+    .orb-2 {
+        background: radial-gradient(circle, #05ffc5, transparent 70%) !important;
+    }
+    
+    .team-2x5-grid {
+        display: grid;
+        grid-template-columns: repeat(5, 1fr);
+        gap: 20px;
+        margin-top: 24px;
+    }
+    
+    .team-member-card {
+        padding: 28px 16px;
+        border-radius: var(--radius-md);
+        background: rgba(255,255,255,0.02);
+        border: 1px solid var(--glass-border);
+        text-align: center;
+        transition: var(--transition);
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+    }
+    .team-member-card:hover {
+        background: var(--glass-bg-hover);
+        border-color: var(--accent-cyan);
+        transform: translateY(-3px);
+        box-shadow: var(--shadow);
+    }
+    
+    .team-avatar {
+        width: 48px;
+        height: 48px;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-weight: 800;
+        font-size: 18px;
+        color: #070913;
+        margin-bottom: 14px;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+    }
+    
+    .team-name {
+        font-size: 15px;
+        font-weight: 700;
+        color: white;
+        margin: 0 0 4px;
+        line-height: 1.3;
+    }
+    
+    .team-role {
+        font-size: 12px;
+        color: var(--accent-cyan);
+        font-weight: 600;
+        margin: 0 0 6px;
+        line-height: 1.2;
+    }
+    
+    .team-reg {
+        font-size: 11px;
+        color: var(--text-muted);
+        margin: 0;
+        letter-spacing: 0.5px;
+    }
+
+    @media (max-width: 1024px) {
+        .team-2x5-grid {
+            grid-template-columns: repeat(3, 1fr);
+        }
+    }
+    @media (max-width: 768px) {
+        .team-2x5-grid {
+            grid-template-columns: repeat(2, 1fr);
+        }
+    }
+    @media (max-width: 480px) {
+        .team-2x5-grid {
+            grid-template-columns: 1fr;
+        }
+    }
+</style>
+
+<div class="page-header" id="aboutHeader">
+    <nav class="breadcrumb" aria-label="Breadcrumb">
+        <a href="{{ url_for('main.index') }}">Sahay</a>
+        <span>/</span>
+        <span>About</span>
+    </nav>
+    <h1 class="page-title">About Sahay</h1>
+    <p class="page-subtitle">Project Documentation &amp; Technical Specifications</p>
+</div>
+
+<div class="about-layout" id="aboutLayout">
+
+    <!-- Project Description -->
+    <div class="glass-card about-intro fade-in" id="aboutIntroCard">
+        <p>
+            <strong>Sahay</strong> (सहाय &mdash; meaning <em>aid</em> in Sanskrit) is a web application
+            built to assist in disaster preparedness through ML-powered flood prediction and rainfall
+            analysis. The platform lets users query river water levels for historical dates or forecast
+            up to 12 months ahead, and analyze monthly rainfall patterns across all Indian meteorological
+            subdivisions.
+        </p>
+        <p>
+            Historical river data &mdash; discharge, flood runoff, daily runoff, and weekly runoff &mdash;
+            for five major Indian rivers (Cauvery, Godavari, Krishna, Mahanadi, and Son) was used
+            to train ARIMA time-series forecasting models and an LDA flood classifier. Rainfall
+            analysis is powered by a 1D Convolutional Neural Network trained on the IMD Sub-Division
+            dataset (1901&ndash;2021).
+        </p>
+        <p>
+            Flood forecasting requires accurate estimates of the spatial and temporal rainfall rates
+            over a catchment. By integrating both modules, Sahay provides a holistic view of
+            hydrological risk &mdash; helping communities and authorities prepare and minimize losses
+            from flooding events.
+        </p>
+    </div>
+
+    <!-- Technical Approach -->
+    <div class="glass-card about-intro fade-in fade-in-delay-1" id="aboutApproachCard">
+        <h2 style="font-size: 20px; font-weight: 700; margin-bottom: 24px; background: var(--gradient);
+                   -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;">
+            Technical Approach
+        </h2>
+        <div class="tech-grid">
+            <div class="tech-item">
+                <div class="tech-icon-wrapper">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" class="tech-icon">
+                        <ellipse cx="12" cy="5" rx="9" ry="3"></ellipse>
+                        <path d="M3 5v14c0 1.66 4 3 9 3s9-1.34 9-3V5"></path>
+                        <path d="M3 12c0 1.66 4 3 9 3s9-1.34 9-3"></path>
+                    </svg>
+                </div>
+                <h3>Data &amp; Preprocessing</h3>
+                <p>Historical river discharge and runoff data was gathered and preprocessed with mean
+                   imputation for missing values. SMOTE oversampling was applied to handle class
+                   imbalance in the flood label column.</p>
+            </div>
+            <div class="tech-item">
+                <div class="tech-icon-wrapper">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" class="tech-icon">
+                        <line x1="18" y1="20" x2="18" y2="10"></line>
+                        <line x1="12" y1="20" x2="12" y2="4"></line>
+                        <line x1="6" y1="20" x2="6" y2="14"></line>
+                        <path d="M2 20h20"></path>
+                    </svg>
+                </div>
+                <h3>Flood Forecasting</h3>
+                <p>ARIMA models were trained independently for discharge, flood runoff, daily runoff,
+                   and weekly runoff per river. Forecasts are generated 12 months ahead and saved
+                   as CSVs for inference.</p>
+            </div>
+            <div class="tech-item">
+                <div class="tech-icon-wrapper">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" class="tech-icon">
+                        <circle cx="6" cy="6" r="2"></circle>
+                        <circle cx="8" cy="14" r="2"></circle>
+                        <circle cx="16" cy="10" r="2"></circle>
+                        <circle cx="18" cy="18" r="2"></circle>
+                        <line x1="2" y1="18" x2="22" y2="6" stroke-dasharray="4"></line>
+                    </svg>
+                </div>
+                <h3>LDA Classifier</h3>
+                <p>A Linear Discriminant Analysis classifier was trained on normalised hydrological
+                   features and saved as a <code>.pkl</code> file, enabling fast water-level
+                   classification (Normal / High) for both historical and future dates.</p>
+            </div>
+            <div class="tech-item">
+                <div class="tech-icon-wrapper">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" class="tech-icon">
+                        <circle cx="4" cy="12" r="2"></circle>
+                        <circle cx="12" cy="6" r="2"></circle>
+                        <circle cx="12" cy="18" r="2"></circle>
+                        <circle cx="20" cy="12" r="2"></circle>
+                        <line x1="6" y1="12" x2="10" y2="7"></line>
+                        <line x1="6" y1="12" x2="10" y2="17"></line>
+                        <line x1="14" y1="7" x2="18" y2="11"></line>
+                        <line x1="14" y1="17" x2="18" y2="13"></line>
+                    </svg>
+                </div>
+                <h3>Rainfall CNN</h3>
+                <p>A 1D-CNN with Conv1D layers and standard ReLU activations is trained and cached on
+                   the full IMD subdivision history, predicting monthly subdivision rainfall (April–December).</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Core Modules Overview -->
+    <div class="glass-card about-intro fade-in fade-in-delay-2" id="modulesOverviewCard">
+        <h2 style="font-size: 20px; font-weight: 700; margin-bottom: 24px; background: var(--gradient);
+                   -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;">
+            Core Modules Overview
+        </h2>
+        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 28px;">
+            <div style="background: rgba(255,255,255,0.02); border: 1px solid var(--glass-border); border-radius: var(--radius-md); padding: 24px; transition: var(--transition);" class="tech-item-alt">
+                <h3 style="font-size: 17px; font-weight: 700; color: #00e5ff; margin-bottom: 12px; display: flex; align-items: center; gap: 8px;">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" style="width:20px; height:20px; flex-shrink:0;">
+                        <path d="M2 6c.6.5 1.2 1 2.5 1C7 7 7 5 9.5 5c2.5 0 2.5 2 5 2 2.5 0 2.5-2 5-2 1.3 0 1.9.5 2.5 1" />
+                        <path d="M2 12c.6.5 1.2 1 2.5 1 2.5 0 2.5-2 5-2 2.5 0 2.5 2 5 2 2.5 0 2.5-2 5-2 1.3 0 1.9.5 2.5 1" />
+                        <path d="M2 18c.6.5 1.2 1 2.5 1 2.5 0 2.5-2 5-2 2.5 0 2.5 2 5 2 2.5 0 2.5-2 5-2 1.3 0 1.9.5 2.5 1" />
+                    </svg>
+                    Flood Prediction Pipeline
+                </h3>
+                <p style="font-size: 14.5px; color: var(--text-secondary); line-height: 1.75; margin: 0;">
+                    Predicts hydrological discharge and classifies flood risk (Normal/High) using historical water level parameters.
+                    It performs real-time <strong>ARIMA forecasting</strong> to project future river metrics up to late 2026, and leverages a trained <strong>Linear Discriminant Analysis (LDA)</strong> model for accurate state classification.
+                </p>
+            </div>
+            <div style="background: rgba(255,255,255,0.02); border: 1px solid var(--glass-border); border-radius: var(--radius-md); padding: 24px; transition: var(--transition);" class="tech-item-alt">
+                <h3 style="font-size: 17px; font-weight: 700; color: #a855f7; margin-bottom: 12px; display: flex; align-items: center; gap: 8px;">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" style="width:20px; height:20px; flex-shrink:0;">
+                        <path d="M20 17.58A5 5 0 0 0 18 8h-1.26A8 8 0 1 0 4 16.25" />
+                        <line x1="8" y1="16" x2="8" y2="22" />
+                        <line x1="12" y1="18" x2="12" y2="22" />
+                        <line x1="16" y1="16" x2="16" y2="22" />
+                    </svg>
+                    Rainfall Analysis &amp; Forecasting
+                </h3>
+                <p style="font-size: 14.5px; color: var(--text-secondary); line-height: 1.75; margin: 0;">
+                    Analyzes and forecasts monthly precipitation across all 36 meteorological subdivisions of India.
+                    Powered by a robust <strong>1D Convolutional Neural Network (CNN)</strong> trained on over a century of historical IMD data (1901–2021). The model leverages local caching to deliver instant predictions.
+                </p>
+            </div>
+            <div style="background: rgba(255,255,255,0.02); border: 1px solid var(--glass-border); border-radius: var(--radius-md); padding: 24px; transition: var(--transition);" class="tech-item-alt">
+                <h3 style="font-size: 17px; font-weight: 700; color: #ef4444; margin-bottom: 12px; display: flex; align-items: center; gap: 8px;">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" style="width:20px; height:20px; flex-shrink:0;">
+                        <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z" />
+                    </svg>
+                    Blood Assistance Portal
+                </h3>
+                <p style="font-size: 14.5px; color: var(--text-secondary); line-height: 1.75; margin: 0;">
+                    Integrates a dynamic search directory indexing 8,000+ government-approved blood banks across all Indian states and cities. Features live city auto-complete suggestions, click-to-copy numbers, and an interactive physical donor eligibility quiz checker.
+                </p>
+            </div>
+            <div style="background: rgba(255,255,255,0.02); border: 1px solid var(--glass-border); border-radius: var(--radius-md); padding: 24px; transition: var(--transition);" class="tech-item-alt">
+                <h3 style="font-size: 17px; font-weight: 700; color: #10b981; margin-bottom: 12px; display: flex; align-items: center; gap: 8px;">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" style="width:20px; height:20px; flex-shrink:0;">
+                        <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z" />
+                        <polyline points="14 2 14 8 20 8" />
+                        <line x1="16" y1="13" x2="8" y2="13" />
+                        <line x1="16" y1="17" x2="8" y2="17" />
+                    </svg>
+                    Actionable SOP Checklists
+                </h3>
+                <p style="font-size: 14.5px; color: var(--text-secondary); line-height: 1.75; margin: 0;">
+                    Empowers communities with direct, step-by-step preparedness and survival checklists (Do's and Don'ts) covering high-alert disaster domains: floods, landslides, earthquakes, cyclones, tsunamis, wildfires, and thunderstorms.
+                </p>
+            </div>
+            <div style="background: rgba(255,255,255,0.02); border: 1px solid var(--glass-border); border-radius: var(--radius-md); padding: 24px; transition: var(--transition);" class="tech-item-alt">
+                <h3 style="font-size: 17px; font-weight: 700; color: #f59e0b; margin-bottom: 12px; display: flex; align-items: center; gap: 8px;">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" style="width:20px; height:20px; flex-shrink:0;">
+                        <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z" />
+                    </svg>
+                    Emergency Contacts Directory
+                </h3>
+                <p style="font-size: 14.5px; color: var(--text-secondary); line-height: 1.75; margin: 0;">
+                    Maintains a direct public safety communications board providing instant telephone routing for police departments, emergency medical hospitals, fire stations, local NDRF teams, and the PM National Relief Fund.
+                </p>
+            </div>
+            <div style="background: rgba(255,255,255,0.02); border: 1px solid var(--glass-border); border-radius: var(--radius-md); padding: 24px; transition: var(--transition);" class="tech-item-alt">
+                <h3 style="font-size: 17px; font-weight: 700; color: #f43f5e; margin-bottom: 12px; display: flex; align-items: center; gap: 8px;">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" style="width:20px; height:20px; flex-shrink:0;">
+                        <path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z" />
+                        <line x1="12" y1="9" x2="12" y2="13" />
+                        <line x1="12" y1="17" x2="12.01" y2="17" />
+                    </svg>
+                    Incident Reporting Simulator
+                </h3>
+                <p style="font-size: 14.5px; color: var(--text-secondary); line-height: 1.75; margin: 0;">
+                    An experimental prototype coordinate logging tool designed to let community members simulate hazard dispatches, logging fires, landslides, or coastal rising waters locally without real-world rescue agency alerts.
+                </p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Team Section in 2x5 Grid -->
+    <div class="glass-card team-section fade-in fade-in-delay-3" id="teamCard" style="padding: 40px; margin-top: 24px;">
+        <h2 class="team-title" style="text-align: center; margin-bottom: 30px; font-size: 26px; font-weight: 800; background: var(--gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; border: none; padding-bottom: 0;">
+            Team - EPICS348
+        </h2>
+        
+        <div class="team-2x5-grid">
+            
+            <!-- 1. Chelsi Patel -->
+            <div class="team-member-card">
+                <div class="team-avatar" style="background: linear-gradient(135deg, #05ffc5, #00e5ff);">C</div>
+                <h3 class="team-name">Chelsi Patel</h3>
+                <p class="team-reg">22BAI10005</p>
+            </div>
+
+            <!-- 2. Aditya Nayak -->
+            <div class="team-member-card">
+                <div class="team-avatar" style="background: linear-gradient(135deg, #00e5ff, #a855f7);">A</div>
+                <h3 class="team-name">Aditya Nayak</h3>
+                <p class="team-reg">22BAI10424</p>
+            </div>
+
+            <!-- 3. Rushabh Wagh -->
+            <div class="team-member-card">
+                <div class="team-avatar" style="background: linear-gradient(135deg, #a855f7, #ff2a6d);">R</div>
+                <h3 class="team-name">Rushabh Wagh</h3>
+                <p class="team-reg">22BCE10364</p>
+            </div>
+
+            <!-- 4. Kavya -->
+            <div class="team-member-card">
+                <div class="team-avatar" style="background: linear-gradient(135deg, #ff2a6d, #ffb900);">K</div>
+                <h3 class="team-name">Kavya</h3>
+                <p class="team-reg">22BCE10385</p>
+            </div>
+
+            <!-- 5. Tejas Pathak -->
+            <div class="team-member-card">
+                <div class="team-avatar" style="background: linear-gradient(135deg, #ffb900, #05ffc5);">T</div>
+                <h3 class="team-name">Tejas Pathak</h3>
+                <p class="team-reg">22BCE10853</p>
+            </div>
+
+            <!-- 6. Simarpreet Singh -->
+            <div class="team-member-card">
+                <div class="team-avatar" style="background: linear-gradient(135deg, #05ffc5, #00e5ff);">S</div>
+                <h3 class="team-name">Simarpreet Singh</h3>
+                <p class="team-reg">22BCE10914</p>
+            </div>
+
+            <!-- 7. Sneha Mishra -->
+            <div class="team-member-card">
+                <div class="team-avatar" style="background: linear-gradient(135deg, #00e5ff, #a855f7);">S</div>
+                <h3 class="team-name">Sneha Mishra</h3>
+                <p class="team-reg">22BCE10932</p>
+            </div>
+
+            <!-- 8. Pooja -->
+            <div class="team-member-card">
+                <div class="team-avatar" style="background: linear-gradient(135deg, #a855f7, #ff2a6d);">P</div>
+                <h3 class="team-name">Pooja</h3>
+                <p class="team-reg">22BCE10984</p>
+            </div>
+
+            <!-- 9. Ruturaj Bhoite -->
+            <div class="team-member-card">
+                <div class="team-avatar" style="background: linear-gradient(135deg, #ff2a6d, #ffb900);">R</div>
+                <h3 class="team-name">Ruturaj Bhoite</h3>
+                <p class="team-reg">22BHI10027</p>
+            </div>
+
+            <!-- 10. Archana Nair -->
+            <div class="team-member-card">
+                <div class="team-avatar" style="background: linear-gradient(135deg, #ffb900, #05ffc5);">A</div>
+                <h3 class="team-name">Archana Nair</h3>
+                <p class="team-reg">22BSA10238</p>
+            </div>
+
+        </div>
+    </div>
+
+</div>
+
+{% endblock %}

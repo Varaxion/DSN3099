@@ -1,0 +1,465 @@
+{% extends 'base.html' %}
+
+{% block title %}Blood Assistance Portal &amp; Locator - Sahay{% endblock %}
+{% block metaDescription %}Explore blood donation guidelines, Rh compatibility rules, eligibility details, and locate approved active Indian blood banks using dynamic AJAX search.{% endblock %}
+
+{% block content %}
+
+<!-- Crimson/Rose Thematic Color Overrides & Autocomplete Styles -->
+<style>
+    /* Local color variable overrides for Blood page */
+    .orb-1 {
+        background: radial-gradient(circle, #ff2a6d, transparent 70%) !important;
+        top: -100px;
+        left: -150px;
+        opacity: 0.25;
+    }
+    .orb-2 {
+        background: radial-gradient(circle, #7209b7, transparent 70%) !important;
+        bottom: -100px;
+        right: -150px;
+        opacity: 0.25;
+    }
+    .orb-3 {
+        background: radial-gradient(circle, #ff007f, transparent 70%) !important;
+        opacity: 0.15;
+    }
+
+    .blood-layout {
+        max-width: 1100px;
+        margin: 0 auto;
+        padding: 0 24px 80px;
+        display: flex;
+        flex-direction: column;
+        gap: 32px;
+    }
+    
+    .blood-search-card {
+        background: var(--glass-bg);
+        border: 1px solid var(--glass-border);
+        border-radius: var(--radius-lg);
+        backdrop-filter: blur(20px);
+        -webkit-backdrop-filter: blur(20px);
+        padding: 36px;
+        position: relative;
+        transition: var(--transition);
+    }
+    .blood-search-card:hover {
+        border-color: var(--glass-border-hover);
+        background: var(--glass-bg-hover);
+    }
+
+    .suggestion-box {
+        position: absolute;
+        top: 100%;
+        left: 0;
+        right: 0;
+        background: #180922;
+        border: 1px solid rgba(255, 42, 109, 0.2);
+        border-radius: var(--radius-sm);
+        z-index: 1000;
+        max-height: 200px;
+        overflow-y: auto;
+        box-shadow: var(--shadow-lg);
+        margin-top: 6px;
+    }
+    .suggestion-item {
+        padding: 10px 16px;
+        color: var(--text-primary);
+        cursor: pointer;
+        font-size: 14px;
+        transition: var(--transition);
+        text-align: left;
+    }
+    .suggestion-item:hover {
+        background: rgba(255, 42, 109, 0.1);
+        color: #ff2a6d;
+    }
+
+    .blood-bank-card {
+        background: var(--glass-bg);
+        border: 1px solid var(--glass-border);
+        border-radius: var(--radius-md);
+        padding: 24px;
+        transition: var(--transition);
+        display: flex;
+        flex-direction: column;
+        text-align: left;
+    }
+    .blood-bank-card:hover {
+        background: var(--glass-bg-hover);
+        border-color: var(--glass-border-hover);
+        transform: translateY(-3px);
+        box-shadow: var(--shadow);
+    }
+    .blood-bank-card h3 {
+        font-size: 18px;
+        color: #ff2a6d !important;
+        margin-bottom: 12px;
+        font-weight: 700;
+        line-height: 1.4;
+        border: none;
+        padding-bottom: 0;
+    }
+    .blood-bank-card p {
+        font-size: 14px;
+        color: var(--text-secondary);
+        margin-bottom: 8px;
+        line-height: 1.6;
+    }
+    .blood-bank-card p strong {
+        color: var(--text-primary);
+    }
+    .blood-bank-card .meta {
+        font-size: 12px;
+        color: var(--text-muted);
+        margin-top: auto;
+        border-top: 1px solid rgba(255, 255, 255, 0.06);
+        padding-top: 10px;
+        margin-bottom: 0;
+    }
+
+    .card-actions {
+        display: flex;
+        gap: 10px;
+        margin: 16px 0;
+        flex-wrap: wrap;
+    }
+    .card-actions button, .card-actions a {
+        flex: 1;
+        text-align: center;
+        padding: 10px 14px;
+        border-radius: var(--radius-sm);
+        font-size: 13px;
+        font-weight: 600;
+        cursor: pointer;
+        transition: var(--transition);
+        text-decoration: none;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        border: 1px solid transparent;
+        font-family: 'Outfit', sans-serif;
+    }
+
+    .copy-btn {
+        background: rgba(255, 255, 255, 0.06);
+        border: 1px solid var(--glass-border) !important;
+        color: var(--text-primary);
+    }
+    .copy-btn:hover {
+        background: rgba(255, 255, 255, 0.12);
+        border-color: var(--glass-border-hover) !important;
+    }
+
+    .call-btn {
+        background: linear-gradient(135deg, #ff2a6d, #7209b7);
+        color: white !important;
+        font-weight: bold;
+    }
+    .call-btn:hover {
+        box-shadow: 0 4px 14px rgba(255, 42, 109, 0.3);
+        transform: translateY(-1px);
+    }
+
+    .loading-spinner {
+        text-align: center;
+        grid-column: 1 / -1;
+        padding: 40px;
+    }
+    .spinner {
+        width: 38px;
+        height: 38px;
+        border: 3px solid rgba(255, 255, 255, 0.06);
+        border-top: 3px solid #ff2a6d;
+        border-radius: 50%;
+        animation: spin 0.8s linear infinite;
+        margin: 0 auto 16px;
+    }
+    @keyframes spin {
+        0% { transform: rotate(0deg); }
+        100% { transform: rotate(360deg); }
+    }
+
+    .suggestions-row {
+        margin-top: 14px;
+        display: flex;
+        flex-wrap: wrap;
+        gap: 8px;
+        justify-content: center;
+    }
+    .suggestion-sbtn {
+        background: rgba(255, 255, 255, 0.06);
+        border: 1px solid var(--glass-border);
+        border-radius: 20px;
+        padding: 5px 14px;
+        color: #ff2a6d;
+        cursor: pointer;
+        font-size: 13px;
+        transition: var(--transition);
+        font-family: 'Outfit', sans-serif;
+    }
+    .suggestion-sbtn:hover {
+        background: rgba(255, 42, 109, 0.12);
+        border-color: #ff2a6d;
+    }
+
+    .error-message {
+        grid-column: 1 / -1;
+        text-align: center;
+        padding: 24px;
+        background: var(--danger-bg);
+        border: 1px solid rgba(255, 42, 109, 0.25);
+        border-radius: var(--radius-md);
+        color: #fca5a5;
+    }
+
+    /* Donor compatibility table style */
+    .compat-table {
+        width: 100%;
+        border-collapse: collapse;
+        margin-top: 16px;
+    }
+    .compat-table th, .compat-table td {
+        padding: 12px 16px;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+        font-size: 14px;
+        text-align: left;
+    }
+    .compat-table th {
+        color: #ff2a6d;
+        font-weight: 700;
+    }
+    .compat-table td strong {
+        color: var(--text-primary);
+    }
+
+    /* Eligibility Checker styles */
+    .checker-box {
+        margin-top: 12px;
+        display: flex;
+        flex-direction: column;
+        gap: 12px;
+        text-align: left;
+    }
+    .checker-item {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        font-size: 14px;
+        color: var(--text-secondary);
+        cursor: pointer;
+        user-select: none;
+    }
+    .checker-input {
+        width: 18px;
+        height: 18px;
+        accent-color: #ff2a6d;
+        cursor: pointer;
+    }
+</style>
+
+<div class="page-header" id="bloodHeader">
+    <nav class="breadcrumb" aria-label="Breadcrumb">
+        <a href="{{ url_for('main.index') }}">Sahay</a>
+        <span>/</span>
+        <span>Blood Portal</span>
+    </nav>
+    <div style="margin: 0 auto 18px; display: inline-flex; align-items: center; justify-content: center; width: 64px; height: 64px; border-radius: var(--radius-md); background: linear-gradient(135deg, rgba(255,42,109,0.2), rgba(255,42,109,0.04)); border: 1px solid rgba(255,42,109,0.15); box-shadow: 0 8px 32px rgba(255, 42, 109, 0.15);">
+        <!-- Blood Droplet SVG -->
+        <svg viewBox="0 0 24 24" fill="none" stroke="url(#red-grad-page)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="width:36px; height:36px;">
+            <defs>
+                <linearGradient id="red-grad-page" x1="0%" y1="0%" x2="100%" y2="100%">
+                    <stop offset="0%" stop-color="#ff2a6d" />
+                    <stop offset="100%" stop-color="#7209b7" />
+                </linearGradient>
+            </defs>
+            <path d="M12 2c0 0-8 6.5-8 12a8 8 0 0 0 16 0c0-5.5-8-12-8-12z" />
+            <path d="M12 18a4 4 0 0 1-4-4" stroke="rgba(255,255,255,0.4)" stroke-width="1.5" />
+        </svg>
+    </div>
+    <h1 class="page-title">Blood Assistance Portal</h1>
+    <p class="page-subtitle">Dynamic Blood Bank Locator &amp; Donor Eligibility Verification</p>
+</div>
+
+<div class="blood-layout" id="bloodLayout">
+    
+    <!-- Guidelines & Checker Grid -->
+    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 24px;">
+        
+        <!-- Red Cell Compatibility Info Card -->
+        <article class="glass-card" style="padding: 32px;">
+            <h2 style="font-size: 19px; font-weight: 700; color: white; margin-bottom: 16px; border:none; padding:0; display:flex; align-items:center; gap:8px;">
+                <!-- Cross Match SVG -->
+                <svg viewBox="0 0 24 24" fill="none" stroke="#ff2a6d" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="width:20px; height:20px;">
+                    <circle cx="12" cy="12" r="10" />
+                    <line x1="8" y1="12" x2="16" y2="12" />
+                    <line x1="12" y1="8" x2="12" y2="16" />
+                </svg>
+                Compatibility Guidelines
+            </h2>
+            <p style="font-size: 14.5px; color: var(--text-secondary); line-height: 1.7;">
+                Transfusion compatibility depends on matching A, B, and Rh blood factor antigens. Safe transfusions protect the receiver's immune response:
+            </p>
+            <table class="compat-table">
+                <thead>
+                    <tr>
+                        <th>Blood Group</th>
+                        <th>Can Receive From</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><strong>Type A</strong></td>
+                        <td>A, O</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Type B</strong></td>
+                        <td>B, O</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Type AB</strong> (Universal Receiver)</td>
+                        <td>AB, A, B, O</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Type O</strong> (Universal Red Donor)</td>
+                        <td>O (O- to anyone)</td>
+                    </tr>
+                </tbody>
+            </table>
+            <p style="font-size: 12px; color: var(--text-muted); margin-top: 18px; line-height: 1.5; font-style: italic;">
+                * Type AB is considered the universal plasma donor, as plasma from AB-type donors can be transfused to recipients with A, B, AB, or O blood types.
+            </p>
+        </article>
+
+        <!-- Dynamic Eligibility Checker Quiz Card -->
+        <article class="glass-card" style="padding: 32px; text-align: center;">
+            <h2 style="font-size: 19px; font-weight: 700; color: white; margin-bottom: 16px; border:none; padding:0; display:flex; align-items:center; justify-content:center; gap:8px;">
+                <!-- Quiz SVG -->
+                <svg viewBox="0 0 24 24" fill="none" stroke="#ff2a6d" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="width:20px; height:20px;">
+                    <path d="M12 22c5.523 0 10-4.477 10-10S17.523 2 12 2 2 6.477 2 12s4.477 10 10 10z" />
+                    <path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3" />
+                    <line x1="12" y1="17" x2="12.01" y2="17" />
+                </svg>
+                Eligibility Checker Quiz
+            </h2>
+            <p style="font-size: 14.5px; color: var(--text-secondary); line-height: 1.6; margin-bottom: 16px;">
+                Tick the criteria boxes below to dynamically check your blood donation eligibility:
+            </p>
+            
+            <div class="checker-box">
+                <label class="checker-item">
+                    <input type="checkbox" class="checker-input" id="checkAge">
+                    <span>I am between 18 and 65 years old.</span>
+                </label>
+                <label class="checker-item">
+                    <input type="checkbox" class="checker-input" id="checkWeight">
+                    <span>My body weight is at least 50 kg.</span>
+                </label>
+                <label class="checker-item">
+                    <input type="checkbox" class="checker-input" id="checkHb">
+                    <span>My hemoglobin level is at least 12.5 g/dL.</span>
+                </label>
+                <label class="checker-item">
+                    <input type="checkbox" class="checker-input" id="checkHealth">
+                    <span>I am free of active fevers, infections, or colds today.</span>
+                </label>
+                <label class="checker-item">
+                    <input type="checkbox" class="checker-input" id="checkMeds">
+                    <span>I have no severe history of chronic heart/lung conditions.</span>
+                </label>
+            </div>
+
+            <button id="quiz-btn" class="btn btn-secondary" style="width: 100%; margin-top: 20px; justify-content:center;">
+                Evaluate Eligibility
+            </button>
+
+            <!-- Quiz Results Output -->
+            <div id="quiz-result" style="display:none; margin-top: 18px; padding: 14px; border-radius: var(--radius-sm); font-size: 13.5px; line-height: 1.6;"></div>
+        </article>
+    </div>
+
+    <!-- Active Blood Banks Finder Grid Section -->
+    <div class="glass-card" style="padding: 40px; margin-top: 12px; text-align: center;">
+        <h2 style="font-size: 22px; font-weight: 700; color: white; margin-bottom: 12px; border:none; padding:0; display:flex; align-items:center; justify-content:center; gap:8px;">
+            <!-- Search SVGs -->
+            <svg viewBox="0 0 24 24" fill="none" stroke="#ff2a6d" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="width:22px; height:22px;">
+                <circle cx="11" cy="11" r="8" />
+                <line x1="21" y1="21" x2="16.65" y2="16.65" />
+            </svg>
+            Locate Approved Blood Banks
+        </h2>
+        <p style="font-size: 15px; color: var(--text-secondary); line-height: 1.8; max-width: 720px; margin: 0 auto 30px;">
+            Search over 8,000+ government-approved and Red Cross blood bank centers across Indian states and subdivisions. Select a state and enter your city to retrieve active centers.
+        </p>
+
+        <!-- Search Forms Panel -->
+        <div class="blood-search-card" style="max-width: 820px; margin: 0 auto;">
+            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 20px; align-items: end;">
+                <div class="form-group" style="text-align:left; margin-bottom:0;">
+                    <label for="state-select" style="display:block; font-size:12px; font-weight:600; color:var(--text-secondary); letter-spacing:0.8px; text-transform:uppercase; margin-bottom:8px;">Select State</label>
+                    <div class="select-wrapper">
+                        <select id="state-select" class="form-control" required>
+                            <option value="">Choose a state...</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="form-group" style="position:relative; text-align:left; margin-bottom:0;">
+                    <label for="city-input" style="display:block; font-size:12px; font-weight:600; color:var(--text-secondary); letter-spacing:0.8px; text-transform:uppercase; margin-bottom:8px;">Type City Name</label>
+                    <input type="text" id="city-input" class="form-control" placeholder="Enter city (e.g. Bhopal)" required autocomplete="off">
+                </div>
+                <div class="form-group" style="margin-bottom:0;">
+                    <button id="search-btn" class="btn btn-primary-red" style="width: 100%; justify-content:center; padding:12px 24px;">
+                        Search Active Banks
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="width:18px; height:18px;">
+                            <circle cx="11" cy="11" r="8"></circle>
+                            <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+                        </svg>
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Dynamic Results Display Grid -->
+        <div id="results-container" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 24px; margin-top: 40px;"></div>
+
+        <!-- Dynamic No Results Message box -->
+        <div id="no-results" style="display:none; text-align:center; padding:30px; background:var(--danger-bg); border:1px solid rgba(255,42,109,0.25); border-radius:var(--radius-lg); color:#fca5a5; max-width:600px; margin:30px auto 0;">
+            <p style="margin:0; font-weight:600;">No active blood bank logs found in this city. Try typing another major city nearby.</p>
+        </div>
+    </div>
+
+</div>
+
+{% endblock %}
+
+{% block extraScripts %}
+<script>
+    // Interactive Eligibility Checker Quiz Logic
+    const quizBtn = document.getElementById('quiz-btn');
+    const quizResult = document.getElementById('quiz-result');
+    
+    quizBtn.addEventListener('click', () => {
+        const checkAge = document.getElementById('checkAge').checked;
+        const checkWeight = document.getElementById('checkWeight').checked;
+        const checkHb = document.getElementById('checkHb').checked;
+        const checkHealth = document.getElementById('checkHealth').checked;
+        const checkMeds = document.getElementById('checkMeds').checked;
+        
+        quizResult.style.display = 'block';
+        
+        if (checkAge && checkWeight && checkHb && checkHealth && checkMeds) {
+            quizResult.style.background = 'rgba(5, 255, 197, 0.15)';
+            quizResult.style.border = '1px solid rgba(5, 255, 197, 0.3)';
+            quizResult.style.color = '#05ffc5';
+            quizResult.innerHTML = '<strong>✅ Eligible to Donate!</strong> You meet all basic physical parameters to donate blood and support community emergency services. Please present this at the donation center.';
+        } else {
+            quizResult.style.background = 'rgba(255, 42, 109, 0.15)';
+            quizResult.style.border = '1px solid rgba(255, 42, 109, 0.3)';
+            quizResult.style.color = '#ffcae0';
+            quizResult.innerHTML = '<strong>⚠️ Checklist Incomplete:</strong> You may not meet all baseline requirements at this time. Blood safety rules prioritize donor and recipient health. Please consult a center coordinator for details.';
+        }
+    });
+</script>
+<script src="{{ url_for('static', filename='js/bloodBanks.js') }}"></script>
+{% endblock %}

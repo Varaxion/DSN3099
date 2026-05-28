@@ -1,0 +1,154 @@
+{% extends 'base.html' %}
+
+{% block title %}Rainfall Analysis - Sahay{% endblock %}
+{% block metaDescription %}Analyze and forecast monthly rainfall patterns across Indian meteorological subdivisions using a 1D-CNN model trained on IMD data from 1901 to 2021.{% endblock %}
+
+{% block extraHead %}
+<style>
+    .orb-1 {
+        background: radial-gradient(circle, #a855f7, transparent 70%) !important;
+        opacity: 0.25;
+    }
+    .orb-2 {
+        background: radial-gradient(circle, #ec4899, transparent 70%) !important;
+        opacity: 0.22;
+    }
+    .orb-3 {
+        background: radial-gradient(circle, #00e5ff, transparent 70%) !important;
+        opacity: 0.15;
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+
+<div class="page-header" id="rainfallHeader">
+    <nav class="breadcrumb" aria-label="Breadcrumb">
+        <a href="{{ url_for('main.index') }}">Sahay</a>
+        <span>/</span>
+        <span>Rainfall Analysis</span>
+    </nav>
+    <div style="margin: 0 auto 18px; display: inline-flex; align-items: center; justify-content: center; width: 64px; height: 64px; border-radius: var(--radius-md); background: linear-gradient(135deg, rgba(139,92,246,0.2), rgba(139,92,246,0.04)); border: 1px solid rgba(139,92,246,0.15); box-shadow: 0 8px 32px rgba(139, 130, 246, 0.15);">
+        <svg viewBox="0 0 24 24" fill="none" stroke="url(#purple-grad-page)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="width:36px; height:36px;">
+            <defs>
+                <linearGradient id="purple-grad-page" x1="0%" y1="0%" x2="100%" y2="100%">
+                    <stop offset="0%" stop-color="#8b5cf6" />
+                    <stop offset="100%" stop-color="#ec4899" />
+                </linearGradient>
+            </defs>
+            <path d="M20 17.58A5 5 0 0 0 18 8h-1.26A8 8 0 1 0 4 16.25" />
+            <line x1="8" y1="16" x2="8" y2="22" />
+            <line x1="12" y1="18" x2="12" y2="22" />
+            <line x1="16" y1="16" x2="16" y2="22" />
+        </svg>
+    </div>
+    <h1 class="page-title">Rainfall Analysis</h1>
+    <p class="page-subtitle">Select a subdivision and year to run the rainfall prediction models.</p>
+</div>
+
+<div style="max-width: 820px; margin: 0 auto; padding: 0 24px 80px;" id="rainfallLayout">
+    <div class="glass-card form-card fade-in" id="rainfallFormCard">
+        <h2 class="form-title">Enter Parameters</h2>
+        <p class="form-subtitle">
+            Uses the IMD Sub-Division historical datasets. Select either the deep learning 1D-CNN model (pre-trained) or the classic Random Forest regression model to run forecasts for the selected year's monthly rainfall (April–December).
+        </p>
+
+        <form action="{{ url_for('main.rainfallResults') }}" method="post" id="rainfallForm">
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px;">
+
+                <div class="form-group" style="grid-column: span 2;">
+                    <label for="modelSelect">Forecasting Model Engine</label>
+                    <div class="select-wrapper">
+                        <select name="model_type" id="modelSelect" class="form-control" required>
+                            <option value="CNN" selected>1D-CNN (Deep Learning — Pre-trained)</option>
+                            <option value="RF">Random Forest (Classic ML — Trains on Fly)</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="subdivisionSelect">Subdivision</label>
+                    <div class="select-wrapper">
+                        <select name="SEL" id="subdivisionSelect" class="form-control" required>
+                            <option value="" disabled selected>Choose a subdivision...</option>
+                            <option value="Andaman &amp; Nicobar Islands">Andaman &amp; Nicobar Islands</option>
+                            <option value="Arunachal Pradesh">Arunachal Pradesh</option>
+                            <option value="Assam &amp; Meghalaya">Assam &amp; Meghalaya</option>
+                            <option value="Bihar">Bihar</option>
+                            <option value="Chhattisgarh">Chhattisgarh</option>
+                            <option value="Coastal Andhra Pradesh">Coastal Andhra Pradesh</option>
+                            <option value="Coastal Karnataka">Coastal Karnataka</option>
+                            <option value="East Madhya Pradesh">East Madhya Pradesh</option>
+                            <option value="East Rajasthan">East Rajasthan</option>
+                            <option value="East Uttar Pradesh">East Uttar Pradesh</option>
+                            <option value="Gangetic West Bengal">Gangetic West Bengal</option>
+                            <option value="Gujarat Region">Gujarat Region</option>
+                            <option value="Haryana Delhi &amp; Chandigarh">Haryana Delhi &amp; Chandigarh</option>
+                            <option value="Himachal Pradesh">Himachal Pradesh</option>
+                            <option value="Jammu &amp; Kashmir">Jammu &amp; Kashmir</option>
+                            <option value="Jharkhand">Jharkhand</option>
+                            <option value="Kerala">Kerala</option>
+                            <option value="Konkan &amp; Goa">Konkan &amp; Goa</option>
+                            <option value="Lakshadweep">Lakshadweep</option>
+                            <option value="Madhya Maharashtra">Madhya Maharashtra</option>
+                            <option value="Matathwada">Matathwada</option>
+                            <option value="Naga Mani Mizo Tripura">Naga Mani Mizo Tripura</option>
+                            <option value="North Interior Karnataka">North Interior Karnataka</option>
+                            <option value="Orissa">Orissa</option>
+                            <option value="Punjab">Punjab</option>
+                            <option value="Rayalseema">Rayalseema</option>
+                            <option value="Saurashtra &amp; Kutch">Saurashtra &amp; Kutch</option>
+                            <option value="South Interior Karnataka">South Interior Karnataka</option>
+                            <option value="Sub Himalayan West Bengal &amp; Sikkim">Sub Himalayan West Bengal &amp; Sikkim</option>
+                            <option value="Tamil Nadu">Tamil Nadu</option>
+                            <option value="Telangana">Telangana</option>
+                            <option value="Uttarakhand">Uttarakhand</option>
+                            <option value="Vidarbha">Vidarbha</option>
+                            <option value="West Madhya Pradesh">West Madhya Pradesh</option>
+                            <option value="West Rajasthan">West Rajasthan</option>
+                            <option value="West Uttar Pradesh">West Uttar Pradesh</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="yearSelect">Year</label>
+                    <div class="select-wrapper">
+                        <select name="Year" id="yearSelect" class="form-control" required>
+                            <option value="" disabled selected>Choose a year...</option>
+                            {% for year in range(1901, 2022) %}
+                            <option value="{{ year }}">{{ year }}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                </div>
+
+            </div>
+
+            <button type="submit" class="btn btn-primary" id="rainfallSubmitBtn"
+                    style="width:100%; justify-content:center; margin-top:8px;">
+                Run Analysis
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                    <line x1="18" y1="20" x2="18" y2="10" />
+                    <line x1="12" y1="20" x2="12" y2="4" />
+                    <line x1="6" y1="20" x2="6" y2="14" />
+                </svg>
+            </button>
+        </form>
+        <div id="loadingIndicator" style="display:none; text-align:center; margin-top:20px;">
+            <div class="spinner"></div>
+            <p style="color: var(--text-secondary); font-weight: 500; font-size: 14px; margin-top: 12px; letter-spacing: 0.5px;">
+                Training algorithms &amp; forecasting monthly rainfall... Please wait.
+            </p>
+        </div>
+    </div>
+</div>
+
+<script>
+document.getElementById('rainfallForm').addEventListener('submit', function() {
+    document.getElementById('rainfallSubmitBtn').style.display = 'none';
+    document.getElementById('loadingIndicator').style.display = 'block';
+});
+</script>
+
+{% endblock %}

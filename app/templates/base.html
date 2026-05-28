@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="{% block metaDescription %}Sahay - A Hub for Disaster Resilience &amp; Emergency Assistance. Coordinated public safety, hydrological forecasting, and medical support systems.{% endblock %}">
+    <meta name="keywords" content="disaster resilience, emergency assistance, flood warning, rainfall forecasting, blood bank finder, India public safety">
+    <title>{% block title %}Sahay - A Hub for Disaster Resilience &amp; Emergency Assistance{% endblock %}</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/sahay.css') }}">
+    {% block extraHead %}{% endblock %}
+</head>
+<body>
+
+    <!-- Ambient background orbs -->
+    <div class="bg-orbs" aria-hidden="true">
+        <div class="orb orb-1"></div>
+        <div class="orb orb-2"></div>
+        <div class="orb orb-3"></div>
+    </div>
+
+    <!-- Navbar -->
+    <nav class="navbar" id="navbar">
+        <div class="nav-container">
+            <a href="{{ url_for('main.index') }}" class="nav-logo" aria-label="Sahay Home">
+                <span class="logo-icon">◈</span>
+                <span class="logo-text">SAHAY</span>
+            </a>
+            <ul class="nav-links" id="navLinks" role="list">
+                <li>
+                    <a href="{{ url_for('main.index') }}"
+                       class="nav-link {% if request.endpoint == 'main.index' %}active{% endif %}"
+                       id="navHome">Home</a>
+                </li>
+                <li>
+                    <a href="{{ url_for('main.floodForecasting') }}"
+                       class="nav-link {% if request.endpoint in ['main.floodForecasting', 'main.floodResults'] %}active{% endif %}"
+                       id="navFlood">Flood Prediction</a>
+                </li>
+                <li>
+                    <a href="{{ url_for('main.rainfallAnalysis') }}"
+                       class="nav-link {% if request.endpoint in ['main.rainfallAnalysis', 'main.rainfallResults'] %}active{% endif %}"
+                       id="navRainfall">Rainfall Analysis</a>
+                </li>
+                <li>
+                    <a href="{{ url_for('main.bloodPortal') }}"
+                       class="nav-link {% if request.endpoint == 'main.bloodPortal' %}active{% endif %}"
+                       id="navBlood">Blood Portal</a>
+                </li>
+                <li>
+                    <a href="{{ url_for('main.sopGuidelines') }}"
+                       class="nav-link {% if request.endpoint == 'main.sopGuidelines' %}active{% endif %}"
+                       id="navSop">SOPs</a>
+                </li>
+                <li>
+                    <a href="{{ url_for('main.emergencyContacts') }}"
+                       class="nav-link {% if request.endpoint == 'main.emergencyContacts' %}active{% endif %}"
+                       id="navContacts">Helplines</a>
+                </li>
+                <li>
+                    <a href="{{ url_for('main.reportIncident') }}"
+                       class="nav-link {% if request.endpoint == 'main.reportIncident' %}active{% endif %}"
+                       id="navReport">Incident Reporting</a>
+                </li>
+                <li>
+                    <a href="{{ url_for('main.about') }}"
+                       class="nav-link {% if request.endpoint == 'main.about' %}active{% endif %}"
+                       id="navAbout">About</a>
+                </li>
+            </ul>
+            <button class="nav-toggle" id="navToggle" aria-label="Toggle navigation" aria-expanded="false">
+                <span></span><span></span><span></span>
+            </button>
+        </div>
+    </nav>
+
+    <!-- Flash messages -->
+    {% with messages = get_flashed_messages() %}
+    {% if messages %}
+    <div class="flash-container" role="alert" aria-live="polite">
+        {% for message in messages %}
+        <div class="flash-alert">
+            <span aria-hidden="true">⚠</span>
+            {{ message }}
+            <button class="flash-close" onclick="this.parentElement.remove()" aria-label="Dismiss">✕</button>
+        </div>
+        {% endfor %}
+    </div>
+    {% endif %}
+    {% endwith %}
+
+    <!-- Page content -->
+    <main id="mainContent">
+        {% block content %}{% endblock %}
+    </main>
+
+    <footer class="footer">
+        <div class="footer-container">
+            <div class="footer-brand">
+                <div class="footer-logo-wrapper">
+                    <span class="logo-icon">◈</span>
+                    <span class="footer-name">SAHAY</span>
+                </div>
+                <p class="footer-description-text">A unified intelligence-driven portal for community disaster resilience, advanced hydrological predictions, and coordinated rapid emergency assistance.</p>
+            </div>
+            <div class="footer-links-col">
+                <h4 class="footer-title-col">Analytical Modules</h4>
+                <nav class="footer-nav" aria-label="Analytical Modules">
+                    <a href="{{ url_for('main.floodForecasting') }}">River Flood Forecasting</a>
+                    <a href="{{ url_for('main.rainfallAnalysis') }}">Subdivision Rainfall CNN</a>
+                </nav>
+            </div>
+            <div class="footer-links-col">
+                <h4 class="footer-title-col">Resilience &amp; Relief</h4>
+                <nav class="footer-nav" aria-label="Resilience &amp; Relief">
+                    <a href="{{ url_for('main.bloodPortal') }}">Blood Donor Locator</a>
+                    <a href="{{ url_for('main.sopGuidelines') }}">Emergency SOP Checklists</a>
+                    <a href="{{ url_for('main.emergencyContacts') }}">Public Safety Helplines</a>
+                    <a href="{{ url_for('main.about') }}">Academic Dossier</a>
+                </nav>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <div class="footer-bottom-centered" style="text-align: center; display: flex; flex-direction: column; gap: 8px; justify-content: center; align-items: center;">
+                <p>&copy; 2025 Sahay. All rights reserved.</p>
+                <p class="footer-attribution" style="margin: 0; text-align: center;">Engineered by Team EPICS348 &middot; VIT Bhopal University</p>
+                <p style="margin: 0; font-size: 11.5px; color: var(--text-muted); letter-spacing: 0.3px;">
+                    Re-engineered by <span style="color: var(--accent-cyan); font-weight: 600;">Kavya</span> &middot; 22BCE10385
+                </p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Navbar scroll effect
+        const navbar = document.getElementById('navbar');
+        window.addEventListener('scroll', () => {
+            navbar.classList.toggle('scrolled', window.scrollY > 50);
+        });
+
+        // Mobile nav toggle
+        const navToggle = document.getElementById('navToggle');
+        const navLinks  = document.getElementById('navLinks');
+        navToggle.addEventListener('click', () => {
+            const isOpen = navLinks.classList.toggle('open');
+            navToggle.setAttribute('aria-expanded', isOpen);
+        });
+    </script>
+    {% block extraScripts %}{% endblock %}
+</body>
+</html>

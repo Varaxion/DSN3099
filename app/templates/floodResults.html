@@ -1,0 +1,115 @@
+{% extends 'base.html' %}
+
+{% block title %}Flood Result - Sahay{% endblock %}
+{% block metaDescription %}Flood prediction result showing river discharge, runoff metrics, and water level classification from the LDA classifier.{% endblock %}
+
+{% block extraHead %}
+<style>
+    .orb-1 {
+        background: radial-gradient(circle, #00e5ff, transparent 70%) !important;
+        opacity: 0.25;
+    }
+    .orb-2 {
+        background: radial-gradient(circle, #008080, transparent 70%) !important;
+        opacity: 0.22;
+    }
+    .orb-3 {
+        background: radial-gradient(circle, #05ffc5, transparent 70%) !important;
+        opacity: 0.15;
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+
+<div class="page-header" id="resultHeader">
+    <nav class="breadcrumb" aria-label="Breadcrumb">
+        <a href="{{ url_for('main.index') }}">Sahay</a>
+        <span>/</span>
+        <a href="{{ url_for('main.floodForecasting') }}">Flood Prediction</a>
+        <span>/</span>
+        <span>Result</span>
+    </nav>
+    <h1 class="page-title">Prediction Result</h1>
+    <p class="page-subtitle">River water level classification based on hydrological indicators.</p>
+</div>
+
+<div class="result-layout" id="resultLayout">
+
+    <!-- Flood Image -->
+    <div class="glass-card chart-card fade-in" id="floodImageCard">
+        <img src="{{ url_for('static', filename='img/flood.png') }}"
+             alt="Flood visualization" loading="lazy">
+    </div>
+
+    <!-- Metrics Card -->
+    <div class="glass-card result-card fade-in fade-in-delay-1" id="resultCard">
+        <h2 class="form-title" style="margin-bottom: 24px;">Hydrological Metrics</h2>
+
+        <table class="result-table">
+            <tbody>
+                <tr>
+                    <td>Discharge</td>
+                    <td>{{ result[0] }}</td>
+                </tr>
+                <tr>
+                    <td>Flood Runoff</td>
+                    <td>{{ result[1] }}</td>
+                </tr>
+                <tr>
+                    <td>Daily Runoff</td>
+                    <td>{{ result[2] }}</td>
+                </tr>
+                <tr>
+                    <td>Weekly Runoff</td>
+                    <td>{{ result[3] }}</td>
+                </tr>
+                <tr>
+                    <td>Mean Absolute Error</td>
+                    <td>
+                        {% if result[4] == 'NIL' %}
+                            <span class="badge badge-muted">NIL</span>
+                        {% else %}
+                            {{ result[4] }}
+                        {% endif %}
+                    </td>
+                </tr>
+                <tr>
+                    <td>Predicted Water Level</td>
+                    <td>
+                        {% if result[5] == 'High' %}
+                            <span class="badge badge-danger">⚠ High</span>
+                        {% else %}
+                            <span class="badge badge-success">✓ Normal</span>
+                        {% endif %}
+                    </td>
+                </tr>
+                <tr>
+                    <td>Actual Water Level</td>
+                    <td>
+                        {% if result[6] == 'NIL' %}
+                            <span class="badge badge-muted">NIL — Future Date</span>
+                        {% elif result[6] == 'High' %}
+                            <span class="badge badge-danger">⚠ High</span>
+                        {% else %}
+                            <span class="badge badge-success">✓ Normal</span>
+                        {% endif %}
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+
+        <div style="margin-top: 28px;">
+            <a href="{{ url_for('main.floodForecasting') }}" class="btn btn-secondary" id="floodResultBackBtn">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                    <line x1="19" y1="12" x2="5" y2="12"></line>
+                    <polyline points="12 19 5 12 12 5"></polyline>
+                </svg>
+                Back
+            </a>
+        </div>
+    </div>
+
+</div>
+
+{% endblock %}

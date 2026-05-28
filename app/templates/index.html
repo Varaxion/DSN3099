@@ -1,0 +1,398 @@
+{% extends 'base.html' %}
+
+{% block title %}Sahay - A Hub for Disaster Resilience &amp; Emergency Assistance{% endblock %}
+{% block metaDescription %}Sahay is a comprehensive web portal for disaster resilience, emergency contacts, standard operating procedures, ARIMA flood predictions, CNN rainfall forecasting, and live AJAX-driven blood bank locator.{% endblock %}
+
+{% block content %}
+
+<!-- Custom Homepage Styles to Perfect Layout Cohesion -->
+<style>
+    /* Hero animations */
+    .fade-in {
+        opacity: 0;
+        animation: fadeInAnimation 0.8s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+    }
+    .fade-in-delay-1 { animation-delay: 0.15s; }
+    .fade-in-delay-2 { animation-delay: 0.3s; }
+    .fade-in-delay-3 { animation-delay: 0.45s; }
+
+    @keyframes fadeInAnimation {
+        from { opacity: 0; transform: translateY(15px); }
+        to { opacity: 1; transform: translateY(0); }
+    }
+
+    /* Extra gradient and icon colors for homepage cards */
+    .feature-icon-red { background: linear-gradient(135deg, rgba(239,68,68,0.2), rgba(239,68,68,0.04)); }
+    .feature-icon-emerald { background: linear-gradient(135deg, rgba(16,185,129,0.2), rgba(16,185,129,0.04)); }
+    .feature-icon-amber { background: linear-gradient(135deg, rgba(245,158,11,0.2), rgba(245,158,11,0.04)); }
+    .feature-icon-rose { background: linear-gradient(135deg, rgba(244,63,94,0.2), rgba(244,63,94,0.04)); }
+
+    .btn-primary-red {
+        background: linear-gradient(135deg, #ef4444, #f43f5e);
+        color: white;
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        box-shadow: 0 4px 20px rgba(239, 68, 68, 0.3);
+    }
+    .btn-primary-red:hover {
+        box-shadow: 0 12px 40px rgba(239, 68, 68, 0.5);
+        border-color: rgba(255, 255, 255, 0.2);
+    }
+    .btn-primary-red:hover svg { transform: translateX(4px); }
+
+    .btn-primary-emerald {
+        background: linear-gradient(135deg, #10b981, #059669);
+        color: white;
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        box-shadow: 0 4px 20px rgba(16, 185, 129, 0.3);
+    }
+    .btn-primary-emerald:hover {
+        box-shadow: 0 12px 40px rgba(16, 185, 129, 0.5);
+        border-color: rgba(255, 255, 255, 0.2);
+    }
+    .btn-primary-emerald:hover svg { transform: translateX(4px); }
+
+    .btn-primary-amber {
+        background: linear-gradient(135deg, #f59e0b, #d97706);
+        color: white;
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        box-shadow: 0 4px 20px rgba(245, 158, 11, 0.3);
+    }
+    .btn-primary-amber:hover {
+        box-shadow: 0 12px 40px rgba(245, 158, 11, 0.5);
+        border-color: rgba(255, 255, 255, 0.2);
+    }
+    .btn-primary-amber:hover svg { transform: translateX(4px); }
+
+    .btn-primary-rose {
+        background: linear-gradient(135deg, #f43f5e, #e11d48);
+        color: white;
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        box-shadow: 0 4px 20px rgba(244, 63, 94, 0.3);
+    }
+    .btn-primary-rose:hover {
+        box-shadow: 0 12px 40px rgba(244, 63, 94, 0.5);
+        border-color: rgba(255, 255, 255, 0.2);
+    }
+    .btn-primary-rose:hover svg { transform: translateY(-2px); }
+
+    /* Interactive modal overlay for Reporting */
+    .modal-overlay {
+        position: fixed;
+        inset: 0;
+        background: rgba(10, 14, 26, 0.75);
+        backdrop-filter: blur(12px);
+        -webkit-backdrop-filter: blur(12px);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        z-index: 10000;
+        opacity: 0;
+        pointer-events: none;
+        transition: opacity 0.35s ease;
+        padding: 24px;
+    }
+    .modal-overlay.active {
+        opacity: 1;
+        pointer-events: auto;
+    }
+    .modal-card {
+        background: rgba(13, 20, 36, 0.9);
+        border: 1px solid rgba(255, 255, 255, 0.12);
+        border-radius: var(--radius-lg);
+        padding: 36px;
+        width: 100%;
+        max-width: 580px;
+        box-shadow: var(--shadow-lg);
+        transform: scale(0.92);
+        transition: transform 0.35s cubic-bezier(0.34, 1.56, 0.64, 1);
+        text-align: left;
+    }
+    .modal-overlay.active .modal-card {
+        transform: scale(1);
+    }
+    .modal-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 24px;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+        padding-bottom: 12px;
+    }
+    .modal-header h2 {
+        margin: 0;
+        color: #f43f5e;
+        font-size: 20px;
+        font-weight: 700;
+        letter-spacing: -0.5px;
+    }
+    .modal-close {
+        background: none;
+        border: none;
+        color: var(--text-secondary);
+        font-size: 24px;
+        cursor: pointer;
+        transition: var(--transition);
+        line-height: 1;
+    }
+    .modal-close:hover {
+        color: var(--danger);
+    }
+    .modal-submit-btn {
+        background: linear-gradient(135deg, #f43f5e, #e11d48);
+        border: none;
+        color: #fff;
+        font-weight: bold;
+        padding: 12px 24px;
+        border-radius: var(--radius-sm);
+        cursor: pointer;
+        width: 100%;
+        transition: var(--transition);
+        font-family: 'Outfit', sans-serif;
+        font-size: 15px;
+    }
+    .modal-submit-btn:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 6px 20px rgba(244, 63, 94, 0.4);
+    }
+    .modal-spinner {
+        display: none;
+        text-align: center;
+        padding: 30px 0;
+    }
+    .spinner-ring {
+        width: 44px;
+        height: 44px;
+        border: 4px solid rgba(255,255,255,0.06);
+        border-top: 4px solid #f43f5e;
+        border-radius: 50%;
+        animation: spin 1s linear infinite;
+        margin: 0 auto 16px;
+    }
+    @keyframes spin {
+        0% { transform: rotate(0deg); }
+        100% { transform: rotate(360deg); }
+    }
+</style>
+
+<!-- Hero Section -->
+<section class="hero" id="heroSection">
+    <div class="hero-content">
+        <div class="hero-badge fade-in" id="heroBadge">
+            <span class="dot"></span>
+            A Hub for Disaster Resilience &amp; Emergency Assistance
+        </div>
+        <h1 class="hero-title fade-in fade-in-delay-1" id="heroTitle">SAHAY</h1>
+        <p class="hero-subtitle fade-in fade-in-delay-1">Disaster Resilience &amp; Preparedness Hub</p>
+        <p class="hero-description fade-in fade-in-delay-2">
+            Consolidating advanced hydrology forecasting, nationwide medical blood supply locators, 
+            direct emergency support networks, standard operating procedures, and experimental hazard 
+            reporting in a unified community portal built for civic safety.
+        </p>
+        <div class="hero-actions fade-in fade-in-delay-3">
+            <a href="#featuresGrid" class="btn btn-primary" id="heroExploreBtn">
+                Explore Portal
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                    <line x1="5" y1="12" x2="19" y2="12"></line>
+                    <polyline points="12 5 19 12 12 19"></polyline>
+                </svg>
+            </a>
+            <a href="{{ url_for('main.reportIncident') }}" class="btn btn-secondary" id="heroReportBtn">
+                Report Active Hazard
+                <span style="color: #f43f5e; margin-left: 4px;">●</span>
+            </a>
+        </div>
+    </div>
+</section>
+
+<!-- 6-Card Features Grid -->
+<div class="features-grid" id="featuresGrid" style="margin-bottom: 40px;">
+    
+    <!-- 1. Flood Prediction Card -->
+    <article class="glass-card feature-card fade-in" id="featureFlood">
+        <div class="feature-icon feature-icon-blue">
+            <svg viewBox="0 0 24 24" fill="none" stroke="url(#blue-grad)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="width:40px; height:40px;">
+                <defs>
+                    <linearGradient id="blue-grad" x1="0%" y1="0%" x2="100%" y2="100%">
+                        <stop offset="0%" stop-color="#3b82f6" />
+                        <stop offset="100%" stop-color="#06b6d4" />
+                    </linearGradient>
+                </defs>
+                <path d="M2 6c.6.5 1.2 1 2.5 1C7 7 7 5 9.5 5c2.5 0 2.5 2 5 2 2.5 0 2.5-2 5-2 1.3 0 1.9.5 2.5 1" />
+                <path d="M2 12c.6.5 1.2 1 2.5 1 2.5 0 2.5-2 5-2 2.5 0 2.5 2 5 2 2.5 0 2.5-2 5-2 1.3 0 1.9.5 2.5 1" />
+                <path d="M2 18c.6.5 1.2 1 2.5 1 2.5 0 2.5-2 5-2 2.5 0 2.5 2 5 2 2.5 0 2.5-2 5-2 1.3 0 1.9.5 2.5 1" />
+            </svg>
+        </div>
+        <h2 class="feature-title">Flood Prediction</h2>
+        <p class="feature-description">
+            Predict river water levels and 30-day discharge trends using ARIMA forecasting 
+            and SMOTE-balanced LDA classification for five major Indian river catchments.
+        </p>
+        <a href="{{ url_for('main.floodForecasting') }}" class="btn btn-primary" id="featureFloodBtn" style="width: 100%;">
+            Forecast Rivers
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                <line x1="5" y1="12" x2="19" y2="12"></line>
+                <polyline points="12 5 19 12 12 19"></polyline>
+            </svg>
+        </a>
+    </article>
+
+    <!-- 2. Rainfall Analysis Card -->
+    <article class="glass-card feature-card fade-in fade-in-delay-1" id="featureRainfall">
+        <div class="feature-icon feature-icon-purple">
+            <svg viewBox="0 0 24 24" fill="none" stroke="url(#purple-grad)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="width:40px; height:40px;">
+                <defs>
+                    <linearGradient id="purple-grad" x1="0%" y1="0%" x2="100%" y2="100%">
+                        <stop offset="0%" stop-color="#8b5cf6" />
+                        <stop offset="100%" stop-color="#ec4899" />
+                    </linearGradient>
+                </defs>
+                <path d="M20 17.58A5 5 0 0 0 18 8h-1.26A8 8 0 1 0 4 16.25" />
+                <line x1="8" y1="16" x2="8" y2="22" />
+                <line x1="12" y1="18" x2="12" y2="22" />
+                <line x1="16" y1="16" x2="16" y2="22" />
+            </svg>
+        </div>
+        <h2 class="feature-title">Rainfall Analysis</h2>
+        <p class="feature-description">
+            Forecast monthly rainfall trends across Indian subdivisions. Toggles between 
+            Deep 1D-CNN neural network weights and classic Random Forest models.
+        </p>
+        <a href="{{ url_for('main.rainfallAnalysis') }}" class="btn btn-primary-purple" id="featureRainfallBtn" style="width: 100%;">
+            Analyze Rainfall
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                <line x1="5" y1="12" x2="19" y2="12"></line>
+                <polyline points="12 5 19 12 12 19"></polyline>
+            </svg>
+        </a>
+    </article>
+
+    <!-- 3. Blood Portal Card -->
+    <article class="glass-card feature-card fade-in fade-in-delay-2" id="featureBlood">
+        <div class="feature-icon feature-icon-red">
+            <svg viewBox="0 0 24 24" fill="none" stroke="url(#red-grad)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="width:40px; height:40px;">
+                <defs>
+                    <linearGradient id="red-grad" x1="0%" y1="0%" x2="100%" y2="100%">
+                        <stop offset="0%" stop-color="#ef4444" />
+                        <stop offset="100%" stop-color="#f43f5e" />
+                    </linearGradient>
+                </defs>
+                <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z" />
+            </svg>
+        </div>
+        <h2 class="feature-title">Blood Locator</h2>
+        <p class="feature-description">
+            Dynamically query 8,000+ government-approved Indian blood banks by state and city 
+            with live autocomplete suggestions, copy details, and call triggers.
+        </p>
+        <a href="{{ url_for('main.bloodPortal') }}" class="btn btn-primary-red" id="featureBloodBtn" style="width: 100%;">
+            Locate Banks
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                <line x1="5" y1="12" x2="19" y2="12"></line>
+                <polyline points="12 5 19 12 12 19"></polyline>
+            </svg>
+        </a>
+    </article>
+
+    <!-- 4. SOP disaster guides Card -->
+    <article class="glass-card feature-card fade-in" id="featureSop">
+        <div class="feature-icon feature-icon-emerald">
+            <svg viewBox="0 0 24 24" fill="none" stroke="url(#emerald-grad)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="width:40px; height:40px;">
+                <defs>
+                    <linearGradient id="emerald-grad" x1="0%" y1="0%" x2="100%" y2="100%">
+                        <stop offset="0%" stop-color="#10b981" />
+                        <stop offset="100%" stop-color="#059669" />
+                    </linearGradient>
+                </defs>
+                <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z" />
+                <polyline points="14 2 14 8 20 8" />
+                <line x1="16" y1="13" x2="8" y2="13" />
+                <line x1="16" y1="17" x2="8" y2="17" />
+                <polyline points="10 9 9 9 8 9" />
+            </svg>
+        </div>
+        <h2 class="feature-title">Actionable SOPs</h2>
+        <p class="feature-description">
+            Empower yourself and your community with structured step-by-step action guidelines 
+            (Do's and Don'ts) for high-alert natural disaster scenarios.
+        </p>
+        <a href="{{ url_for('main.sopGuidelines') }}" class="btn btn-primary-emerald" id="featureSopBtn" style="width: 100%;">
+            View Checklist
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                <line x1="5" y1="12" x2="19" y2="12"></line>
+                <polyline points="12 5 19 12 12 19"></polyline>
+            </svg>
+        </a>
+    </article>
+
+    <!-- 5. Emergency Contacts Card -->
+    <article class="glass-card feature-card fade-in fade-in-delay-1" id="featureContacts">
+        <div class="feature-icon feature-icon-amber">
+            <svg viewBox="0 0 24 24" fill="none" stroke="url(#amber-grad)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="width:40px; height:40px;">
+                <defs>
+                    <linearGradient id="amber-grad" x1="0%" y1="0%" x2="100%" y2="100%">
+                        <stop offset="0%" stop-color="#f59e0b" />
+                        <stop offset="100%" stop-color="#d97706" />
+                    </linearGradient>
+                </defs>
+                <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z" />
+            </svg>
+        </div>
+        <h2 class="feature-title">Emergency contacts</h2>
+        <p class="feature-description">
+            Access critical public safety helplines, direct telephone emergency action blocks, 
+            and direct hospital numbers instantly in times of crisis.
+        </p>
+        <a href="{{ url_for('main.emergencyContacts') }}" class="btn btn-primary-amber" id="featureContactsBtn" style="width: 100%;">
+            Get Helplines
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                <line x1="5" y1="12" x2="19" y2="12"></line>
+                <polyline points="12 5 19 12 12 19"></polyline>
+            </svg>
+        </a>
+    </article>
+
+    <!-- 6. Incident Reporting Card -->
+    <article class="glass-card feature-card fade-in fade-in-delay-2" id="featureReport">
+        <div class="feature-icon feature-icon-rose">
+            <svg viewBox="0 0 24 24" fill="none" stroke="url(#rose-grad)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="width:40px; height:40px;">
+                <defs>
+                    <linearGradient id="rose-grad" x1="0%" y1="0%" x2="100%" y2="100%">
+                        <stop offset="0%" stop-color="#f43f5e" />
+                        <stop offset="100%" stop-color="#e11d48" />
+                    </linearGradient>
+                </defs>
+                <path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z" />
+                <line x1="12" y1="9" x2="12" y2="13" />
+                <line x1="12" y1="17" x2="12.01" y2="17" />
+            </svg>
+        </div>
+        <h2 class="feature-title">Incident Reporting</h2>
+        <p class="feature-description">
+            [PROTOTYPE] Experimental mockup tool to log fires, floods, or landslides. 
+            Simulates dynamic coordinate dispatches without deploying real responders.
+        </p>
+        <a href="{{ url_for('main.reportIncident') }}" class="btn btn-primary-rose" id="featureReportBtnCard" style="width: 100%;">
+            Launch Logger
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M15 3h6v6" />
+                <path d="M10 14L21 3" />
+                <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6" />
+            </svg>
+        </a>
+    </article>
+
+</div>
+
+<!-- Info Strip Section -->
+<div class="info-strip" id="infoStrip">
+    <div class="glass-card info-strip-card">
+        <p>
+            In an era of increasing weather volatility, having a singular repository for public resilience 
+            makes a decisive difference. Sahay brings analytical models and critical civic utilities under one 
+            cohesive, beautifully structured glassmorphic hub to help you, your neighbors, and local responders 
+            prepare, analyze, and act rapidly in crisis situations.
+        </p>
+    </div>
+</div>
+
+{% endblock %}

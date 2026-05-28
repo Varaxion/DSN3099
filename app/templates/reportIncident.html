@@ -1,0 +1,677 @@
+{% extends 'base.html' %}
+
+{% block title %}Report Active Hazard – Sahay{% endblock %}
+{% block metaDescription %}Report a natural hazard or safety emergency in the Sahay prototype dispatcher simulator. Log fires, floods, landslides, and other active hazard incidents.{% endblock %}
+
+{% block extraHead %}
+<style>
+    /* ── Ambient orb overrides: orange-red danger theme ── */
+    .orb-1 {
+        background: radial-gradient(circle, #ff4500, transparent 70%) !important;
+        top: -100px; left: -150px; opacity: 0.28;
+    }
+    .orb-2 {
+        background: radial-gradient(circle, #ff2a6d, transparent 70%) !important;
+        bottom: -100px; right: -150px; opacity: 0.26;
+    }
+    .orb-3 {
+        background: radial-gradient(circle, #ffb900, transparent 70%) !important;
+        opacity: 0.14;
+    }
+
+    /* ── Page layout ── */
+    .incident-layout {
+        max-width: 1100px;
+        margin: 0 auto;
+        padding: 0 24px 100px;
+        display: grid;
+        grid-template-columns: 1fr 380px;
+        gap: 28px;
+        align-items: start;
+    }
+    @media (max-width: 900px) {
+        .incident-layout { grid-template-columns: 1fr; }
+        .incident-sidebar { order: -1; }
+    }
+
+    /* ── Prototype warning banner ── */
+    .proto-banner {
+        background: linear-gradient(135deg, rgba(255,69,0,0.12), rgba(255,42,109,0.08));
+        border: 1px solid rgba(255,69,0,0.35);
+        border-left: 4px solid #ff4500;
+        border-radius: var(--radius-md);
+        padding: 18px 20px;
+        display: flex;
+        gap: 14px;
+        align-items: flex-start;
+        margin-bottom: 30px;
+    }
+    .proto-banner-icon {
+        font-size: 22px;
+        flex-shrink: 0;
+        line-height: 1;
+        margin-top: 2px;
+    }
+    .proto-banner-text {
+        font-size: 13.5px;
+        color: #ffcba0;
+        line-height: 1.65;
+    }
+    .proto-banner-text strong {
+        color: #ff7043;
+        display: block;
+        margin-bottom: 4px;
+        font-size: 12px;
+        letter-spacing: 1px;
+        text-transform: uppercase;
+    }
+
+    /* ── Hazard type card grid ── */
+    .hazard-grid {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 12px;
+        margin-bottom: 4px;
+    }
+    @media (max-width: 600px) {
+        .hazard-grid { grid-template-columns: repeat(2, 1fr); }
+    }
+    .hazard-card {
+        border: 1px solid var(--glass-border);
+        border-radius: var(--radius-md);
+        padding: 16px 12px;
+        text-align: center;
+        cursor: pointer;
+        transition: var(--transition);
+        background: rgba(255,255,255,0.03);
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 8px;
+        user-select: none;
+        position: relative;
+    }
+    .hazard-card:hover {
+        background: rgba(255,255,255,0.07);
+        border-color: var(--glass-border-hover);
+        transform: translateY(-2px);
+    }
+    .hazard-card.selected {
+        background: rgba(244,63,94,0.1);
+        border-color: #f43f5e;
+        box-shadow: 0 0 20px rgba(244,63,94,0.15);
+    }
+    .hazard-card .hcard-icon {
+        font-size: 28px;
+        line-height: 1;
+    }
+    .hazard-card .hcard-label {
+        font-size: 12px;
+        font-weight: 600;
+        color: var(--text-secondary);
+        letter-spacing: 0.3px;
+    }
+    .hazard-card.selected .hcard-label { color: #fca5a5; }
+    .hazard-card .hcard-check {
+        position: absolute;
+        top: 6px; right: 6px;
+        width: 16px; height: 16px;
+        border-radius: 50%;
+        background: #f43f5e;
+        display: none;
+        align-items: center;
+        justify-content: center;
+    }
+    .hazard-card.selected .hcard-check { display: flex; }
+    .hazard-card .hcard-check svg { width: 10px; height: 10px; }
+
+    /* ── Severity selector ── */
+    .severity-row {
+        display: grid;
+        grid-template-columns: repeat(4, 1fr);
+        gap: 10px;
+    }
+    .sev-btn {
+        border: 1px solid var(--glass-border);
+        border-radius: var(--radius-sm);
+        padding: 10px 6px;
+        text-align: center;
+        cursor: pointer;
+        transition: var(--transition);
+        background: rgba(255,255,255,0.03);
+        font-size: 12px;
+        font-weight: 700;
+        color: var(--text-secondary);
+        letter-spacing: 0.5px;
+        text-transform: uppercase;
+    }
+    .sev-btn:hover { background: rgba(255,255,255,0.07); }
+    .sev-btn.selected-low    { background: rgba(5,255,197,0.1);  border-color: #05ffc5; color: #05ffc5; }
+    .sev-btn.selected-medium { background: rgba(245,158,11,0.1); border-color: #f59e0b; color: #f59e0b; }
+    .sev-btn.selected-high   { background: rgba(239,68,68,0.1);  border-color: #ef4444; color: #ef4444; }
+    .sev-btn.selected-critical { background: rgba(244,63,94,0.15); border-color: #f43f5e; color: #f43f5e;
+        box-shadow: 0 0 14px rgba(244,63,94,0.2); }
+
+    /* ── Submit button ── */
+    .dispatch-btn {
+        width: 100%;
+        padding: 15px 24px;
+        border-radius: var(--radius-md);
+        background: linear-gradient(135deg, #f43f5e, #e11d48);
+        border: none;
+        color: white;
+        font-weight: 800;
+        font-size: 15.5px;
+        font-family: 'Outfit', sans-serif;
+        cursor: pointer;
+        transition: var(--transition);
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        gap: 10px;
+        letter-spacing: 0.3px;
+        box-shadow: 0 6px 28px rgba(244,63,94,0.35);
+        margin-top: 6px;
+        position: relative;
+        overflow: hidden;
+    }
+    .dispatch-btn::before {
+        content: '';
+        position: absolute;
+        inset: 0;
+        background: linear-gradient(135deg, transparent 40%, rgba(255,255,255,0.08));
+        opacity: 0;
+        transition: opacity 0.3s;
+    }
+    .dispatch-btn:hover {
+        box-shadow: 0 12px 40px rgba(244,63,94,0.55);
+        transform: translateY(-2px);
+    }
+    .dispatch-btn:hover::before { opacity: 1; }
+    .dispatch-btn:active { transform: translateY(0); }
+    .dispatch-btn svg { width: 20px; height: 20px; flex-shrink: 0; }
+
+    /* ── Spinner ── */
+    .dispatch-spinner {
+        display: none;
+        flex-direction: column;
+        align-items: center;
+        padding: 50px 0 30px;
+        gap: 20px;
+        text-align: center;
+    }
+    .ring-loader {
+        width: 56px; height: 56px;
+        border: 4px solid rgba(244,63,94,0.12);
+        border-top: 4px solid #f43f5e;
+        border-radius: 50%;
+        animation: spin 0.9s linear infinite;
+    }
+    @keyframes spin { to { transform: rotate(360deg); } }
+    .dispatch-log {
+        font-size: 12px;
+        font-family: 'Courier New', monospace;
+        color: #f43f5e;
+        text-align: left;
+        background: rgba(0,0,0,0.3);
+        border: 1px solid rgba(244,63,94,0.2);
+        border-radius: var(--radius-sm);
+        padding: 14px 16px;
+        width: 100%;
+        min-height: 120px;
+        line-height: 1.9;
+    }
+
+    /* ── Success state ── */
+    .dispatch-success {
+        display: none;
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+        padding: 30px 0 10px;
+        gap: 16px;
+    }
+    .success-ring {
+        width: 80px; height: 80px;
+        border-radius: 50%;
+        background: rgba(5,255,197,0.1);
+        border: 2px solid rgba(5,255,197,0.3);
+        display: flex; align-items: center; justify-content: center;
+        animation: pulseRing 2s ease-in-out infinite;
+    }
+    @keyframes pulseRing {
+        0%, 100% { box-shadow: 0 0 0 0 rgba(5,255,197,0.25); }
+        50%       { box-shadow: 0 0 0 16px rgba(5,255,197,0); }
+    }
+    .success-ring svg { width: 38px; height: 38px; }
+    .incident-id {
+        font-family: 'Courier New', monospace;
+        font-size: 13px;
+        color: var(--text-muted);
+        background: rgba(255,255,255,0.04);
+        padding: 8px 16px;
+        border-radius: var(--radius-sm);
+        border: 1px solid var(--glass-border);
+        letter-spacing: 1px;
+    }
+
+    /* ── Sidebar ── */
+    .sidebar-section {
+        margin-bottom: 20px;
+    }
+    .sidebar-section:last-child { margin-bottom: 0; }
+    .sidebar-label {
+        font-size: 11px;
+        font-weight: 700;
+        letter-spacing: 1.2px;
+        text-transform: uppercase;
+        color: var(--text-muted);
+        margin-bottom: 12px;
+    }
+    .status-row {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        font-size: 13.5px;
+        color: var(--text-secondary);
+        padding: 10px 0;
+        border-bottom: 1px solid rgba(255,255,255,0.05);
+    }
+    .status-row:last-child { border-bottom: none; }
+    .status-dot-sm {
+        width: 8px; height: 8px;
+        border-radius: 50%;
+        flex-shrink: 0;
+    }
+    .dot-green  { background: #05ffc5; box-shadow: 0 0 6px rgba(5,255,197,0.6); }
+    .dot-orange { background: #f59e0b; box-shadow: 0 0 6px rgba(245,158,11,0.6); }
+    .dot-red    { background: #f43f5e; box-shadow: 0 0 6px rgba(244,63,94,0.6); }
+
+    .helpline-chip {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        background: rgba(255,255,255,0.03);
+        border: 1px solid var(--glass-border);
+        border-radius: var(--radius-sm);
+        padding: 10px 14px;
+        font-size: 13.5px;
+        margin-bottom: 8px;
+        transition: var(--transition);
+    }
+    .helpline-chip:hover { background: rgba(255,255,255,0.06); border-color: var(--glass-border-hover); }
+    .helpline-chip a {
+        font-weight: 700;
+        color: #f43f5e;
+        text-decoration: none;
+        font-size: 15px;
+    }
+    .helpline-chip span { color: var(--text-secondary); font-size: 12.5px; }
+</style>
+{% endblock %}
+
+{% block content %}
+
+<div class="page-header" id="incidentHeader">
+    <nav class="breadcrumb" aria-label="Breadcrumb">
+        <a href="{{ url_for('main.index') }}">Sahay</a>
+        <span>/</span>
+        <span>Incident Reporting</span>
+    </nav>
+    <div style="margin: 0 auto 18px; display: inline-flex; align-items: center; justify-content: center; width: 64px; height: 64px; border-radius: var(--radius-md); background: linear-gradient(135deg, rgba(244,63,94,0.2), rgba(244,63,94,0.04)); border: 1px solid rgba(244,63,94,0.2); box-shadow: 0 8px 32px rgba(244,63,94,0.2);">
+        <svg viewBox="0 0 24 24" fill="none" stroke="url(#rose-grad-hdr)" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="width:34px; height:34px;">
+            <defs>
+                <linearGradient id="rose-grad-hdr" x1="0%" y1="0%" x2="100%" y2="100%">
+                    <stop offset="0%" stop-color="#f43f5e"/>
+                    <stop offset="100%" stop-color="#ff4500"/>
+                </linearGradient>
+            </defs>
+            <path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/>
+            <line x1="12" y1="9" x2="12" y2="13"/>
+            <line x1="12" y1="17" x2="12.01" y2="17"/>
+        </svg>
+    </div>
+    <h1 class="page-title">Incident Reporting Portal</h1>
+    <p class="page-subtitle">Log active hazards and simulated emergency coordinate dispatches</p>
+</div>
+
+<div class="incident-layout" id="incidentLayout">
+
+    <!-- ── LEFT: Main reporting form ── -->
+    <div class="glass-card fade-in" style="padding: 36px;" id="mainFormCard">
+
+        <!-- Prototype Warning Banner -->
+        <div class="proto-banner">
+            <div class="proto-banner-icon">⚠️</div>
+            <div class="proto-banner-text">
+                <strong>Prototype Simulation Notice</strong>
+                This Incident Reporting module is an experimental mock simulation. Rescue dispatches and coordinates are generated locally for demonstration purposes only and do <em>not</em> alert real responders, government agencies, or NDRF units. All other Sahay modules are fully operational.
+            </div>
+        </div>
+
+        <!-- Form -->
+        <div id="formContainer">
+            <form id="incidentPageForm" novalidate>
+
+                <!-- Reporter name + contact number in a row -->
+                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 18px;">
+                    <div class="form-group" style="margin-bottom: 0;">
+                        <label for="reporterName">Reporter Name</label>
+                        <input type="text" class="form-control" id="reporterName"
+                               placeholder="Your full name..." required>
+                    </div>
+                    <div class="form-group" style="margin-bottom: 0;">
+                        <label for="contactNumber">Contact Number</label>
+                        <input type="tel" class="form-control" id="contactNumber"
+                               placeholder="+91 98765 43210..." required>
+                    </div>
+                </div>
+
+                <!-- Hazard type cards -->
+                <div class="form-group" style="margin-top: 22px;">
+                    <label style="margin-bottom: 14px; display: block;">Type of Hazard</label>
+                    <div class="hazard-grid" id="hazardGrid">
+                        <div class="hazard-card" data-value="Flood">
+                            <div class="hcard-check">
+                                <svg viewBox="0 0 12 12" fill="none" stroke="white" stroke-width="2.5" stroke-linecap="round">
+                                    <polyline points="2,6 5,9 10,3"/>
+                                </svg>
+                            </div>
+                            <span class="hcard-icon">🌊</span>
+                            <span class="hcard-label">Flood</span>
+                        </div>
+                        <div class="hazard-card" data-value="Fire">
+                            <div class="hcard-check">
+                                <svg viewBox="0 0 12 12" fill="none" stroke="white" stroke-width="2.5" stroke-linecap="round">
+                                    <polyline points="2,6 5,9 10,3"/>
+                                </svg>
+                            </div>
+                            <span class="hcard-icon">🔥</span>
+                            <span class="hcard-label">Wildfire</span>
+                        </div>
+                        <div class="hazard-card" data-value="Earthquake">
+                            <div class="hcard-check">
+                                <svg viewBox="0 0 12 12" fill="none" stroke="white" stroke-width="2.5" stroke-linecap="round">
+                                    <polyline points="2,6 5,9 10,3"/>
+                                </svg>
+                            </div>
+                            <span class="hcard-icon">🌋</span>
+                            <span class="hcard-label">Earthquake</span>
+                        </div>
+                        <div class="hazard-card" data-value="Cyclone">
+                            <div class="hcard-check">
+                                <svg viewBox="0 0 12 12" fill="none" stroke="white" stroke-width="2.5" stroke-linecap="round">
+                                    <polyline points="2,6 5,9 10,3"/>
+                                </svg>
+                            </div>
+                            <span class="hcard-icon">🌀</span>
+                            <span class="hcard-label">Cyclone</span>
+                        </div>
+                        <div class="hazard-card" data-value="Landslide">
+                            <div class="hcard-check">
+                                <svg viewBox="0 0 12 12" fill="none" stroke="white" stroke-width="2.5" stroke-linecap="round">
+                                    <polyline points="2,6 5,9 10,3"/>
+                                </svg>
+                            </div>
+                            <span class="hcard-icon">⛰️</span>
+                            <span class="hcard-label">Landslide</span>
+                        </div>
+                        <div class="hazard-card" data-value="Other">
+                            <div class="hcard-check">
+                                <svg viewBox="0 0 12 12" fill="none" stroke="white" stroke-width="2.5" stroke-linecap="round">
+                                    <polyline points="2,6 5,9 10,3"/>
+                                </svg>
+                            </div>
+                            <span class="hcard-icon">⚠️</span>
+                            <span class="hcard-label">Other</span>
+                        </div>
+                    </div>
+                    <input type="hidden" id="selectedHazard" required>
+                </div>
+
+                <!-- Severity level -->
+                <div class="form-group" style="margin-top: 22px;">
+                    <label style="margin-bottom: 14px; display: block;">Severity Level</label>
+                    <div class="severity-row" id="severityRow">
+                        <div class="sev-btn" data-sev="Low">🟢 Low</div>
+                        <div class="sev-btn" data-sev="Medium">🟡 Medium</div>
+                        <div class="sev-btn" data-sev="High">🔴 High</div>
+                        <div class="sev-btn" data-sev="Critical">🚨 Critical</div>
+                    </div>
+                    <input type="hidden" id="selectedSeverity" required>
+                </div>
+
+                <!-- Location -->
+                <div class="form-group" style="margin-top: 22px;">
+                    <label for="hazardLocation">Incident Location</label>
+                    <input type="text" class="form-control" id="hazardLocation"
+                           placeholder="Landmark, area, city, state..." required>
+                </div>
+
+                <!-- Description -->
+                <div class="form-group">
+                    <label for="hazardDetails">Situation Description</label>
+                    <textarea class="form-control" id="hazardDetails" rows="4"
+                              placeholder="Describe the emergency: casualties, stranded individuals, blocked roads, structural damage..."
+                              style="resize: vertical;" required></textarea>
+                </div>
+
+                <!-- Submit -->
+                <button type="submit" class="dispatch-btn" id="dispatchBtn">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                        <line x1="22" y1="2" x2="11" y2="13"/>
+                        <polygon points="22 2 15 22 11 13 2 9 22 2"/>
+                    </svg>
+                    Dispatch Prototype Log
+                </button>
+
+            </form>
+        </div>
+
+        <!-- Spinner / live dispatch log -->
+        <div class="dispatch-spinner" id="pageSpinner">
+            <div class="ring-loader"></div>
+            <p style="color: #f43f5e; font-weight: 700; font-size: 14px; letter-spacing: 0.5px; margin: 0;">
+                Transmitting Coordinates to Rescue Units...
+            </p>
+            <div class="dispatch-log" id="dispatchLog"></div>
+        </div>
+
+        <!-- Success state -->
+        <div class="dispatch-success" id="pageSuccess">
+            <div class="success-ring">
+                <svg viewBox="0 0 24 24" fill="none" stroke="#05ffc5" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                    <polyline points="20 6 9 17 4 12"/>
+                </svg>
+            </div>
+            <h3 style="color: white; font-size: 21px; font-weight: 800; margin: 0;">Simulation Logged</h3>
+            <p style="color: var(--text-secondary); font-size: 14px; line-height: 1.7; max-width: 440px; margin: 0;">
+                Your hazard report has been processed in the prototype system. As this is an experimental simulation, actual emergency responders and NDRF units are <strong>not</strong> dispatched.
+            </p>
+            <div class="incident-id" id="incidentIdDisplay">INCIDENT-ID: ---</div>
+            <div style="display: flex; gap: 12px; width: 100%; margin-top: 4px;">
+                <button onclick="resetForm()" class="btn btn-secondary" style="flex: 1; justify-content: center;">
+                    Report Another
+                </button>
+                <a href="{{ url_for('main.index') }}" class="btn btn-primary" style="flex: 1; justify-content: center;">
+                    Return Home
+                </a>
+            </div>
+        </div>
+
+    </div>
+
+    <!-- ── RIGHT: Sidebar ── -->
+    <div class="incident-sidebar fade-in fade-in-delay-1">
+
+        <!-- System Status -->
+        <div class="glass-card" style="padding: 26px; margin-bottom: 20px;">
+            <div class="sidebar-label">System Status</div>
+            <div class="status-row">
+                <span class="status-dot-sm dot-orange"></span>
+                <span>Incident Portal — Prototype Mode</span>
+            </div>
+            <div class="status-row">
+                <span class="status-dot-sm dot-green"></span>
+                <span>Flood Prediction — Operational</span>
+            </div>
+            <div class="status-row">
+                <span class="status-dot-sm dot-green"></span>
+                <span>Rainfall Analysis — Operational</span>
+            </div>
+            <div class="status-row">
+                <span class="status-dot-sm dot-green"></span>
+                <span>Blood Locator — Operational</span>
+            </div>
+            <div class="status-row">
+                <span class="status-dot-sm dot-green"></span>
+                <span>SOP Guidelines — Operational</span>
+            </div>
+        </div>
+
+        <!-- Emergency Helplines quick-dial -->
+        <div class="glass-card" style="padding: 26px; margin-bottom: 20px;">
+            <div class="sidebar-label">Real Emergency? Dial Now</div>
+            <div class="helpline-chip">
+                <span>Police</span>
+                <a href="tel:100">100</a>
+            </div>
+            <div class="helpline-chip">
+                <span>Ambulance</span>
+                <a href="tel:108">108</a>
+            </div>
+            <div class="helpline-chip">
+                <span>Fire Dept.</span>
+                <a href="tel:101">101</a>
+            </div>
+            <div class="helpline-chip">
+                <span>Unified Helpline</span>
+                <a href="tel:112">112</a>
+            </div>
+            <div class="helpline-chip">
+                <span>NDRF</span>
+                <a href="tel:9711077372" style="font-size: 12px; letter-spacing: -0.5px;">9711077372</a>
+            </div>
+        </div>
+
+        <!-- What happens next -->
+        <div class="glass-card" style="padding: 26px;">
+            <div class="sidebar-label">What Happens Next?</div>
+            <div style="display: flex; flex-direction: column; gap: 14px; margin-top: 4px;">
+                <div style="display: flex; gap: 12px; align-items: flex-start;">
+                    <div style="width: 28px; height: 28px; border-radius: 50%; background: rgba(244,63,94,0.12); border: 1px solid rgba(244,63,94,0.3); display: flex; align-items: center; justify-content: center; flex-shrink: 0; font-size: 12px; font-weight: 800; color: #f43f5e;">1</div>
+                    <p style="font-size: 13px; color: var(--text-secondary); line-height: 1.6; margin: 4px 0 0;">Your incident log is stored locally and assigned a simulation ID.</p>
+                </div>
+                <div style="display: flex; gap: 12px; align-items: flex-start;">
+                    <div style="width: 28px; height: 28px; border-radius: 50%; background: rgba(244,63,94,0.12); border: 1px solid rgba(244,63,94,0.3); display: flex; align-items: center; justify-content: center; flex-shrink: 0; font-size: 12px; font-weight: 800; color: #f43f5e;">2</div>
+                    <p style="font-size: 13px; color: var(--text-secondary); line-height: 1.6; margin: 4px 0 0;">Mock coordinates are computed from the entered location string.</p>
+                </div>
+                <div style="display: flex; gap: 12px; align-items: flex-start;">
+                    <div style="width: 28px; height: 28px; border-radius: 50%; background: rgba(244,63,94,0.12); border: 1px solid rgba(244,63,94,0.3); display: flex; align-items: center; justify-content: center; flex-shrink: 0; font-size: 12px; font-weight: 800; color: #f43f5e;">3</div>
+                    <p style="font-size: 13px; color: var(--text-secondary); line-height: 1.6; margin: 4px 0 0;">A dispatch simulation is rendered. No real agencies are alerted.</p>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+</div>
+
+{% endblock %}
+
+{% block extraScripts %}
+<script>
+    // ── Hazard card selector ──
+    const hazardCards = document.querySelectorAll('.hazard-card');
+    const selectedHazardInput = document.getElementById('selectedHazard');
+    hazardCards.forEach(card => {
+        card.addEventListener('click', () => {
+            hazardCards.forEach(c => c.classList.remove('selected'));
+            card.classList.add('selected');
+            selectedHazardInput.value = card.dataset.value;
+        });
+    });
+
+    // ── Severity selector ──
+    const sevBtns = document.querySelectorAll('.sev-btn');
+    const selectedSeverityInput = document.getElementById('selectedSeverity');
+    const sevClassMap = { Low: 'selected-low', Medium: 'selected-medium', High: 'selected-high', Critical: 'selected-critical' };
+    sevBtns.forEach(btn => {
+        btn.addEventListener('click', () => {
+            sevBtns.forEach(b => { b.className = 'sev-btn'; });
+            btn.classList.add(sevClassMap[btn.dataset.sev]);
+            selectedSeverityInput.value = btn.dataset.sev;
+        });
+    });
+
+    // ── Dispatch log lines ──
+    const logLines = [
+        '> Initialising incident relay node...',
+        '> Encoding geolocation hash...',
+        '> Contacting NDRF Coordination Layer [SIMULATED]',
+        '> Triangulating dispatch vector...',
+        '> Assigning nearest response unit [PROTOTYPE]',
+        '> Hazard severity validated.',
+        '> Dispatch coordinates locked.',
+        '> Simulation complete. Report logged locally.'
+    ];
+
+    function typeLogLines(container, lines, idx = 0) {
+        if (idx >= lines.length) return;
+        const line = document.createElement('div');
+        line.textContent = lines[idx];
+        container.appendChild(line);
+        container.scrollTop = container.scrollHeight;
+        setTimeout(() => typeLogLines(container, lines, idx + 1), 180);
+    }
+
+    function generateId() {
+        const ts = Date.now().toString(36).toUpperCase();
+        const rand = Math.random().toString(36).substr(2, 5).toUpperCase();
+        return `SAH-${ts}-${rand}`;
+    }
+
+    // ── Form submit ──
+    const incidentForm = document.getElementById('incidentPageForm');
+    const formContainer = document.getElementById('formContainer');
+    const pageSpinner = document.getElementById('pageSpinner');
+    const pageSuccess = document.getElementById('pageSuccess');
+    const dispatchLog = document.getElementById('dispatchLog');
+    const incidentIdDisplay = document.getElementById('incidentIdDisplay');
+
+    incidentForm.addEventListener('submit', (e) => {
+        e.preventDefault();
+
+        if (!selectedHazardInput.value) {
+            alert('Please select a hazard type.');
+            return;
+        }
+        if (!selectedSeverityInput.value) {
+            alert('Please select a severity level.');
+            return;
+        }
+
+        formContainer.style.display = 'none';
+        pageSpinner.style.display = 'flex';
+        dispatchLog.innerHTML = '';
+        typeLogLines(dispatchLog, logLines);
+
+        setTimeout(() => {
+            pageSpinner.style.display = 'none';
+            pageSuccess.style.display = 'flex';
+            const id = generateId();
+            incidentIdDisplay.textContent = `INCIDENT-ID: ${id}`;
+        }, logLines.length * 180 + 400);
+    });
+
+    function resetForm() {
+        formContainer.style.display = 'block';
+        pageSuccess.style.display = 'none';
+        incidentForm.reset();
+        hazardCards.forEach(c => c.classList.remove('selected'));
+        sevBtns.forEach(b => b.className = 'sev-btn');
+        selectedHazardInput.value = '';
+        selectedSeverityInput.value = '';
+    }
+</script>
+{% endblock %}
