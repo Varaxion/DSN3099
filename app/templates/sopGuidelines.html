@@ -227,6 +227,12 @@
         </button>
     </div>
 
+    <!-- Print / Export controls -->
+    <div style="display:flex;gap:12px;justify-content:center;margin-bottom:8px;">
+        <button id="printSOP" class="sop-tab-btn" aria-label="Print SOPs">🖨️ Print</button>
+        <button id="exportSOP" class="sop-tab-btn" aria-label="Export SOPs as text">📄 Export</button>
+    </div>
+
     <!-- 1. Flood Section (Active by Default) -->
     <article class="glass-card disaster-section active" id="sopFlood">
         <div class="disaster-header">
@@ -240,16 +246,22 @@
             <h2>Flood Guidelines</h2>
         </div>
         <div class="dos-donts-grid">
-            <div class="checklist-card checklist-card-dos">
-                <h3>Recommended Actions (Do's)</h3>
+            <div class="checklist-card checklist-card-dos" aria-expanded="true">
+                <h3>
+                    <button class="collapse-toggle" aria-label="Toggle Do's for Floods">▾</button>
+                    Recommended Actions (Do's)
+                </h3>
                 <ul class="checklist-list">
                     <li class="checklist-item"><strong>Higher Ground:</strong> Relocate to elevated surfaces or upper building levels.</li>
                     <li class="checklist-item"><strong>Follow Evacuations:</strong> Obey immediate local responder evacuation instructions.</li>
                     <li class="checklist-item"><strong>Turn Off Utilities:</strong> Disconnect main electrical switches and gas valves.</li>
                 </ul>
             </div>
-            <div class="checklist-card checklist-card-donts">
-                <h3>Actions to Avoid (Don'ts)</h3>
+            <div class="checklist-card checklist-card-donts" aria-expanded="true">
+                <h3>
+                    <button class="collapse-toggle" aria-label="Toggle Don'ts for Floods">▾</button>
+                    Actions to Avoid (Don'ts)
+                </h3>
                 <ul class="checklist-list">
                     <li class="checklist-item"><strong>Do Not Walk Through Water:</strong> Flowing water as shallow as 6 inches can knock you over.</li>
                     <li class="checklist-item"><strong>Avoid Flooded Driving:</strong> Never drive in flooded areas. Turn around, don't drown!</li>
@@ -473,6 +485,59 @@
             const target = t.getAttribute('data-tab');
             document.getElementById(target).classList.add('active');
         });
+    });
+</script>
+<script>
+    // Collapse toggles for checklist cards
+    document.querySelectorAll('.collapse-toggle').forEach(btn => {
+        btn.addEventListener('click', (e) => {
+            const card = e.target.closest('.checklist-card');
+            const list = card.querySelector('.checklist-list');
+            const expanded = card.getAttribute('aria-expanded') === 'true';
+            card.setAttribute('aria-expanded', (!expanded).toString());
+            if (expanded) {
+                list.style.display = 'none';
+                e.target.textContent = '▸';
+            } else {
+                list.style.display = 'flex';
+                e.target.textContent = '▾';
+            }
+        });
+    });
+
+    // Print SOPs (prints only the SOP layout)
+    document.getElementById('printSOP').addEventListener('click', () => {
+        const originalTitle = document.title;
+        document.title = 'Sahay - SOP Guides';
+        window.print();
+        document.title = originalTitle;
+    });
+
+    // Export SOPs as plain text (collect headings and checklist items)
+    document.getElementById('exportSOP').addEventListener('click', () => {
+        let out = '';
+        document.querySelectorAll('.disaster-section').forEach(sec => {
+            if (!sec.classList.contains('active')) return;
+            const h = sec.querySelector('.disaster-header h2').innerText.trim();
+            out += h + '\n' + '-'.repeat(h.length) + '\n';
+            sec.querySelectorAll('.checklist-card').forEach(card => {
+                const title = card.querySelector('h3').innerText.trim();
+                out += '\n' + title + '\n';
+                card.querySelectorAll('.checklist-item').forEach(li => {
+                    out += '• ' + li.innerText.trim() + '\n';
+                });
+            });
+            out += '\n\n';
+        });
+        const blob = new Blob([out], { type: 'text/plain;charset=utf-8' });
+        const url = URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        a.href = url;
+        a.download = 'Sahay_SOPs.txt';
+        document.body.appendChild(a);
+        a.click();
+        a.remove();
+        URL.revokeObjectURL(url);
     });
 </script>
 {% endblock %}

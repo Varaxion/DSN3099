@@ -94,6 +94,21 @@ The active production application utilizes a highly organized, modular Flask pac
 4. **Verify Live Access**:
    Open your browser and navigate to `http://127.0.0.1:5000/`.
 
+## Data Maintenance Helpers
+
+A small utility is included to help detect duplicate files across common data locations and optionally relocate duplicates for manual review:
+
+```bash
+python tools/deduplicate_data.py --report   # scan and report duplicates
+python tools/deduplicate_data.py --move     # move detected duplicates to app/data/duplicates
+```
+
+This is safe by default (report mode). Moving duplicates preserves files by relocating them — nothing is permanently deleted.
+
+## SOP Page Improvements
+
+The SOP (Standard Operating Procedures) page has improved UX: collapsible checklists for each Do/Don't card, and `Print` and `Export` controls to print or download active SOPs as plain text.
+
 ---
 
 ## 🌌 Mathematical Foundations & Analytical Limits
