@@ -1,6 +1,6 @@
 # Sahay — A Hub for Disaster Resilience &amp; Emergency Assistance
 
-Sahay (सहाय — meaning *aid* in Sanskrit) is a comprehensive web application designed to build disaster resilience and provide immediate emergency assistance. Built as an academic engineering project in community service, the platform consolidates hydrological ML modeling, nationwide medical blood supply locators, direct emergency directories, dynamic SOP hazard checklists, and an AI-driven rescue chatbot into a unified, premium user interface.
+Sahay is a comprehensive web application designed to build disaster resilience and provide immediate emergency assistance. Built as an academic engineering project in community service, the platform consolidates hydrological ML modeling, nationwide medical blood supply locators, direct emergency directories, dynamic SOP hazard checklists, and an AI-driven rescue chatbot into a unified, premium user interface.
 
 ---
 

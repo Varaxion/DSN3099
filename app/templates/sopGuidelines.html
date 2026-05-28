@@ -156,9 +156,10 @@
         font-size: 14.5px;
         line-height: 1.6;
         color: var(--text-secondary);
-        display: flex;
-        gap: 10px;
-        align-items: flex-start;
+        display: block;
+        padding: 8px 0;
+        color: var(--text-secondary);
+        word-break: break-word;
     }
     
     .checklist-card-dos .checklist-item::before {
@@ -201,6 +202,22 @@
         display: inline-flex;
         align-items: center;
         justify-content: center;
+    }
+
+    /* Make the strong label a separate line for consistent rendering */
+    .checklist-item strong {
+        display: block;
+        font-weight: 800;
+        color: white;
+        margin-bottom: 6px;
+        font-size: 15px;
+        line-height: 1.2;
+    }
+
+    /* Slight divider between checklist items for visual grouping */
+    .checklist-item + .checklist-item {
+        border-top: 1px dashed rgba(255,255,255,0.04);
+        padding-top: 12px;
     }
 </style>
 
