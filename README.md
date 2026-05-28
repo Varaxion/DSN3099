@@ -1,129 +1,179 @@
-# Sahay — Flood & Rainfall Intelligence
+<div align="center">
+  
+	# 🌊 Sahay - Flood & Rainfall Intelligence
+  
+	*Hydrological forecasting, risk classification, and monthly rainfall analysis for Indian river basins and meteorological subdivisions.*
+  
+	<br />
 
-Sahay is an academic-origin hydrological intelligence web application focused on flood forecasting, rainfall prediction, and emergency support utilities for Indian river basins and meteorological subdivisions.
+	![Version](https://img.shields.io/badge/version-1.0-blue.svg?style=for-the-badge)
+	![Flask](https://img.shields.io/badge/Flask-000000?style=for-the-badge&logo=flask&logoColor=white)
+	![Tensorflow](https://img.shields.io/badge/TensorFlow-FF6F00?style=for-the-badge&logo=tensorflow&logoColor=white)
+	![Keras](https://img.shields.io/badge/Keras-D00000?style=for-the-badge&logo=keras&logoColor=white)
+	![ScikitLearn](https://img.shields.io/badge/scikit--learn-F7931E?style=for-the-badge&logo=scikit-learn&logoColor=white)
+
+</div>
+
+<br />
+
+> [!NOTE]  
+> **Sahay** (सहाय — *aid* in Sanskrit) was originally developed in 2024, for the **Project Exhibition - II** course at **VIT Bhopal University**. This repository contains the refactored v1.0 web application with improved UX and model caching.
 
 ---
 
-## Table of Contents
-- Project overview
-- Features
-- Tech stack
-- Data & models
-- Local setup
-- Running the app
-- File layout
-- SOP & UX notes
-- Cleanup actions applied
-- Recommendations
-- Contributors
+## 📸 Application Gallery
 
-## Project overview
+### The First Impression
+Below is the modern, dark-glassmorphic landing interface of Sahay.
 
-Sahay combines statistical time-series forecasting (ARIMA), classical ML (Random Forest, LDA), and deep learning (1D-CNN) engines to provide:
+<div align="center">
+	<img src="screenshots/1-home.png" alt="Sahay Home Landing Hero" width="98%">
+</div>
 
-- Flood risk forecasts and classification for multiple river basins (Cauvery, Godavari, Krishna, Mahanadi, Son).
-- Monthly rainfall forecasts for IMD subdivisions using both CNN and Random Forest approaches.
-- A searchable AJAX blood-bank directory and emergency contacts dashboard.
-- Actionable SOP checklists (Do's and Don'ts) for various hazards with print/export UX controls.
+<br/>
 
-## Features (details)
+### Feature Landing Pages
+Below are the parameter input interfaces for both hydrological modules.
 
-- Flood forecasting: Uses resampled station data and ARIMA forecasting for short-term predictions; results are exported to `app/static/img/flood.png` and CSV outputs under `app/static/data/`.
-- Flood classification: LDA-based classifier (SMOTE oversampled during training) that assigns risk labels like `Normal` or `High`.
-- Rainfall prediction: Two engines — `cnn_predict_rainfall` (loads CNN `.h5`) and `rf_predict_rainfall` (RandomForestRegressor). A toggle in the UI selects the engine.
-- Blood bank portal: AJAX endpoints (`/searchBloodBanks`, `/getStates`, `/getCities`) with client-side autocomplete and click-to-call actions.
-- SOPs: Checklist UI with collapsible sections and print/export controls (now refined per design request).
+<div align="center">
+	<img src="screenshots/4-flood-input.png" alt="Flood Prediction Parameter Selection" width="48%">
+	<img src="screenshots/8-rain-input.png" alt="Rainfall Subdivision Parameter Selection" width="48%">
+</div>
 
-## Tech stack
+<br/>
 
-- Backend: Flask (application factory in `app/__init__.py`, routes in `app/routes.py`).
-- ML: Keras (model `.h5`), TensorFlow runtime (add to `requirements.txt`), scikit-learn, imbalanced-learn (SMOTE), statsmodels (ARIMA).
-- Data: pandas, numpy, openpyxl for XLSX.
-- Plotting: matplotlib (Agg) for server-side image generation.
+### Hydrological Forecasts & CNN Outputs
 
-## Data & models
+<div align="center">
+	<img src="screenshots/6-flood-output-graph.png" alt="Dynamic Flood Forecast Line Chart" width="48%">
+	<img src="screenshots/10-rain-output-graph.png" alt="1D-CNN Rainfall Comparison Bar Chart" width="48%">
+</div>
 
-- Active datasets: `app/data/` (includes `blood_banks_india.csv`, IMD rainfall CSVs, and river workbooks).
-- Trained models: `app/trained/` contains `.h5` and pickle files. These are large — consider storing them in releases or external object storage.
-- Note: Keras requires a matching TensorFlow version. We appended `tensorflow>=2.12.0` to `requirements.txt` to align with `keras==3.x` usage.
+<br/>
 
-## Local setup
+<details>
+<summary>Click here to expand the full UI walkthrough and screenshots</summary>
+<br/>
 
-1. Create & activate a virtual environment:
+### UI Walkthrough
 
-```powershell
-python -m venv venv
-venv\Scripts\Activate.ps1  # Windows PowerShell
-# or on Unix
-source venv/bin/activate
+1. Home & Navigation: landing experience, smooth transitions, and header navigation.
+2. Flood Prediction Pipeline: input → loader → dynamic chart + classification table.
+3. Rainfall Module: subdivision select → model load → 1D-CNN bar chart + metrics.
+
+<br/>
+</details>
+
+---
+
+## 🌌 Overview & System Features
+
+Sahay v1.0 is an end-to-end Hydrological Intelligence web application engineered to predict flood risks and analyze rainfall patterns across India.
+
+### Core highlights
+- **Flood Prediction Pipeline:** ARIMA forecasting and LDA classification for major river catchments.
+- **1D-CNN Rainfall Analysis:** Monthly precipitation forecasts across IMD subdivisions (1901–2021 training data).
+- **Model Cache Optimization:** Cached `.h5` models per subdivision for fast loads.
+- **Dynamic Charts:** Matplotlib (Agg backend) renders synchronized theme plots.
+- **AJAX Blood Locator:** Searchable blood bank directory with autocomplete and click-to-call.
+
+---
+
+## 🛠️ Technology Stack
+
+| Component | Technology | Description |
+| :--- | :--- | :--- |
+| **Frontend UI** | HTML5, Jinja2, CSS3 | Dark glassmorphic design (`sahay.css`). |
+| **Backend Engine** | Python, Flask | Flask app factory in `app/__init__.py` and routes in `app/routes.py`. |
+| **Time-Series** | Statsmodels (ARIMA) | ARIMA forecasting engine. |
+| **Deep Learning** | Keras, TensorFlow | 1D-CNN models stored as `.h5` in `app/trained/`. |
+| **ML Classification** | Scikit-Learn | LDA with SMOTE for class balancing. |
+| **Data Orchestration** | Pandas, NumPy | Data cleaning and preprocessing. |
+| **Visuals** | Matplotlib | Server-side image render (Agg backend). |
+
+---
+
+## 📂 Project Architecture
+
+```text
+📦 DSN3099
+ ┣ 📂 screenshots/         # UI screenshots
+ ┣ 📂 app/
+ ┃ ┣ 📂 data/              # river sheets & IMD CSVs
+ ┃ ┣ 📂 static/            # CSS, JS, images, generated plots
+ ┃ ┣ 📂 templates/         # Jinja2 templates
+ ┃ ┣ 📂 trained/           # Cached 1D-CNN models (.h5)
+ ┃ ┣ 📜 routes.py          # Flask routes & AJAX endpoints
+ ┃ ┣ 📜 core/              # hydrology.py, rainfall.py (prediction logic)
+ ┃ ┗ 📜 __init__.py        # App factory
+ ┣ 📂 v0Archive/           # Legacy codebase and raw worksheets
+ ┣ 📜 .env.example         # Sample env vars (SECRET_KEY)
+ ┣ 📜 README.md
+ ┗ 📜 requirements.txt
 ```
 
-2. Install dependencies:
+---
 
-```bash
+## ⚠️ Model Assumptions & Limitations
+
+Short summary of known constraints:
+
+- ARIMA assumes stationarity and accuracy decays with long horizons.
+- LDA needs full telemetry inputs and assumes homoscedasticity.
+- 1D-CNN uses monthly subdivision data and cannot predict micro-scale hourly events.
+
+---
+
+## 🚀 Getting Started
+
+### 1. Set up environment
+
+```powershell
+git clone <repository-url>
+cd DSN3099
+python -m venv venv
+venv\Scripts\Activate.ps1  # Windows PowerShell
+# or on macOS/Linux:
+source venv/bin/activate
 pip install -r requirements.txt
 ```
 
-3. Environment variables:
-
-- Set `SECRET_KEY` for Flask (recommended) via `.env` or your environment. Create `.env.example` for documentation.
-
-## Running the app (development)
+### 2. Copy env example
 
 ```bash
+cp .env.example .env
+# Edit .env and set a strong SECRET_KEY
+```
+
+### 3. Run the server (dev)
+
+Option A (python):
+```bash
 python run.py
-# Open http://127.0.0.1:5000
 ```
 
-Notes:
-- `run.py` is a small launcher that calls `app.create_app()` — suitable for local testing. For production, run behind Gunicorn or another WSGI server and disable debug mode.
-
-## File layout
-
-```
-app/                # Flask package (routes, templates, static, core)
-	core/             # hydrology.py, rainfall.py (prediction logic)
-	data/             # CSV / XLSX inputs
-	trained/          # model weights (.h5) and pickles
-	templates/        # Jinja2 templates including SOPs
-	static/           # CSS, JS, images, generated charts
-v0Archive/          # Legacy assets and original project snapshot
-run.py              # Local dev launcher
-requirements.txt    # Python dependencies
-.gitignore          # Ignored files
+Option B (Flask CLI):
+```bash
+cd app
+flask --app app run --debug
 ```
 
-## SOP & UX notes
-
-- SOPs are presented as action-oriented checklists with clear Do's and Don'ts. The page includes print/export controls and improved iconography for clarity.
-- Recent UI change: removed collapsible behavior on some items per stakeholder request and refined the About page language.
-
-## Cleanup actions applied
-
-- Removed tracked `epicsenv/` virtualenv from Git and added it to `.gitignore` (to avoid repository bloat).
-- Removed `tools/` helper script(s) at your request.
-- Appended `tensorflow>=2.12.0` to `requirements.txt` to support Keras model loading.
-
-## Recommendations & next steps
-
-1. If you want repository size reduced further, consider removing model binaries from history (use BFG or git filter-repo) and store models externally.
-2. Create `.env.example` and add `SECRET_KEY` to it; keep real secrets out of Git.
-3. Optionally exclude `app/trained/*.h5` from Git and publish models as release assets.
-4. Review duplicates reported earlier and decide canonical locations; I can run an automated move to `v0Archive/` on approval.
-
-## Contributors
-
-- Kavya — https://github.com/varaxion
-- Aditya — https://github.com/adi152003
-- Archana — https://github.com/Archana-P-Nair
-- Chelsi — https://github.com/Chelsi08
-- Sneha — https://github.com/MISHSNEHA
-- Pooja — https://github.com/PrajapatPooja
-- Ruturaj — https://github.com/Ranazaur
-- Simarpreet — https://github.com/Simarpreet-2607
-- Tejas — https://github.com/tejas-0-5
-- Rushabh — https://github.com/wrexrus
+Open http://127.0.0.1:5000
 
 ---
 
-If you'd like further expansion (detailed API docs for endpoints, CLI examples, or a CONTRIBUTING guide), tell me which section to expand and I'll add it.
+## 🎓 Academic Origins & Contributors
+
+This project began as a VIT Bhopal University academic submission (Project Exhibition - II). Major contributors:
+
+| Name | GitHub |
+| :--- | :--- |
+| Kavya | https://github.com/varaxion |
+| Simarpreet Singh | https://github.com/Simarpreet-2607 |
+| Sneha Mishra | https://github.com/MISHSNEHA |
+| Pooja | https://github.com/PrajapatPooja |
+
+<br/>
+<div align="center">
+	<em>Sahay • Advancing Hydrological Safety through Intelligence.</em>
+</div>
