@@ -26,9 +26,9 @@
     }
 
     .sop-layout {
-        max-width: 900px;
+        max-width: 960px;
         margin: 0 auto;
-        padding: 0 24px 80px;
+        padding: 0 24px 100px;
         display: flex;
         flex-direction: column;
         gap: 28px;
@@ -56,43 +56,60 @@
         display: inline-flex;
         align-items: center;
         gap: 8px;
+        position: relative;
+        overflow: hidden;
+    }
+    .sop-tab-btn::after {
+        content: '';
+        position: absolute;
+        bottom: 0; left: 0; right: 0;
+        height: 3px;
+        background: #05ffc5;
+        transform: scaleX(0);
+        transition: transform 0.3s ease;
+        transform-origin: bottom center;
     }
     .sop-tab-btn:hover {
         background: rgba(255, 255, 255, 0.1);
         color: white;
         border-color: var(--glass-border-hover);
+        transform: translateY(-2px);
     }
     .sop-tab-btn.active {
         background: rgba(5, 255, 197, 0.12);
         border-color: #05ffc5;
         color: #05ffc5;
-        box-shadow: 0 0 15px rgba(5, 255, 197, 0.15);
+        box-shadow: 0 0 20px rgba(5, 255, 197, 0.15);
+        transform: translateY(0);
+    }
+    .sop-tab-btn.active::after {
+        transform: scaleX(1);
     }
     
     .disaster-section {
-        padding: 40px;
+        padding: 48px;
         transition: opacity 0.4s ease, transform 0.4s ease;
         display: none; /* Controlled by JS switcher */
     }
     .disaster-section.active {
         display: block;
-        animation: slideInUp 0.4s ease-out forwards;
+        animation: slideInUp 0.5s cubic-bezier(0.16, 1, 0.3, 1) forwards;
     }
     @keyframes slideInUp {
-        from { opacity: 0; transform: translateY(12px); }
+        from { opacity: 0; transform: translateY(20px); }
         to { opacity: 1; transform: translateY(0); }
     }
 
     .disaster-header {
         display: flex;
         align-items: center;
-        gap: 16px;
-        margin-bottom: 28px;
-        border-bottom: 1px solid rgba(255, 255, 255, 0.06);
-        padding-bottom: 16px;
+        gap: 18px;
+        margin-bottom: 36px;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+        padding-bottom: 20px;
     }
     .disaster-header h2 {
-        font-size: 22px;
+        font-size: 26px;
         font-weight: 800;
         color: white;
         margin: 0;
@@ -103,45 +120,83 @@
 
     .dos-donts-grid {
         display: grid;
-        grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-        gap: 20px;
+        grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+        gap: 24px;
     }
 
     .checklist-card {
-        padding: 24px;
+        padding: 28px;
         border-radius: var(--radius-md);
-        transition: var(--transition);
+        transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
         display: flex;
         flex-direction: column;
-        gap: 16px;
+        gap: 20px;
+        position: relative;
+        overflow: hidden;
     }
+    .checklist-card::before {
+        content: '';
+        position: absolute;
+        top: 0; left: 0; right: 0; bottom: 0;
+        background: linear-gradient(180deg, rgba(255,255,255,0.03) 0%, transparent 100%);
+        opacity: 0;
+        transition: opacity 0.3s;
+    }
+    .checklist-card:hover {
+        transform: translateY(-4px);
+        box-shadow: 0 12px 40px rgba(0,0,0,0.25);
+    }
+    .checklist-card:hover::before {
+        opacity: 1;
+    }
+
     .checklist-card h3 {
-        font-size: 16px;
+        font-size: 17px;
         font-weight: 700;
         margin: 0;
         display: flex;
         align-items: center;
-        gap: 8px;
+        gap: 12px;
         letter-spacing: 0.5px;
         text-transform: uppercase;
         border: none;
         padding-bottom: 0;
+        position: relative;
+        z-index: 1;
     }
 
     .checklist-card-dos {
-        background: rgba(5, 255, 197, 0.02);
+        background: rgba(5, 255, 197, 0.03);
         border: 1px solid rgba(5, 255, 197, 0.15);
+    }
+    .checklist-card-dos:hover {
+        border-color: rgba(5, 255, 197, 0.35);
     }
     .checklist-card-dos h3 {
         color: var(--success);
     }
+    .checklist-card-dos h3::before {
+        content: '';
+        display: inline-block;
+        width: 24px; height: 24px;
+        background: url('data:image/svg+xml;utf8,<svg viewBox="0 0 24 24" fill="none" stroke="%2305ffc5" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>') no-repeat center;
+    }
 
     .checklist-card-donts {
-        background: rgba(255, 42, 109, 0.02);
+        background: rgba(255, 42, 109, 0.03);
         border: 1px solid rgba(255, 42, 109, 0.15);
+    }
+    .checklist-card-donts:hover {
+        border-color: rgba(255, 42, 109, 0.35);
     }
     .checklist-card-donts h3 {
         color: var(--danger);
+    }
+    .checklist-card-donts h3::before {
+        content: '';
+        display: inline-block;
+        width: 24px; height: 24px;
+        background: url('data:image/svg+xml;utf8,<svg viewBox="0 0 24 24" fill="none" stroke="%23ff2a6d" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="15" y1="9" x2="9" y2="15"/><line x1="9" y1="9" x2="15" y2="15"/></svg>') no-repeat center;
     }
 
     .checklist-list {
@@ -150,66 +205,56 @@
         margin: 0;
         display: flex;
         flex-direction: column;
-        gap: 10px;
+        gap: 12px;
+        position: relative;
+        z-index: 1;
     }
+    
     .checklist-item {
-        font-size: 14.5px;
+        font-size: 15px;
         line-height: 1.6;
         color: var(--text-secondary);
         display: flex;
         gap: 12px;
         align-items: flex-start;
+        padding: 14px 16px;
+        background: rgba(0,0,0,0.15);
+        border-radius: var(--radius-sm);
+        border: 1px solid rgba(255,255,255,0.03);
+        transition: all 0.2s;
+    }
+    .checklist-item:hover {
+        background: rgba(0,0,0,0.25);
+        border-color: rgba(255,255,255,0.08);
+        transform: scale(1.01);
+    }
+    
+    .checklist-item strong {
+        color: var(--text-primary);
+        font-weight: 600;
+        display: block;
+        margin-bottom: 2px;
+    }
+    
+    .checklist-item-content {
+        flex: 1;
     }
     
     .checklist-card-dos .checklist-item::before {
-        content: '✔';
-        display: inline-flex;
-        align-items: center;
-        justify-content: center;
-        width: 28px;
-        height: 28px;
-        border-radius: 50%;
-        background: linear-gradient(135deg, #05ffc5, #0f9d58);
-        color: #062e1f;
-        font-weight: 800;
+        content: '';
+        display: inline-block;
+        width: 20px; height: 20px;
         flex-shrink: 0;
-        box-shadow: 0 6px 18px rgba(5, 255, 197, 0.12);
+        margin-top: 2px;
+        background: url('data:image/svg+xml;utf8,<svg viewBox="0 0 24 24" fill="none" stroke="%2305ffc5" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>') no-repeat center;
     }
     .checklist-card-donts .checklist-item::before {
-        content: '✖';
-        display: inline-flex;
-        align-items: center;
-        justify-content: center;
-        width: 28px;
-        height: 28px;
-        border-radius: 50%;
-        background: linear-gradient(135deg, #ff9bb3, #ff2a6d);
-        color: #fff;
-        font-weight: 800;
-        flex-shrink: 0;
-        box-shadow: 0 6px 18px rgba(255, 42, 109, 0.12);
-    }
-
-    /* Make the strong label inline and reserve space for consistent alignment */
-    .checklist-item strong {
+        content: '';
         display: inline-block;
-        font-weight: 800;
-        color: white;
-        margin: 0;
-        font-size: 15px;
-        line-height: 1.2;
-        min-width: 160px;
-    }
-
-    .checklist-item .desc {
-        display: block;
-        color: var(--text-secondary);
-    }
-
-    /* Slight divider between checklist items for visual grouping */
-    .checklist-item + .checklist-item {
-        border-top: 1px dashed rgba(255,255,255,0.04);
-        padding-top: 12px;
+        width: 20px; height: 20px;
+        flex-shrink: 0;
+        margin-top: 2px;
+        background: url('data:image/svg+xml;utf8,<svg viewBox="0 0 24 24" fill="none" stroke="%23ff2a6d" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>') no-repeat center;
     }
 </style>
 
@@ -219,9 +264,9 @@
         <span>/</span>
         <span>SOP Guides</span>
     </nav>
-    <div style="margin: 0 auto 18px; display: inline-flex; align-items: center; justify-content: center; width: 64px; height: 64px; border-radius: var(--radius-md); background: linear-gradient(135deg, rgba(5,255,197,0.2), rgba(5,255,197,0.04)); border: 1px solid rgba(5,255,197,0.15); box-shadow: 0 8px 32px rgba(5, 255, 197, 0.15);">
+    <div style="margin: 0 auto 18px; display: inline-flex; align-items: center; justify-content: center; width: 72px; height: 72px; border-radius: var(--radius-md); background: linear-gradient(135deg, rgba(5,255,197,0.15), rgba(15,157,88,0.05)); border: 1px solid rgba(5,255,197,0.25); box-shadow: 0 12px 40px rgba(5, 255, 197, 0.2);">
         <!-- SOP Document SVG -->
-        <svg viewBox="0 0 24 24" fill="none" stroke="url(#emerald-grad-page)" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="width:36px; height:36px;">
+        <svg viewBox="0 0 24 24" fill="none" stroke="url(#emerald-grad-page)" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="width:38px; height:38px;">
             <defs>
                 <linearGradient id="emerald-grad-page" x1="0%" y1="0%" x2="100%" y2="100%">
                     <stop offset="0%" stop-color="#05ffc5" />
@@ -269,8 +314,8 @@
     <article class="glass-card disaster-section active" id="sopFlood">
         <div class="disaster-header">
             <!-- Custom Flood Rising Waves SVG -->
-            <div style="width: 44px; height: 44px; border-radius: 8px; display: flex; align-items: center; justify-content: center; background: rgba(0,229,255,0.06); border: 1px solid rgba(0,229,255,0.2);">
-                <svg viewBox="0 0 24 24" fill="none" stroke="#00e5ff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="width:24px; height:24px;">
+            <div style="width: 48px; height: 48px; border-radius: 10px; display: flex; align-items: center; justify-content: center; background: rgba(0,229,255,0.08); border: 1px solid rgba(0,229,255,0.3);">
+                <svg viewBox="0 0 24 24" fill="none" stroke="#00e5ff" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" style="width:26px; height:26px;">
                     <path d="M12 2v20M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6" />
                     <path d="M2 12h20M2 16h20" stroke-dasharray="3" />
                 </svg>
@@ -281,17 +326,17 @@
             <div class="checklist-card checklist-card-dos">
                 <h3>Recommended Actions (Do's)</h3>
                 <ul class="checklist-list">
-                    <li class="checklist-item"><strong>Higher Ground</strong><span class="desc">Relocate to elevated surfaces or upper building levels.</span></li>
-                    <li class="checklist-item"><strong>Follow Evacuations</strong><span class="desc">Obey immediate local responder evacuation instructions.</span></li>
-                    <li class="checklist-item"><strong>Turn Off Utilities</strong><span class="desc">Disconnect main electrical switches and gas valves.</span></li>
+                    <li class="checklist-item"><div class="checklist-item-content"><strong>Move to Higher Ground:</strong> Relocate to elevated surfaces or upper building levels to stay above rising water levels.</div></li>
+                    <li class="checklist-item"><div class="checklist-item-content"><strong>Follow Evacuations:</strong> Obey immediate local responder evacuation instructions and routes without delay.</div></li>
+                    <li class="checklist-item"><div class="checklist-item-content"><strong>Turn Off Utilities:</strong> Disconnect main electrical switches and gas valves to prevent shock and explosions.</div></li>
                 </ul>
             </div>
             <div class="checklist-card checklist-card-donts">
                 <h3>Actions to Avoid (Don'ts)</h3>
                 <ul class="checklist-list">
-                    <li class="checklist-item"><strong>Do Not Walk Through Water</strong><span class="desc">Flowing water as shallow as 6 inches can knock you over.</span></li>
-                    <li class="checklist-item"><strong>Avoid Flooded Driving</strong><span class="desc">Never drive in flooded areas. Turn around, don't drown!</span></li>
-                    <li class="checklist-item"><strong>Don't Touch Wet Electric</strong><span class="desc">Avoid electrical equipment if standing in water.</span></li>
+                    <li class="checklist-item"><div class="checklist-item-content"><strong>Don't Walk Through Water:</strong> Flowing water as shallow as 6 inches is enough to knock an adult off their feet.</div></li>
+                    <li class="checklist-item"><div class="checklist-item-content"><strong>Avoid Flooded Driving:</strong> Never drive in flooded areas. Turn around, don't drown! Cars can be swept away easily.</div></li>
+                    <li class="checklist-item"><div class="checklist-item-content"><strong>Don't Touch Wet Electric:</strong> Avoid electrical equipment if standing in water to prevent fatal electrocution.</div></li>
                 </ul>
             </div>
         </div>
@@ -301,8 +346,8 @@
     <article class="glass-card disaster-section" id="sopEarthquake">
         <div class="disaster-header">
             <!-- Custom Fault Line Tectonic SVG -->
-            <div style="width: 44px; height: 44px; border-radius: 8px; display: flex; align-items: center; justify-content: center; background: rgba(255,185,0,0.06); border: 1px solid rgba(255,185,0,0.2);">
-                <svg viewBox="0 0 24 24" fill="none" stroke="#ffb900" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="width:24px; height:24px;">
+            <div style="width: 48px; height: 48px; border-radius: 10px; display: flex; align-items: center; justify-content: center; background: rgba(255,185,0,0.08); border: 1px solid rgba(255,185,0,0.3);">
+                <svg viewBox="0 0 24 24" fill="none" stroke="#ffb900" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" style="width:26px; height:26px;">
                     <path d="M3 10h18M3 14h18" />
                     <path d="M12 2L9 22M15 2l-3 20" stroke-dasharray="2" />
                 </svg>
@@ -313,17 +358,17 @@
             <div class="checklist-card checklist-card-dos">
                 <h3>Recommended Actions (Do's)</h3>
                 <ul class="checklist-list">
-                    <li class="checklist-item"><strong>Drop, Cover, and Hold On</strong><span class="desc">Take cover under heavy furniture immediately.</span></li>
-                    <li class="checklist-item"><strong>Stay Indoors</strong><span class="desc">Remain inside until the ground stops shaking.</span></li>
-                    <li class="checklist-item"><strong>Provide First Aid</strong><span class="desc">Check yourself and others for injuries and treat them.</span></li>
+                    <li class="checklist-item"><div class="checklist-item-content"><strong>Drop, Cover, and Hold On:</strong> Take cover under a heavy desk or sturdy furniture immediately to protect from falling debris.</div></li>
+                    <li class="checklist-item"><div class="checklist-item-content"><strong>Stay Indoors:</strong> Remain inside until the ground stops shaking completely; it is safer than running out during tremors.</div></li>
+                    <li class="checklist-item"><div class="checklist-item-content"><strong>Provide First Aid:</strong> Check yourself and others for injuries once safe and treat them or call for help.</div></li>
                 </ul>
             </div>
             <div class="checklist-card checklist-card-donts">
                 <h3>Actions to Avoid (Don'ts)</h3>
                 <ul class="checklist-list">
-                    <li class="checklist-item"><strong>Do Not Use Elevators</strong><span class="desc">Power failure risks elevator trapping. Use stairwells.</span></li>
-                    <li class="checklist-item"><strong>Avoid Windows</strong><span class="desc">Stay away from glass doors, mirrors, and window panels.</span></li>
-                    <li class="checklist-item"><strong>Do Not Re-enter Buildings</strong><span class="desc">Stay outside and avoid damaged structures until checked.</span></li>
+                    <li class="checklist-item"><div class="checklist-item-content"><strong>Do Not Use Elevators:</strong> Power failures risk you being trapped inside elevators. Always use stairwells.</div></li>
+                    <li class="checklist-item"><div class="checklist-item-content"><strong>Avoid Windows:</strong> Stay far away from glass doors, mirrors, and window panels that could shatter violently.</div></li>
+                    <li class="checklist-item"><div class="checklist-item-content"><strong>Do Not Re-enter Buildings:</strong> Stay outside and avoid damaged structures until professionals declare them safe.</div></li>
                 </ul>
             </div>
         </div>
@@ -333,10 +378,10 @@
     <article class="glass-card disaster-section" id="sopCyclone">
         <div class="disaster-header">
             <!-- Custom Vortex Funnel Cyclone SVG -->
-            <div style="width: 44px; height: 44px; border-radius: 8px; display: flex; align-items: center; justify-content: center; background: rgba(168,85,247,0.06); border: 1px solid rgba(168,85,247,0.2);">
-                <svg viewBox="0 0 24 24" fill="none" stroke="#a855f7" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="width:24px; height:24px;">
+            <div style="width: 48px; height: 48px; border-radius: 10px; display: flex; align-items: center; justify-content: center; background: rgba(168,85,247,0.08); border: 1px solid rgba(168,85,247,0.3);">
+                <svg viewBox="0 0 24 24" fill="none" stroke="#a855f7" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" style="width:26px; height:26px;">
                     <path d="M21 4H3M19 8H5M17 12H7M15 16H9M13 20h-2" />
-                    <circle cx="12" cy="12" r="10" stroke-opacity="0.1" />
+                    <circle cx="12" cy="12" r="10" stroke-opacity="0.15" />
                 </svg>
             </div>
             <h2>Cyclone Guidelines</h2>
@@ -345,17 +390,17 @@
             <div class="checklist-card checklist-card-dos">
                 <h3>Recommended Actions (Do's)</h3>
                 <ul class="checklist-list">
-                    <li class="checklist-item"><strong>Stay Inside</strong><span class="desc">Stay in safe rooms away from exterior walls and windows.</span></li>
-                    <li class="checklist-item"><strong>Secure Loose Objects</strong><span class="desc">Anchor outdoor items to prevent flying debris.</span></li>
-                    <li class="checklist-item"><strong>Listen for Warnings</strong><span class="desc">Monitor emergency radios or civic weather updates.</span></li>
+                    <li class="checklist-item"><div class="checklist-item-content"><strong>Stay Inside Safe Rooms:</strong> Stay in the safest, most interior room away from exterior walls and windows.</div></li>
+                    <li class="checklist-item"><div class="checklist-item-content"><strong>Secure Loose Objects:</strong> Anchor or bring inside outdoor items to prevent them from becoming deadly flying debris.</div></li>
+                    <li class="checklist-item"><div class="checklist-item-content"><strong>Listen for Warnings:</strong> Continuously monitor emergency radios or civic weather updates for path changes.</div></li>
                 </ul>
             </div>
             <div class="checklist-card checklist-card-donts">
                 <h3>Actions to Avoid (Don'ts)</h3>
                 <ul class="checklist-list">
-                    <li class="checklist-item"><strong>Do Not Venture Out</strong><span class="desc">Do not go outside during the calm eye of the storm.</span></li>
-                    <li class="checklist-item"><strong>Don't Use Core Lines</strong><span class="desc">Avoid using non-essential electrical equipment.</span></li>
-                    <li class="checklist-item"><strong>Avoid Road Travel</strong><span class="desc">Wind gusts can easily sweep vehicles off roads.</span></li>
+                    <li class="checklist-item"><div class="checklist-item-content"><strong>Do Not Venture Out:</strong> Do not go outside during the calm eye of the storm; the back wall of the cyclone will hit suddenly.</div></li>
+                    <li class="checklist-item"><div class="checklist-item-content"><strong>Don't Use Core Lines:</strong> Avoid using non-essential electrical equipment during intense lightning and wind.</div></li>
+                    <li class="checklist-item"><div class="checklist-item-content"><strong>Avoid Road Travel:</strong> Severe wind gusts can easily flip or sweep vehicles off roads completely.</div></li>
                 </ul>
             </div>
         </div>
@@ -365,8 +410,8 @@
     <article class="glass-card disaster-section" id="sopLandslide">
         <div class="disaster-header">
             <!-- Custom Slope Landslide SVG -->
-            <div style="width: 44px; height: 44px; border-radius: 8px; display: flex; align-items: center; justify-content: center; background: rgba(255,42,109,0.06); border: 1px solid rgba(255,42,109,0.2);">
-                <svg viewBox="0 0 24 24" fill="none" stroke="#ff2a6d" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="width:24px; height:24px;">
+            <div style="width: 48px; height: 48px; border-radius: 10px; display: flex; align-items: center; justify-content: center; background: rgba(255,42,109,0.08); border: 1px solid rgba(255,42,109,0.3);">
+                <svg viewBox="0 0 24 24" fill="none" stroke="#ff2a6d" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" style="width:26px; height:26px;">
                     <path d="M3 20l9-12 9 12M3 20h18" />
                     <circle cx="12" cy="11" r="2" fill="#ff2a6d" />
                     <circle cx="14" cy="15" r="1.5" fill="#ff2a6d" />
@@ -378,17 +423,17 @@
             <div class="checklist-card checklist-card-dos">
                 <h3>Recommended Actions (Do's)</h3>
                 <ul class="checklist-list">
-                    <li class="checklist-item"><strong>Evacuate Path</strong><span class="desc">Relocate quickly away from sliding rock paths.</span></li>
-                    <li class="checklist-item"><strong>Listen for Rumbling</strong><span class="desc">Stay alert for unusual sounds or ground crackling.</span></li>
-                    <li class="checklist-item"><strong>Obey Warning Signs</strong><span class="desc">Follow road closures and localized landslide warnings.</span></li>
+                    <li class="checklist-item"><div class="checklist-item-content"><strong>Evacuate Path Immediately:</strong> Relocate quickly away from the path of sliding rocks and moving earth.</div></li>
+                    <li class="checklist-item"><div class="checklist-item-content"><strong>Listen for Rumbling:</strong> Stay alert for unusual sounds like trees cracking or boulders knocking together.</div></li>
+                    <li class="checklist-item"><div class="checklist-item-content"><strong>Obey Warning Signs:</strong> Follow road closures and localized landslide warnings issued by authorities.</div></li>
                 </ul>
             </div>
             <div class="checklist-card checklist-card-donts">
                 <h3>Actions to Avoid (Don'ts)</h3>
                 <ul class="checklist-list">
-                    <li class="checklist-item"><strong>Do Not Return Early</strong><span class="desc">Stay away until geological surveys declare it safe.</span></li>
-                    <li class="checklist-item"><strong>Avoid Steep Slopes</strong><span class="desc">Stay away from loose cliffs or newly eroded hillsides.</span></li>
-                    <li class="checklist-item"><strong>Do Not Ignore Ground Shift</strong><span class="desc">Do not ignore shifting tiles or wall cracking.</span></li>
+                    <li class="checklist-item"><div class="checklist-item-content"><strong>Do Not Return Early:</strong> Stay away until comprehensive geological surveys declare the zone fully safe.</div></li>
+                    <li class="checklist-item"><div class="checklist-item-content"><strong>Avoid Steep Slopes:</strong> Stay completely away from loose cliffs or newly eroded hillsides prone to secondary slips.</div></li>
+                    <li class="checklist-item"><div class="checklist-item-content"><strong>Do Not Ignore Shifts:</strong> Do not ignore warning signs like shifting foundation tiles or new wall cracking.</div></li>
                 </ul>
             </div>
         </div>
@@ -398,8 +443,8 @@
     <article class="glass-card disaster-section" id="sopTsunami">
         <div class="disaster-header">
             <!-- Custom Coastal Tsunami Wave SVG -->
-            <div style="width: 44px; height: 44px; border-radius: 8px; display: flex; align-items: center; justify-content: center; background: rgba(0,229,255,0.06); border: 1px solid rgba(0,229,255,0.2);">
-                <svg viewBox="0 0 24 24" fill="none" stroke="#00e5ff" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="width:24px; height:24px;">
+            <div style="width: 48px; height: 48px; border-radius: 10px; display: flex; align-items: center; justify-content: center; background: rgba(0,229,255,0.08); border: 1px solid rgba(0,229,255,0.3);">
+                <svg viewBox="0 0 24 24" fill="none" stroke="#00e5ff" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="width:26px; height:26px;">
                     <path d="M2 20c4-1.5 8-1.5 12 0s8 1.5 12 0" />
                     <path d="M2 17c4-1.5 8-1.5 12 0s8 1.5 12 0" />
                     <path d="M2 14c4-3 9-6 12-6s6 2 8 4M14 8c-3-2-6-4-10-2M4 6C7 4 10 3 13 4" />
@@ -411,17 +456,17 @@
             <div class="checklist-card checklist-card-dos">
                 <h3>Recommended Actions (Do's)</h3>
                 <ul class="checklist-list">
-                    <li class="checklist-item"><strong>Move Inland Immediately</strong><span class="desc">Relocate to elevated terrain or upper levels of reinforced concrete buildings upon hearing a warning.</span></li>
-                    <li class="checklist-item"><strong>Evacuate on Foot</strong><span class="desc">Evacuate on foot if possible to prevent severe traffic congestion and gridlock on coastal escape routes.</span></li>
-                    <li class="checklist-item"><strong>Listen to Local Alerts</strong><span class="desc">Monitor emergency broadcasts and immediately follow directives from coastal response forces.</span></li>
+                    <li class="checklist-item"><div class="checklist-item-content"><strong>Move Inland Immediately:</strong> Relocate to highly elevated terrain or upper levels of reinforced concrete buildings upon hearing any warning.</div></li>
+                    <li class="checklist-item"><div class="checklist-item-content"><strong>Evacuate on Foot:</strong> Evacuate on foot if possible to prevent severe traffic congestion and gridlock on coastal escape routes.</div></li>
+                    <li class="checklist-item"><div class="checklist-item-content"><strong>Listen to Local Alerts:</strong> Monitor emergency broadcasts constantly and immediately follow directives from coastal response forces.</div></li>
                 </ul>
             </div>
             <div class="checklist-card checklist-card-donts">
                 <h3>Actions to Avoid (Don'ts)</h3>
                 <ul class="checklist-list">
-                    <li class="checklist-item"><strong>Do Not Go to the Beach</strong><span class="desc">Never go to the shore to watch a tsunami. If you can see it approaching, you are already too close to escape.</span></li>
-                    <li class="checklist-item"><strong>Do Not Return Early</strong><span class="desc">Stay clear of impacted zones until state and local authorities issue a formal "All Clear" declaration.</span></li>
-                    <li class="checklist-item"><strong>Do Not Ignore Natural Warnings</strong><span class="desc">Never ignore ocean drawback where wet sea floor is suddenly exposed; this is a critical immediate trigger to run.</span></li>
+                    <li class="checklist-item"><div class="checklist-item-content"><strong>Do Not Go to the Beach:</strong> Never go to the shore to watch a tsunami. If you can see the wave approaching, you are already too close to escape.</div></li>
+                    <li class="checklist-item"><div class="checklist-item-content"><strong>Do Not Return Early:</strong> Stay clear of impacted zones until state and local authorities issue a formal "All Clear" declaration.</div></li>
+                    <li class="checklist-item"><div class="checklist-item-content"><strong>Do Not Ignore Natural Warnings:</strong> Never ignore ocean drawback where wet sea floor is suddenly exposed; this is a critical immediate trigger to run.</div></li>
                 </ul>
             </div>
         </div>
@@ -431,8 +476,8 @@
     <article class="glass-card disaster-section" id="sopWildfire">
         <div class="disaster-header">
             <!-- Custom Wildfire Burning Flame SVG -->
-            <div style="width: 44px; height: 44px; border-radius: 8px; display: flex; align-items: center; justify-content: center; background: rgba(245,158,11,0.06); border: 1px solid rgba(245,158,11,0.2);">
-                <svg viewBox="0 0 24 24" fill="none" stroke="#f59e0b" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="width:24px; height:24px;">
+            <div style="width: 48px; height: 48px; border-radius: 10px; display: flex; align-items: center; justify-content: center; background: rgba(245,158,11,0.08); border: 1px solid rgba(245,158,11,0.3);">
+                <svg viewBox="0 0 24 24" fill="none" stroke="#f59e0b" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" style="width:26px; height:26px;">
                     <path d="M8.5 14.5A2.5 2.5 0 0 0 11 12c0-1.38-.5-2-1-3-1.072-2.143-.224-4.054 2-6 .5 2.5 2 4.9 4 6.5 2 1.6 3 3.5 3 5.5a7 7 0 1 1-14 0c0-1.153.433-2.294 1-3a2.5 2.5 0 0 0 2.5 2.5z" />
                 </svg>
             </div>
@@ -442,17 +487,17 @@
             <div class="checklist-card checklist-card-dos">
                 <h3>Recommended Actions (Do's)</h3>
                 <ul class="checklist-list">
-                    <li class="checklist-item"><strong>Evacuate Early</strong><span class="desc">Evacuate immediately if ordered or if smoke/embers approach your residential area.</span></li>
-                    <li class="checklist-item"><strong>Seal House Openings</strong><span class="desc">Shut all windows, exterior doors, and vents to stop highly volatile embers from igniting the interior.</span></li>
-                    <li class="checklist-item"><strong>Filter out Smoke</strong><span class="desc">Wear N95 respirator masks or cover your face with a thick damp cloth to protect your lungs from toxic soot.</span></li>
+                    <li class="checklist-item"><div class="checklist-item-content"><strong>Evacuate Early:</strong> Evacuate immediately if ordered by authorities or if smoke/embers approach your residential area.</div></li>
+                    <li class="checklist-item"><div class="checklist-item-content"><strong>Seal House Openings:</strong> Shut all windows, exterior doors, and vents to stop highly volatile embers from igniting the interior.</div></li>
+                    <li class="checklist-item"><div class="checklist-item-content"><strong>Filter out Smoke:</strong> Wear N95 respirator masks or cover your face with a thick damp cloth to protect your lungs from toxic soot.</div></li>
                 </ul>
             </div>
             <div class="checklist-card checklist-card-donts">
                 <h3>Actions to Avoid (Don'ts)</h3>
                 <ul class="checklist-list">
-                    <li class="checklist-item"><strong>Do Not Delay Evacuation</strong><span class="desc">Do not wait until the last minute to evacuate; heavy smoke, blinding heat, and fire progress can block exit roads.</span></li>
-                    <li class="checklist-item"><strong>Do Not Block Access Roads</strong><span class="desc">Keep driveways clear and never block access paths needed by heavy fire trucks and response vehicles.</span></li>
-                    <li class="checklist-item"><strong>Do Not Accumulate Fuel</strong><span class="desc">Do not store firewood, brush piles, or gas canisters within 30 feet of your house walls.</span></li>
+                    <li class="checklist-item"><div class="checklist-item-content"><strong>Do Not Delay Evacuation:</strong> Do not wait until the last minute to evacuate; heavy smoke, blinding heat, and fast fire progress can block exit roads.</div></li>
+                    <li class="checklist-item"><div class="checklist-item-content"><strong>Do Not Block Access Roads:</strong> Keep driveways clear and never block access paths needed by heavy fire trucks and response vehicles.</div></li>
+                    <li class="checklist-item"><div class="checklist-item-content"><strong>Do Not Accumulate Fuel:</strong> Do not store firewood, brush piles, or gas canisters within 30 feet of your house walls.</div></li>
                 </ul>
             </div>
         </div>
@@ -462,8 +507,8 @@
     <article class="glass-card disaster-section" id="sopThunderstorm">
         <div class="disaster-header">
             <!-- Custom Storm Cloud with Lightning Bolt SVG -->
-            <div style="width: 44px; height: 44px; border-radius: 8px; display: flex; align-items: center; justify-content: center; background: rgba(168,85,247,0.06); border: 1px solid rgba(168,85,247,0.2);">
-                <svg viewBox="0 0 24 24" fill="none" stroke="#a855f7" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="width:24px; height:24px;">
+            <div style="width: 48px; height: 48px; border-radius: 10px; display: flex; align-items: center; justify-content: center; background: rgba(168,85,247,0.08); border: 1px solid rgba(168,85,247,0.3);">
+                <svg viewBox="0 0 24 24" fill="none" stroke="#a855f7" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" style="width:26px; height:26px;">
                     <path d="M19 16.9A5 5 0 0 0 18 7h-1.26a8 8 0 1 0-11.62 8.58" />
                     <polyline points="13 11 9 17 12 17 10 23 15 15 12 15 13 11" fill="#a855f7" />
                 </svg>
@@ -474,17 +519,17 @@
             <div class="checklist-card checklist-card-dos">
                 <h3>Recommended Actions (Do's)</h3>
                 <ul class="checklist-list">
-                    <li class="checklist-item"><strong>Seek Sturdy Indoor Shelter</strong><span class="desc">Go immediately inside a substantial building or fully enclosed, metal-topped vehicle.</span></li>
-                    <li class="checklist-item"><strong>Unplug Electronics</strong><span class="desc">Disconnect non-essential electrical equipment to prevent severe damage from power surges.</span></li>
-                    <li class="checklist-item"><strong>Avoid Corded Items</strong><span class="desc">Keep away from landlines, running faucets, showers, and metal piping that conduct lightning.</span></li>
+                    <li class="checklist-item"><div class="checklist-item-content"><strong>Seek Sturdy Indoor Shelter:</strong> Go immediately inside a substantial building or fully enclosed, metal-topped vehicle.</div></li>
+                    <li class="checklist-item"><div class="checklist-item-content"><strong>Unplug Electronics:</strong> Disconnect non-essential electrical equipment to prevent severe damage from lightning power surges.</div></li>
+                    <li class="checklist-item"><div class="checklist-item-content"><strong>Avoid Corded Items:</strong> Keep away from landlines, running faucets, showers, and metal piping that conduct lightning into homes.</div></li>
                 </ul>
             </div>
             <div class="checklist-card checklist-card-donts">
                 <h3>Actions to Avoid (Don'ts)</h3>
                 <ul class="checklist-list">
-                    <li class="checklist-item"><strong>Do Not Stand Under Trees</strong><span class="desc">Never take shelter under isolated trees, high poles, open towers, or light picnic structures.</span></li>
-                    <li class="checklist-item"><strong>Avoid Water Bodies</strong><span class="desc">Immediately exit and stay clear of swimming pools, lakes, rivers, wet beaches, and open fields.</span></li>
-                    <li class="checklist-item"><strong>Do Not Lay Flat</strong><span class="desc">If caught in the open, crouch down low with your feet together and heels touching to minimize electric path.</span></li>
+                    <li class="checklist-item"><div class="checklist-item-content"><strong>Do Not Stand Under Trees:</strong> Never take shelter under isolated trees, high poles, open towers, or light picnic structures.</div></li>
+                    <li class="checklist-item"><div class="checklist-item-content"><strong>Avoid Water Bodies:</strong> Immediately exit and stay clear of swimming pools, lakes, rivers, wet beaches, and open fields.</div></li>
+                    <li class="checklist-item"><div class="checklist-item-content"><strong>Do Not Lay Flat:</strong> If caught in the open, crouch down low with your feet together and heels touching to minimize the electric path.</div></li>
                 </ul>
             </div>
         </div>
@@ -513,5 +558,4 @@
         });
     });
 </script>
- 
 {% endblock %}

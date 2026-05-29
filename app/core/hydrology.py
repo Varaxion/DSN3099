@@ -22,7 +22,7 @@ BASE_DIR = os.path.dirname(CORE_DIR)
 # 1. ARIMA Timeseries Forecaster Logic
 # -----------------------------
 def _arima_forecast(filename, target_column, freq, steps):
-    data_path = os.path.join(BASE_DIR, 'data', f'{filename.capitalize()}.xlsx')
+    data_path = os.path.join(BASE_DIR, 'data', 'hydrology', f'{filename.capitalize()}.xlsx')
     raw_data_df = pd.read_excel(data_path, header=0)
     raw_data_df['Date'] = pd.to_datetime(raw_data_df['Date'])
 
@@ -84,7 +84,7 @@ def weekly_runoff_forecast(filename, wtd):
 # 2. LDA Classification Logic
 # -----------------------------
 def flood_classifier(filename, fd):
-    data_path = os.path.join(BASE_DIR, 'data', f'{filename.capitalize()}.xlsx')
+    data_path = os.path.join(BASE_DIR, 'data', 'hydrology', f'{filename.capitalize()}.xlsx')
     data1 = pd.read_excel(data_path)
 
     for i in range(1, len(data1.columns)):
@@ -216,7 +216,7 @@ def plot_flood_graph(filename, data, selected_idx, is_future=False):
 def drive(filename, userDate):
     try:
         filename = filename.lower()
-        data_path = os.path.join(BASE_DIR, 'data', f'{filename.capitalize()}.xlsx')
+        data_path = os.path.join(BASE_DIR, 'data', 'hydrology', f'{filename.capitalize()}.xlsx')
         data = pd.read_excel(data_path)
 
         userDate = pd.to_datetime(userDate)

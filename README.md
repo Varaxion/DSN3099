@@ -1,12 +1,15 @@
 <div align="center">
 
-# Sahay - Disaster Resilience and Emergency Assistance
+<img src="https://raw.githubusercontent.com/FortAwesome/Font-Awesome/6.x/svgs/solid/shield-halved.svg" width="80" height="80" alt="Sahay Logo" style="filter: drop-shadow(0 0 10px rgba(0, 229, 255, 0.5));" />
 
-*Hydrological forecasting, rainfall analysis, blood bank search, emergency guidance, and incident-reporting simulation for disaster preparedness.*
+# Sahay
+### Disaster Resilience & Emergency Assistance Portal
+
+*Advanced hydrological forecasting, rainfall analysis, blood bank locator, emergency guidelines, and incident-reporting simulation for public safety and preparedness.*
 
 <br />
 
-![Version](https://img.shields.io/badge/version-1.0-blue.svg?style=for-the-badge)
+![Version](https://img.shields.io/badge/version-1.0-blue.svg?style=for-the-badge&color=00e5ff)
 ![Python](https://img.shields.io/badge/Python-3.10%2B-3776AB?style=for-the-badge&logo=python&logoColor=white)
 ![Flask](https://img.shields.io/badge/Flask-000000?style=for-the-badge&logo=flask&logoColor=white)
 ![TensorFlow](https://img.shields.io/badge/TensorFlow-FF6F00?style=for-the-badge&logo=tensorflow&logoColor=white)
@@ -17,219 +20,158 @@
 <br />
 
 > [!NOTE]
-> **Sahay** was originally developed in 2025 as part of the academic curriculum for the **EPICS** course at **VIT Bhopal University**. It has now been completely overhauled into a fully modern, dynamic web application, upgrading its model speed, repository structure, and visual aesthetics to state-of-the-art glassmorphic standards.
+> **Sahay** was originally developed in 2025 as part of the academic curriculum for the **EPICS** course at **VIT Bhopal University**. It has now been completely overhauled into a modern, dynamic web application, upgrading its model speed, repository structure, and visual aesthetics to state-of-the-art glassmorphic standards.
 
 ---
 
 ## 📑 Table of Contents
 
-- 🌍 [Overview](#overview)
-- ✨ [Core Features](#core-features)
-- 🛠️ [Technology Stack](#technology-stack)
-- 📂 [Project Architecture](#project-architecture)
-- ⚙️ [How the System Works](#how-the-system-works)
-- 🚀 [Getting Started](#getting-started)
-- ⚠️ [Model Assumptions & Limitations](#model-assumptions--limitations)
-- 🎓 [Academic Origins & Contribution](#academic-origins--contribution)
+- [🌍 Overview](#-overview)
+- [✨ Core Features](#-core-features)
+- [📸 Screenshots](#-screenshots)
+- [🛠️ Technology Stack](#-technology-stack)
+- [📂 Project Architecture](#-project-architecture)
+- [⚙️ How the System Works](#-how-the-system-works)
+- [🚀 Getting Started](#-getting-started)
+- [⚠️ Limitations & Assumptions](#-limitations--assumptions)
+- [🎓 Academic Origins & Credits](#-academic-origins--credits)
 
 ---
-
-<a id="overview"></a>
 
 ## 🌍 Overview
 
-**Sahay** is a Flask-based disaster resilience platform that combines hydrological intelligence with practical emergency support utilities. It helps users explore flood risk, analyze monthly rainfall patterns, locate blood banks, access emergency helplines, follow disaster SOPs, and simulate incident reporting in one unified web portal.
+**Sahay** is a comprehensive Flask-based disaster resilience platform that fuses machine-learning hydrological intelligence with practical, on-the-ground emergency support utilities. Designed with a stunning dark glassmorphic UI, it provides a unified hub to:
+- Forecast river flood risks
+- Analyze monthly subdivision rainfall patterns
+- Locate life-saving blood banks
+- Access direct-dial emergency helplines
+- Study interactive disaster Standard Operating Procedures (SOPs)
+- Simulate mock incident-reporting for training and demonstrations
 
-The active application is housed inside `app/`, with a preserved legacy prototype under `v0Archive/` to document the project's evolution.
+*(The active v1.0 application is housed inside `app/`, while the preserved v0 legacy prototype is kept under `v0Archive/` to document the project's evolution.)*
 
 ---
-
-<a id="core-features"></a>
 
 ## ✨ Core Features
 
-- **Flood Prediction:** Forecasts and classifies water-level risk for Cauvery, Godavari, Krishna, Mahanadi, and Son using ARIMA forecasting and LDA classification.
-- **Rainfall Analysis:** Predicts April-December monthly rainfall for Indian meteorological subdivisions using either a cached 1D-CNN model or a Random Forest model.
-- **Dynamic Charts:** Generates dark-mode Matplotlib visualizations for flood discharge and rainfall comparison outputs.
-- **Blood Assistance Portal:** Searches local blood bank records by state and city with autocomplete, result cards, copy actions, and call links.
-- **Emergency Contacts:** Presents public safety, ambulance, fire, NDRF, and relief helplines with direct-dial actions.
-- **Disaster SOPs:** Provides interactive do/don't checklists for floods, earthquakes, cyclones, landslides, tsunamis, wildfires, and thunderstorms.
-- **Incident Reporting Simulator:** Demonstrates a mock hazard-reporting workflow for academic/demo purposes. It does not alert real responders.
+- 🌊 **Flood Prediction (ARIMA + LDA):** Forecasts water-level metrics for major rivers (Cauvery, Godavari, Krishna, Mahanadi, Son) and classifies real-time flood risk using Machine Learning.
+- 🌧️ **Rainfall Analysis (1D-CNN + RF):** Predicts April-December monthly rainfall for Indian meteorological subdivisions using either a cached Deep Learning CNN or a Random Forest Regressor.
+- 🩸 **Blood Assistance Portal:** A lightning-fast, AJAX-powered locator to find local blood bank records by state and city, complete with copy actions, direct dialers, and donor eligibility guidelines.
+- 🚑 **Emergency Contacts:** A quick-dial public safety directory for Police, Ambulance, Fire, NDRF, NDMA, and Women Helplines.
+- 📋 **Interactive Disaster SOPs:** Actionable, tabbed do's and don'ts checklists for Floods, Earthquakes, Cyclones, Landslides, Tsunamis, Wildfires, and Thunderstorms.
+- ⚠️ **Incident Reporting Simulator:** A visually engaging prototype workflow simulating emergency dispatch routing and coordinate generation.
 
 ---
 
-<a id="technology-stack"></a>
+## 📸 Screenshots
+
+*(Replace these placeholders with actual project screenshots before final commit)*
+
+<div align="center">
+
+| Homepage Dashboard | Flood Forecasting |
+| :---: | :---: |
+| ![Homepage](screenshots/home.png) | ![Flood Prediction](screenshots/flood.png) |
+| **Blood Bank Locator** | **Emergency SOPs** |
+| ![Blood Locator](screenshots/blood.png) | ![SOPs](screenshots/sops.png) |
+
+</div>
+
+---
 
 ## 🛠️ Technology Stack
 
-| Component | Technology | Purpose |
-| :--- | :--- | :--- |
-| Frontend | HTML5, Jinja2, CSS3, JavaScript | Responsive glassmorphic UI and client-side interactions |
-| Backend | Python, Flask, Werkzeug | Routing, forms, JSON endpoints, app factory |
-| Data Processing | Pandas, NumPy, openpyxl | CSV/Excel ingestion, feature extraction, preprocessing |
-| Flood Forecasting | statsmodels ARIMA | Future hydrological metric generation |
-| Classification | scikit-learn LDA, imbalanced-learn SMOTE | Normal/High flood-risk classification |
-| Rainfall Models | TensorFlow/Keras, Random Forest | CNN and classic ML rainfall prediction |
-| Visualization | Matplotlib Agg backend | Server-side chart generation |
+| Layer | Technologies Used |
+| :--- | :--- |
+| **Frontend UI** | HTML5, Jinja2, Vanilla CSS3 (Glassmorphism), Vanilla JavaScript |
+| **Backend Framework** | Python 3.10+, Flask, Werkzeug |
+| **Data Processing** | Pandas, NumPy, openpyxl |
+| **Flood Models** | `statsmodels` (ARIMA), `scikit-learn` (LDA), `imblearn` (SMOTE) |
+| **Rainfall Models** | `TensorFlow/Keras` (1D-CNN), `scikit-learn` (Random Forest) |
+| **Visualizations** | `Matplotlib` (Agg backend) for dynamic dark-mode server charting |
 
 ---
-
-<a id="project-architecture"></a>
 
 ## 📂 Project Architecture
 
 ```text
 DSN3099/
-|-- app/
-|   |-- __init__.py              # Flask app factory
-|   |-- routes.py                # Web routes, forms, AJAX endpoints
-|   |-- core/
-|   |   |-- hydrology.py         # Flood forecasting and classification logic
-|   |   `-- rainfall.py          # CNN/RF rainfall prediction logic
-|   |-- data/                    # River workbooks, IMD rainfall CSV, blood bank CSV
-|   |-- static/                  # CSS, JS, images, webfonts, generated result charts
-|   |-- templates/               # Jinja2 pages
-|   `-- trained/                 # Cached model artifacts
-|-- v0Archive/                   # Legacy prototype, old assets, reports, recordings
-|-- .env.example                 # Local environment template
-|-- requirements.txt             # Python dependencies
-|-- README.md                    # Project documentation
-`-- run.py                       # Root Flask development entry point
+├── app/
+│   ├── __init__.py              # Flask app factory & blueprint registration
+│   ├── routes.py                # Core routing, form handling, AJAX endpoints
+│   ├── core/                    # Isolated Machine Learning logic
+│   │   ├── hydrology.py         # Flood ARIMA forecasting & LDA classification
+│   │   └── rainfall.py          # CNN / RF rainfall prediction pipelines
+│   ├── data/                    # Datasets: River workbooks, IMD rainfall, Blood banks
+│   ├── static/                  # CSS design system, JS scripts, dynamic charts
+│   ├── templates/               # Modular camelCase Jinja2 views
+│   └── trained/                 # Serialized model artifacts (.h5, .pkl)
+├── v0Archive/                   # Legacy v0 source code and conceptual media
+├── .env.example                 # Environment configuration template
+├── requirements.txt             # Python package dependencies
+├── README.md                    # Project documentation
+└── run.py                       # Local WSGI development server entry point
 ```
 
-`run.py` is the local development launcher. It imports `create_app()` from `app/__init__.py`, creates the Flask application instance, and starts the server when you run `python run.py`.
-
 ---
-
-<a id="how-the-system-works"></a>
 
 ## ⚙️ How the System Works
 
-### Flood Prediction Pipeline
+### 1. Flood Prediction Pipeline
+User inputs River & Date ➔ `hydrology.py` reads historical river workbook ➔ Generates `ARIMA` future trend ➔ Extracts structural features ➔ Passes vector to `LinearDiscriminantAnalysis` ➔ Classifies Normal vs. High Risk ➔ Renders Matplotlib chart & metrics table.
 
-```text
-River + date input
-        |
-        v
-Read river workbook or generate ARIMA future forecasts
-        |
-        v
-Build hydrological feature vector
-        |
-        v
-Classify risk using LDA
-        |
-        v
-Render metrics table and flood chart
-```
+### 2. Rainfall Analysis Pipeline
+User inputs Subdivision, Year & Model ➔ `rainfall.py` parses IMD dataset ➔ If **CNN**, loads cached `Keras .h5` model (or trains on-the-fly) ➔ If **RF**, trains `RandomForestRegressor` ➔ Predicts April–December mm ➔ Calculates MAE & Variance ➔ Renders comparative chart.
 
-### Rainfall Analysis Pipeline
-
-```text
-Subdivision + year + model input
-        |
-        v
-Load IMD rainfall dataset
-        |
-        |-- CNN: load cached .h5 model or train/cache a new one
-        `-- RF: train RandomForestRegressor on selected subdivision
-        |
-        v
-Predict April-December rainfall
-        |
-        v
-Render MAE, explained variance, and rainfall chart
-```
-
-### Blood Bank Search Pipeline
-
-```text
-Load blood_banks_india.csv at startup
-        |
-        v
-Expose states/cities/search JSON endpoints
-        |
-        v
-Render matching blood banks in the browser using AJAX
-```
+### 3. Blood Bank Search
+`routes.py` loads `blood_banks_india.csv` globally on server start ➔ Normalizes strings (Title Case) ➔ Exposes `/getCities` and `/searchBloodBanks` JSON endpoints ➔ Client-side JS fetches and renders results instantly without page reloads.
 
 ---
-
-<a id="getting-started"></a>
 
 ## 🚀 Getting Started
 
 ### 1. Clone the Repository
-
 ```powershell
-git clone <repository-url>
+git clone https://github.com/Varaxion/DSN3099.git
 cd DSN3099
 ```
 
 ### 2. Create and Activate a Virtual Environment
-
+**Windows:**
 ```powershell
-python -m venv .venv
-.\.venv\Scripts\Activate.ps1
+python -m venv epicsenv
+.\epicsenv\Scripts\Activate.ps1
 ```
-
-On macOS/Linux:
-
+**macOS/Linux:**
 ```bash
-python3 -m venv .venv
-source .venv/bin/activate
+python3 -m venv epicsenv
+source epicsenv/bin/activate
 ```
 
 ### 3. Install Dependencies
-
 ```powershell
 pip install -r requirements.txt
 ```
 
-### 4. Configure Environment Variables
-
-```powershell
-Copy-Item .env.example .env
-```
-
-On macOS/Linux:
-
-```bash
-cp .env.example .env
-```
-
-Edit `.env` and replace `SECRET_KEY` with a strong local secret.
-
-### 5. Run the Server
-
+### 4. Run the Server
 ```powershell
 python run.py
 ```
-
-Open:
-
-```text
-http://127.0.0.1:5000
-```
+*The Sahay portal will be live at `http://127.0.0.1:5000`*
 
 ---
 
-<a id="model-assumptions--limitations"></a>
+## ⚠️ Limitations & Assumptions
 
-## ⚠️ Model Assumptions & Limitations
-
-- **ARIMA Forecasting:** Forecast quality depends on historical trend behavior and can degrade over longer horizons.
-- **LDA Classification:** The classifier relies on hydrological feature distributions and assumes comparable covariance structure across classes.
-- **Rainfall Prediction:** The CNN and Random Forest models operate on monthly subdivision-level data, not hyperlocal or hourly rainfall.
-- **Runtime Outputs:** Flood and rainfall charts are written to shared image paths under `app/static/img/`, so a production deployment should make output files user/session-specific.
-- **Incident Reporting:** The incident-reporting module is only a prototype simulation and does not contact emergency agencies.
-- **Emergency Data:** Blood bank and helpline information should be verified before real-world use.
+- **ARIMA Horizons:** Flood forecasting relies on historical moving averages; long-term horizon accuracy decays naturally.
+- **LDA Covariance:** Flood risk classification assumes equal covariance matrices across normal and high-risk classes.
+- **Rainfall Granularity:** Both CNN and RF models operate on aggregated *monthly* subdivision data, not hyperlocal or daily weather metrics.
+- **Incident Reporting:** The reporting module is strictly a UI prototype/simulation. It **does not** dispatch or alert real-world NDRF agencies.
+- **Medical Data:** Blood bank contact numbers and addresses are sourced from open datasets and should be independently verified in a real emergency.
 
 ---
 
-<a id="academic-origins--contribution"></a>
-
-## 🎓 Academic Origins & Contribution
+## 🎓 Academic Origins & Credits
 
 This repository originated as an academic project for **VIT Bhopal University** (**Team-EPICS348**) as part of the **EPICS** course in 2025. The original conceptual prototype was a collaborative effort by the following team members:
 
@@ -246,7 +188,7 @@ This repository originated as an academic project for **VIT Bhopal University** 
 | [Ruturaj Bhoite](https://github.com/Ranazaur) | `22BHI10027` |
 | [Archana Prasad Nair](https://github.com/Archana-P-Nair) | `22BSA10238` |
 
-> [!NOTE]
+> [!IMPORTANT]
 > **v1.0 Overhaul:** While the initial data gathering, research support, and legacy model iterations were developed collaboratively by **Team-EPICS348**, the complete system architectural overhaul, 1D-CNN model cache integration, dynamic dark-mode Matplotlib engine, responsive glassmorphic loaders, Flask app restructuring, repository documentation, and premium v1.0 CSS design system were engineered by Kavya.
 
 <br />

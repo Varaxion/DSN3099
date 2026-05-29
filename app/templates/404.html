@@ -1,0 +1,94 @@
+{% extends 'base.html' %}
+
+{% block title %}Page Not Found - Sahay{% endblock %}
+
+{% block content %}
+<style>
+    .error-layout {
+        min-height: 70vh;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 40px 24px;
+        position: relative;
+        text-align: center;
+        flex-direction: column;
+    }
+    
+    .error-code {
+        font-size: 140px;
+        font-weight: 800;
+        line-height: 1;
+        background: linear-gradient(135deg, #00e5ff, #05ffc5);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        margin: 0 0 20px 0;
+        letter-spacing: -4px;
+        text-shadow: 0 0 40px rgba(0, 229, 255, 0.2);
+    }
+    
+    .error-title {
+        font-size: 28px;
+        font-weight: 700;
+        color: white;
+        margin-bottom: 16px;
+    }
+    
+    .error-desc {
+        color: var(--text-secondary);
+        font-size: 16.5px;
+        max-width: 500px;
+        line-height: 1.6;
+        margin-bottom: 40px;
+    }
+    
+    .error-orb {
+        background: radial-gradient(circle, #ff2a6d, transparent 70%);
+        width: 400px;
+        height: 400px;
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        opacity: 0.1;
+        z-index: -1;
+        border-radius: 50%;
+    }
+    
+    .btn-return {
+        background: rgba(0, 229, 255, 0.1);
+        border: 1px solid rgba(0, 229, 255, 0.3);
+        color: #00e5ff;
+        padding: 14px 32px;
+        border-radius: 30px;
+        font-size: 16px;
+        font-weight: 600;
+        text-decoration: none;
+        transition: all 0.3s ease;
+        display: inline-flex;
+        align-items: center;
+        gap: 10px;
+    }
+    
+    .btn-return:hover {
+        background: rgba(0, 229, 255, 0.2);
+        box-shadow: 0 0 20px rgba(0, 229, 255, 0.2);
+        transform: translateY(-2px);
+    }
+</style>
+
+<div class="error-layout">
+    <div class="error-orb"></div>
+    <h1 class="error-code">404</h1>
+    <h2 class="error-title">Signal Lost</h2>
+    <p class="error-desc">The coordinates you are looking for don't exist in our emergency database. It might have been relocated or deleted.</p>
+    
+    <a href="{{ url_for('main.index') }}" class="btn-return">
+        <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <line x1="19" y1="12" x2="5" y2="12"></line>
+            <polyline points="12 19 5 12 12 5"></polyline>
+        </svg>
+        Return to Dashboard
+    </a>
+</div>
+{% endblock %}

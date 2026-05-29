@@ -24,7 +24,7 @@ def norm(s):
 
 def load_blood_banks():
     try:
-        csv_path = os.path.join(BASE_DIR, 'data', 'blood_banks_india.csv')
+        csv_path = os.path.join(BASE_DIR, 'data', 'healthcare', 'blood-banks-india.csv')
         if not os.path.exists(csv_path):
             print(f"[ERROR] Blood banks dataset not found at {csv_path}")
             return pd.DataFrame()
