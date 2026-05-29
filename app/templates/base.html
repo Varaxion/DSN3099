@@ -3,16 +3,16 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="{% block metaDescription %}Sahay - A Hub for Disaster Resilience &amp; Emergency Assistance. Coordinated public safety, hydrological forecasting, and medical support systems.{% endblock %}">
+    <meta name="description" content="{% block metaDescription %}Sahay - Predictive Disaster Intelligence &amp; Rapid Emergency Response. Coordinated public safety, hydrological forecasting, and medical support systems.{% endblock %}">
     <meta name="keywords" content="disaster resilience, emergency assistance, flood warning, rainfall forecasting, blood bank finder, India public safety">
-    <title>{% block title %}Sahay - A Hub for Disaster Resilience &amp; Emergency Assistance{% endblock %}</title>
+    <title>{% block title %}Sahay - Predictive Disaster Intelligence &amp; Rapid Emergency Response{% endblock %}</title>
 
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
 
-    <!-- Sahay Dynamic SVG Favicon -->
-    <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 512 512%22><path fill=%22%2300e5ff%22 d=%22M256 0c-2.4 0-4.8 .6-7 1.8L25.3 115.1c-15.5 8.3-25.3 24.5-25.3 42.1V310.2c0 148.6 116.8 274.6 264.4 286.9c1 .1 1.9 .1 2.9 .1c1 0 1.9 0 2.9-.1C417.8 584.8 534.6 458.8 534.6 310.2V157.3c0-17.6-9.8-33.9-25.3-42.1L263 1.8c-2.2-1.2-4.6-1.8-7-1.8zm0 76.7L464 188v122.2c0 102.3-69.4 191.1-167.3 216c-13.1-26.6-32.9-50-57.5-68.5l-42-31.5c-22.3-16.7-35.6-43.2-35.6-71.2V203.4L256 76.7zM161.6 203.4v149.6c0 12.3 5.8 23.9 15.6 31.3l42 31.5c15.6 11.7 28.3 26.6 36.8 43.6C158 434.4 88 345.5 88 243.2V188L256 76.7v382.7c-34.6-9.2-66.2-27-94.4-51.4V203.4z%22/></svg>" type="image/svg+xml">
+    <!-- Sahay Dynamic SVG Favicon (Hexagon Alert) -->
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 24 24%22 fill=%22none%22 stroke=%22url(%23fav-grad)%22 stroke-width=%222.5%22 stroke-linecap=%22round%22 stroke-linejoin=%22round%22><defs><linearGradient id=%22fav-grad%22 x1=%220%25%22 y1=%220%25%22 x2=%22100%25%22 y2=%22100%25%22><stop offset=%220%25%22 stop-color=%22%2300e5ff%22/><stop offset=%22100%25%22 stop-color=%22%23ff2a6d%22/></linearGradient></defs><path d=%22M12 2L2 7l0 10l10 5l10-5l0-10L12 2z%22/><path d=%22M12 6.5l-5 8.5h10L12 6.5z%22/><path d=%22M12 10v2%22/><path d=%22M12 14v.1%22/></svg>" type="image/svg+xml">
 
     <link rel="stylesheet" href="{{ url_for('static', filename='css/sahay.css') }}">
     {% block extraHead %}{% endblock %}
@@ -29,8 +29,19 @@
     <!-- Navbar -->
     <nav class="navbar" id="navbar">
         <div class="nav-container">
-            <a href="{{ url_for('main.index') }}" class="nav-logo" aria-label="Sahay Home">
-                <span class="logo-icon">◈</span>
+            <a href="{{ url_for('main.index') }}" class="nav-logo" aria-label="Sahay Home" style="display:flex; align-items:center; gap:8px;">
+                <svg viewBox="0 0 24 24" fill="none" stroke="url(#logo-grad)" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="width:28px; height:28px; filter: drop-shadow(0 0 8px rgba(0,229,255,0.4));">
+                    <defs>
+                        <linearGradient id="logo-grad" x1="0%" y1="0%" x2="100%" y2="100%">
+                            <stop offset="0%" stop-color="#00e5ff"/>
+                            <stop offset="100%" stop-color="#ff2a6d"/>
+                        </linearGradient>
+                    </defs>
+                    <path d="M12 2L2 7l0 10l10 5l10-5l0-10L12 2z"/>
+                    <path d="M12 6.5l-5 8.5h10L12 6.5z"/>
+                    <path d="M12 10v2"/>
+                    <path d="M12 14v.1"/>
+                </svg>
                 <span class="logo-text">SAHAY</span>
             </a>
             <ul class="nav-links" id="navLinks" role="list">
@@ -104,8 +115,19 @@
     <footer class="footer">
         <div class="footer-container">
             <div class="footer-brand">
-                <div class="footer-logo-wrapper">
-                    <span class="logo-icon">◈</span>
+                <div class="footer-logo-wrapper" style="display:flex; align-items:center; gap:8px;">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="url(#footer-logo-grad)" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="width:24px; height:24px; filter: drop-shadow(0 0 8px rgba(0,229,255,0.4));">
+                        <defs>
+                            <linearGradient id="footer-logo-grad" x1="0%" y1="0%" x2="100%" y2="100%">
+                                <stop offset="0%" stop-color="#00e5ff"/>
+                                <stop offset="100%" stop-color="#ff2a6d"/>
+                            </linearGradient>
+                        </defs>
+                        <path d="M12 2L2 7l0 10l10 5l10-5l0-10L12 2z"/>
+                        <path d="M12 6.5l-5 8.5h10L12 6.5z"/>
+                        <path d="M12 10v2"/>
+                        <path d="M12 14v.1"/>
+                    </svg>
                     <span class="footer-name">SAHAY</span>
                 </div>
                 <p class="footer-description-text">A unified intelligence-driven portal for community disaster resilience, advanced hydrological predictions, and coordinated rapid emergency assistance.</p>

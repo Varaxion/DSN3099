@@ -203,10 +203,7 @@ def plot_flood_graph(filename, data, selected_idx, is_future=False):
     
     fig.autofmt_xdate()
 
-    img_path = os.path.join(BASE_DIR, 'static', 'img', 'flood.png')
-    os.makedirs(os.path.dirname(img_path), exist_ok=True)
-    
-    plt.savefig(img_path, facecolor=fig.get_facecolor(), bbox_inches='tight', dpi=120)
+    plt.savefig('app/static/charts/flood.png', facecolor='#0B1120', bbox_inches='tight', dpi=120)
     plt.close(fig)
 
 

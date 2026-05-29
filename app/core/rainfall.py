@@ -49,9 +49,9 @@ def plot_rainfall_graph(groundtruth, prediction, title):
 
     ax.set_ylim(0, max(max(groundtruth), max(prediction)) * 1.15)
 
-    img_path = os.path.join(BASE_DIR, 'static', 'img', 'rainfall.png')
+    img_path = os.path.join(BASE_DIR, 'static', 'charts', 'rainfall.png')
     os.makedirs(os.path.dirname(img_path), exist_ok=True)
-    plt.savefig(img_path, facecolor=fig.get_facecolor(), bbox_inches='tight', dpi=120)
+    plt.savefig('app/static/charts/rainfall.png', facecolor='#0B1120', bbox_inches='tight', dpi=120)
     plt.close(fig)
 
 # -----------------------------
