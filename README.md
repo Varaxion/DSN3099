@@ -257,6 +257,13 @@ This academic project relies on several historical and open-source datasets to p
 
 This repository is licensed under the [MIT License](LICENSE). You are free to use, modify, and distribute this code for your own academic or personal projects.
 
+> [!WARNING]
+> **Exclusions & Third-Party Licenses:**  
+> The MIT License applies **only** to the original source code. The following assets are strictly excluded:
+> 1. **Datasets:** Data files in `app/data/` (CWC, IMD, e-RaktKosh) are government property and are included for demonstration purposes only.
+> 2. **Academic Documents:** Reports and videos in `v0Archive/docs/` are fully copyrighted by the authors and VIT Bhopal University.
+> 3. **Hyperspace Template:** The legacy template in `v0Archive/hyperspaceTemplate/` is governed by a separate **Creative Commons Attribution 3.0 Unported (CCA 3.0)** license.
+
 ---
 
 ## 🎓 Academic Origins & Credits

@@ -19,3 +19,13 @@ AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
 LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
+
+---
+
+### Exclusions & Third-Party Licenses
+
+Please note that the MIT License applies **only** to the original source code developed for this project. The following assets are strictly excluded from this license:
+
+1. **Datasets:** The data files located within `app/data/` (including hydrological workbooks, IMD rainfall records, and blood bank directories) are the property of their respective government originators (CWC, IMD, Ministry of Health) and are included strictly for academic demonstration purposes.
+2. **Academic Documents:** Any academic reports, videos, or university-related documentation included in this repository (such as those in `v0Archive/docs/`) are fully copyrighted by the original authors and/or VIT Bhopal University, and may not be reproduced without explicit permission.
+3. **Hyperspace Template:** The legacy template located in `v0Archive/hyperspaceTemplate/` is governed by its own independent **Creative Commons Attribution 3.0 Unported (CCA 3.0)** license, as specified in its respective folder.
